@@ -18,7 +18,15 @@
   <!-- Hero text overlay on rocket -->
   <div class="rocket-hero" id="rocketHero">
     <h1 class="rh-name" id="rhName">Tim Chang</h1>
-    <p class="rh-title" id="rhTitle">Developer. Digital Marketer. Designer.</p>
+    <div class="rh-title" id="rhTitle">
+      <span class="rh-word" id="rhWord1">Developer</span>
+      <span class="rh-pipe">|</span>
+      <span class="rh-word" id="rhWord2">Digital Marketer</span>
+      <span class="rh-pipe">|</span>
+      <span class="rh-word" id="rhWord3">Designer</span>
+      <span class="rh-cursor" id="rhCursor">|</span>
+      <div class="rh-underline" id="rhUnderline"></div>
+    </div>
     <p class="rh-tagline" id="rhTagline">Building the future, one launch at a time</p>
   </div>
 
@@ -294,7 +302,22 @@
         // Animate text in during autoplay
         setTimeout(function() { rhName.classList.add('rh-visible'); }, 300);
         setTimeout(function() { rhTitle.classList.add('rh-visible'); }, 800);
-        setTimeout(function() { rhTagline.classList.add('rh-visible'); }, 1300);
+
+        // Typewriter effect for title words
+        var w1 = document.getElementById('rhWord1');
+        var w2 = document.getElementById('rhWord2');
+        var w3 = document.getElementById('rhWord3');
+        var pipes = rhTitle.querySelectorAll('.rh-pipe');
+        var cursor = document.getElementById('rhCursor');
+        var underline = document.getElementById('rhUnderline');
+
+        setTimeout(function() { w1.classList.add('typed'); }, 1200);
+        setTimeout(function() { pipes[0].classList.add('typed'); }, 1700);
+        setTimeout(function() { w2.classList.add('typed'); }, 1900);
+        setTimeout(function() { pipes[1].classList.add('typed'); }, 2400);
+        setTimeout(function() { w3.classList.add('typed'); }, 2600);
+        setTimeout(function() { underline.classList.add('typed'); cursor.classList.add('hide'); }, 3100);
+        setTimeout(function() { rhTagline.classList.add('rh-visible'); }, 3300);
 
         var frame = 1;
         function playNext() {
