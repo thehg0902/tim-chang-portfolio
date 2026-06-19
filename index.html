@@ -12,142 +12,288 @@
 <body>
   <div class="grain"></div>
 
-  <nav>
-    <a href="#home" class="nav-name">TC</a>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-
-  <section id="home" class="hero">
-    <div class="hero-badge reveal">
-      <span class="badge-dot"></span>
-      Available for work
-    </div>
-    <h1 class="reveal">Tim Chang</h1>
-    <p class="hero-subtitle reveal">Developer <span class="amp">&</span> Creator</p>
-    <p class="hero-desc reveal">I build things that live on the internet — turning ideas into reality through clean code and thoughtful design.</p>
-    <div class="hero-cta reveal">
-      <a href="#projects" class="btn btn-primary">View My Work</a>
-      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
-    </div>
-    <div class="scroll-indicator reveal">
-      <div class="scroll-line"></div>
-    </div>
-  </section>
-
-  <section id="about" class="about">
-    <p class="section-label reveal">About</p>
-    <h2 class="reveal">A developer who cares about<br><span class="gradient-text">craft and detail</span></h2>
-    <p class="about-text reveal">
-      I enjoy the intersection of design and engineering — building interfaces that are both beautiful and functional. Every project is an opportunity to learn something new and push boundaries.
-    </p>
-    <div class="skills reveal">
-      <span class="skill-tag">Python</span>
-      <span class="skill-tag">JavaScript</span>
-      <span class="skill-tag">HTML & CSS</span>
-      <span class="skill-tag">C#</span>
-      <span class="skill-tag">Git</span>
-      <span class="skill-tag">Game Dev</span>
-    </div>
-  </section>
-
-  <section id="projects" class="projects">
-    <p class="section-label reveal">Projects</p>
-    <h2 class="reveal">Selected <span class="gradient-text">work</span></h2>
-    <div class="project-grid">
-      <a href="https://github.com/thehg0902/File-Vault" target="_blank" rel="noopener" class="project-card glass reveal">
-        <div class="project-number">01</div>
-        <h3>File Vault</h3>
-        <p>A secure file storage application for managing and protecting your important documents.</p>
-        <div class="project-tags">
-          <span>Security</span>
-          <span>Storage</span>
-        </div>
-        <span class="project-link">View on GitHub
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-      </a>
-      <a href="https://github.com/thehg0902/TurnBaseRoguelike" target="_blank" rel="noopener" class="project-card glass reveal">
-        <div class="project-number">02</div>
-        <h3>Turn-Based Roguelike</h3>
-        <p>A procedurally generated turn-based roguelike game built from scratch with custom mechanics.</p>
-        <div class="project-tags">
-          <span>Game Dev</span>
-          <span>C#</span>
-        </div>
-        <span class="project-link">View on GitHub
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-      </a>
-      <div class="project-card glass reveal coming-soon-card">
-        <div class="project-number">03</div>
-        <h3>Coming Soon</h3>
-        <p>Something new is in the works. Stay tuned for updates.</p>
-        <div class="project-tags">
-          <span>TBD</span>
-        </div>
-        <span class="project-link muted">In Progress</span>
+  <!-- ===== Rocket Scroll-Scrub Section ===== -->
+  <div class="rocket-sequence" id="rocketSequence">
+    <canvas id="rocketCanvas"></canvas>
+    <div class="rocket-overlay" id="rocketOverlay">
+      <p class="rocket-label">Scroll to launch</p>
+      <div class="rocket-scroll-hint">
+        <div class="rocket-scroll-line"></div>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="rocket-spacer" id="rocketSpacer"></div>
 
-  <section id="contact" class="contact">
-    <div class="contact-inner glass reveal">
-      <p class="section-label">Contact</p>
-      <h2>Let's work<br><span class="gradient-text">together</span></h2>
-      <p class="contact-desc">Have a project in mind or just want to say hi? I'd love to hear from you.</p>
-      <div class="contact-links">
-        <a href="https://github.com/thehg0902" target="_blank" rel="noopener" class="btn btn-primary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          GitHub
+  <!-- ===== Main Site (fades in after sequence) ===== -->
+  <div class="site-content" id="siteContent">
+    <nav>
+      <a href="#home" class="nav-name">TC</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section id="home" class="hero">
+      <div class="hero-badge reveal">
+        <span class="badge-dot"></span>
+        Available for work
+      </div>
+      <h1 class="reveal">Tim Chang</h1>
+      <p class="hero-subtitle reveal">Developer <span class="amp">&</span> Creator</p>
+      <p class="hero-desc reveal">I build things that live on the internet — turning ideas into reality through clean code and thoughtful design.</p>
+      <div class="hero-cta reveal">
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+        <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <p class="section-label reveal">About</p>
+      <h2 class="reveal">A developer who cares about<br><span class="gradient-text">craft and detail</span></h2>
+      <p class="about-text reveal">
+        I enjoy the intersection of design and engineering — building interfaces that are both beautiful and functional. Every project is an opportunity to learn something new and push boundaries.
+      </p>
+      <div class="skills reveal">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">HTML & CSS</span>
+        <span class="skill-tag">C#</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Game Dev</span>
+      </div>
+    </section>
+
+    <section id="projects" class="projects">
+      <p class="section-label reveal">Projects</p>
+      <h2 class="reveal">Selected <span class="gradient-text">work</span></h2>
+      <div class="project-grid">
+        <a href="https://github.com/thehg0902/File-Vault" target="_blank" rel="noopener" class="project-card glass reveal">
+          <div class="project-number">01</div>
+          <h3>File Vault</h3>
+          <p>A secure file storage application for managing and protecting your important documents.</p>
+          <div class="project-tags">
+            <span>Security</span>
+            <span>Storage</span>
+          </div>
+          <span class="project-link">View on GitHub
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
         </a>
+        <a href="https://github.com/thehg0902/TurnBaseRoguelike" target="_blank" rel="noopener" class="project-card glass reveal">
+          <div class="project-number">02</div>
+          <h3>Turn-Based Roguelike</h3>
+          <p>A procedurally generated turn-based roguelike game built from scratch with custom mechanics.</p>
+          <div class="project-tags">
+            <span>Game Dev</span>
+            <span>C#</span>
+          </div>
+          <span class="project-link">View on GitHub
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+        <div class="project-card glass reveal coming-soon-card">
+          <div class="project-number">03</div>
+          <h3>Coming Soon</h3>
+          <p>Something new is in the works. Stay tuned for updates.</p>
+          <div class="project-tags">
+            <span>TBD</span>
+          </div>
+          <span class="project-link muted">In Progress</span>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer>
-    <div class="footer-inner">
-      <span>&copy; 2026 Tim Chang</span>
-      <span class="footer-built">Built with care</span>
-    </div>
-  </footer>
+    <section id="contact" class="contact">
+      <div class="contact-inner glass reveal">
+        <p class="section-label">Contact</p>
+        <h2>Let's work<br><span class="gradient-text">together</span></h2>
+        <p class="contact-desc">Have a project in mind or just want to say hi? I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a href="https://github.com/thehg0902" target="_blank" rel="noopener" class="btn btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <span>&copy; 2026 Tim Chang</span>
+        <span class="footer-built">Built with care</span>
+      </div>
+    </footer>
+  </div>
 
   <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          const delay = entry.target.dataset.delay || 0;
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, delay);
-          observer.unobserve(entry.target);
+    (function () {
+      const TOTAL_FRAMES = 92;
+      const AUTOPLAY_END = 20;
+      const AUTOPLAY_FPS = 24;
+      const SCRUB_HEIGHT_VH = 400;
+
+      const canvas = document.getElementById('rocketCanvas');
+      const ctx = canvas.getContext('2d');
+      const sequence = document.getElementById('rocketSequence');
+      const spacer = document.getElementById('rocketSpacer');
+      const overlay = document.getElementById('rocketOverlay');
+      const siteContent = document.getElementById('siteContent');
+
+      // spacer height set in CSS
+
+      let images = [];
+      let loaded = 0;
+      let currentFrame = 0;
+      let autoplayDone = false;
+      let sequenceDone = false;
+
+      function framePath(i) {
+        return 'frames/ezgif-frame-' + String(i).padStart(3, '0') + '.jpg';
+      }
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        drawFrame(currentFrame);
+      }
+
+      function drawFrame(index) {
+        if (!images[index] || !images[index].complete) return;
+        const img = images[index];
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+        const w = img.width * scale;
+        const h = img.height * scale;
+        const x = (canvas.width - w) / 2;
+        const y = (canvas.height - h) / 2;
+        ctx.drawImage(img, x, y, w, h);
+      }
+
+      // Preload all frames
+      for (let i = 1; i <= TOTAL_FRAMES; i++) {
+        const img = new Image();
+        img.src = framePath(i);
+        img.onload = function () {
+          loaded++;
+          if (loaded === TOTAL_FRAMES) {
+            startAutoplay();
+          }
+          if (loaded === 1) {
+            resizeCanvas();
+          }
+        };
+        images[i] = img;
+      }
+
+      // Autoplay frames 1-20 on load
+      function startAutoplay() {
+        window.scrollTo(0, 0);
+        document.documentElement.style.overflow = 'hidden';
+        currentFrame = 1;
+        drawFrame(1);
+
+        let frame = 1;
+        const interval = setInterval(function () {
+          frame++;
+          if (frame > AUTOPLAY_END) {
+            clearInterval(interval);
+            autoplayDone = true;
+            currentFrame = AUTOPLAY_END;
+            document.documentElement.style.overflow = '';
+            overlay.classList.add('show');
+            return;
+          }
+          currentFrame = frame;
+          drawFrame(frame);
+        }, 1000 / AUTOPLAY_FPS);
+      }
+
+      // Scroll-scrub: frames 21-92
+      function onScroll() {
+        if (!autoplayDone || sequenceDone) return;
+
+        const scrollY = window.scrollY || window.pageYOffset;
+        const maxScroll = spacer.offsetHeight - window.innerHeight;
+        const progress = Math.max(0, Math.min(1, scrollY / maxScroll));
+
+        const scrubFrames = TOTAL_FRAMES - AUTOPLAY_END;
+        const frameIndex = AUTOPLAY_END + Math.floor(progress * scrubFrames);
+        const clamped = Math.min(frameIndex, TOTAL_FRAMES);
+
+        if (clamped !== currentFrame) {
+          currentFrame = clamped;
+          drawFrame(clamped);
         }
+
+        // Hide scroll hint once user starts scrolling
+        if (progress > 0.02) {
+          overlay.classList.remove('show');
+        }
+
+        // Fade to hero at the end
+        if (progress >= 0.95) {
+          const fadeProgress = (progress - 0.95) / 0.05;
+          sequence.style.opacity = 1 - fadeProgress;
+          siteContent.style.opacity = fadeProgress;
+          siteContent.style.pointerEvents = 'auto';
+        } else {
+          sequence.style.opacity = 1;
+          siteContent.style.opacity = 0;
+          siteContent.style.pointerEvents = 'none';
+        }
+
+        if (progress >= 1) {
+          sequenceDone = true;
+          sequence.style.display = 'none';
+          spacer.style.display = 'none';
+          siteContent.style.opacity = 1;
+          siteContent.style.pointerEvents = 'auto';
+          window.scrollTo(0, 0);
+        }
+      }
+
+      window.addEventListener('scroll', onScroll);
+      window.addEventListener('resize', resizeCanvas);
+
+      // Portfolio scroll animations (after rocket sequence)
+      const revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            const delay = entry.target.dataset.delay || 0;
+            setTimeout(function () {
+              entry.target.classList.add('visible');
+            }, delay);
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        const section = el.closest('section');
+        const siblings = section ? Array.from(section.querySelectorAll('.reveal')) : [];
+        const indexInSection = siblings.indexOf(el);
+        el.dataset.delay = indexInSection * 80;
+        revealObserver.observe(el);
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
-    document.querySelectorAll('.reveal').forEach((el, i) => {
-      const section = el.closest('section');
-      const siblings = section ? Array.from(section.querySelectorAll('.reveal')) : [];
-      const indexInSection = siblings.indexOf(el);
-      el.dataset.delay = indexInSection * 80;
-      observer.observe(el);
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          var target = document.querySelector(this.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
       });
-    });
 
-    window.addEventListener('scroll', () => {
-      const nav = document.querySelector('nav');
-      nav.classList.toggle('scrolled', window.scrollY > 50);
-    });
+      // Nav scroll effect
+      window.addEventListener('scroll', function () {
+        var nav = document.querySelector('nav');
+        if (nav) nav.classList.toggle('scrolled', window.scrollY > 50);
+      });
+    })();
   </script>
 </body>
 </html>
