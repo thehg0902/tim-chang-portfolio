@@ -77,7 +77,7 @@ body {
   transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
 }
 .rh-visible {
-  opacity: 1 !important; transform: translateY(0) !important;
+  opacity: 1; transform: translateY(0);
 }
 
 .rocket-overlay {

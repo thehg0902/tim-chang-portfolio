@@ -352,6 +352,15 @@
         }
 
         // Animate hero text: split apart and fade as user scrolls
+        if (progress > 0) {
+          rhName.classList.remove('rh-visible');
+          rhTitle.classList.remove('rh-visible');
+          rhTagline.classList.remove('rh-visible');
+          rhName.style.transition = 'none';
+          rhTitle.style.transition = 'none';
+          rhTagline.style.transition = 'none';
+        }
+
         var textFade = Math.max(0, 1 - progress * 4);
         var nameSlide = progress * -300;
         var titleSlide = progress * 200;
