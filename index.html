@@ -12,19 +12,19 @@
 <body>
   <div class="grain"></div>
 
-  <!-- ===== Rocket Scroll-Scrub Section ===== -->
-  <div class="rocket-sequence" id="rocketSequence">
-    <canvas id="rocketCanvas"></canvas>
-    <div class="rocket-overlay" id="rocketOverlay">
-      <p class="rocket-label">Scroll to launch</p>
-      <div class="rocket-scroll-hint">
-        <div class="rocket-scroll-line"></div>
-      </div>
+  <!-- Fixed canvas — always present, fades via opacity -->
+  <canvas id="rocketCanvas"></canvas>
+  <div class="rocket-overlay" id="rocketOverlay">
+    <p class="rocket-label">Scroll to launch</p>
+    <div class="rocket-scroll-hint">
+      <div class="rocket-scroll-line"></div>
     </div>
   </div>
+
+  <!-- Spacer for scroll-scrub (normal document flow) -->
   <div class="rocket-spacer" id="rocketSpacer"></div>
 
-  <!-- ===== Main Site (fades in after sequence) ===== -->
+  <!-- Portfolio content (normal document flow, right after spacer) -->
   <div class="site-content" id="siteContent">
     <nav>
       <a href="#home" class="nav-name">TC</a>
@@ -129,25 +129,22 @@
 
   <script>
     (function () {
-      const TOTAL_FRAMES = 122;
-      const AUTOPLAY_END = 40;
-      const NORMAL_SPEED_END = 30;
-      const BASE_FPS = 24;
+      var TOTAL_FRAMES = 122;
+      var AUTOPLAY_END = 40;
+      var NORMAL_SPEED_END = 30;
+      var BASE_FPS = 24;
+      var FADE_ZONE = 0.08;
 
-      const canvas = document.getElementById('rocketCanvas');
-      const ctx = canvas.getContext('2d');
-      const sequence = document.getElementById('rocketSequence');
-      const spacer = document.getElementById('rocketSpacer');
-      const overlay = document.getElementById('rocketOverlay');
-      const siteContent = document.getElementById('siteContent');
+      var canvas = document.getElementById('rocketCanvas');
+      var ctx = canvas.getContext('2d');
+      var spacer = document.getElementById('rocketSpacer');
+      var overlay = document.getElementById('rocketOverlay');
+      var siteContent = document.getElementById('siteContent');
 
-      // spacer height set in CSS
-
-      let images = [];
-      let loaded = 0;
-      let currentFrame = 0;
-      let autoplayDone = false;
-      let sequenceDone = false;
+      var images = [];
+      var loaded = 0;
+      var currentFrame = 0;
+      var autoplayDone = false;
 
       function framePath(i) {
         return 'frames/ezgif-frame-' + String(i).padStart(3, '0') + '.jpg';
@@ -161,34 +158,31 @@
 
       function drawFrame(index) {
         if (!images[index] || !images[index].complete) return;
-        const img = images[index];
+        var img = images[index];
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-        const w = img.width * scale;
-        const h = img.height * scale;
-        const x = (canvas.width - w) / 2;
-        const y = (canvas.height - h) / 2;
+        var scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+        var w = img.width * scale;
+        var h = img.height * scale;
+        var x = (canvas.width - w) / 2;
+        var y = (canvas.height - h) / 2;
         ctx.drawImage(img, x, y, w, h);
       }
 
       // Preload all frames
-      for (let i = 1; i <= TOTAL_FRAMES; i++) {
-        const img = new Image();
-        img.src = framePath(i);
-        img.onload = function () {
-          loaded++;
-          if (loaded === TOTAL_FRAMES) {
-            startAutoplay();
-          }
-          if (loaded === 1) {
-            resizeCanvas();
-          }
-        };
-        images[i] = img;
+      for (var i = 1; i <= TOTAL_FRAMES; i++) {
+        (function (idx) {
+          var img = new Image();
+          img.src = framePath(idx);
+          img.onload = function () {
+            loaded++;
+            if (loaded === TOTAL_FRAMES) startAutoplay();
+            if (loaded === 1) resizeCanvas();
+          };
+          images[idx] = img;
+        })(i);
       }
 
-      // Autoplay frames 1-40: normal speed 1-30, easing slowdown 30-40
+      // Autoplay frames 1-40: normal 1-30, easing slowdown 30-40
       function startAutoplay() {
         window.scrollTo(0, 0);
         document.documentElement.style.overflow = 'hidden';
@@ -203,6 +197,7 @@
             currentFrame = AUTOPLAY_END;
             document.documentElement.style.overflow = '';
             overlay.classList.add('show');
+            onScroll();
             return;
           }
           currentFrame = frame;
@@ -212,7 +207,6 @@
           if (frame < NORMAL_SPEED_END) {
             delay = 1000 / BASE_FPS;
           } else {
-            // Ease-out slowdown: each frame gets progressively slower
             var slowProgress = (frame - NORMAL_SPEED_END) / (AUTOPLAY_END - NORMAL_SPEED_END);
             var easedProgress = slowProgress * slowProgress;
             delay = (1000 / BASE_FPS) + easedProgress * 350;
@@ -222,77 +216,70 @@
         setTimeout(playNext, 1000 / BASE_FPS);
       }
 
-      // Scroll-scrub: frames 21-92 (two-way)
+      // Seamless two-way scroll-scrub
       function onScroll() {
         if (!autoplayDone) return;
 
         var scrollY = window.scrollY || window.pageYOffset;
-        var maxScroll = spacer.offsetHeight - window.innerHeight;
-        if (maxScroll <= 0) return;
+        var spacerHeight = spacer.offsetHeight;
+        var spacerBottom = spacer.offsetTop + spacerHeight;
 
-        // If we're past the spacer, check if user scrolled back up
-        if (sequenceDone) {
-          var siteScrollY = scrollY;
-          if (siteScrollY <= 0) {
-            sequenceDone = false;
-            sequence.style.display = '';
-            spacer.style.display = '';
-            siteContent.style.opacity = 0;
-            siteContent.style.pointerEvents = 'none';
-            sequence.style.opacity = 1;
-            window.scrollTo(0, maxScroll - 1);
-          }
-          return;
-        }
+        // How far through the spacer are we? 0 = top, 1 = bottom
+        var progress = Math.max(0, Math.min(1, scrollY / (spacerHeight - window.innerHeight)));
 
-        var progress = Math.max(0, Math.min(1, scrollY / maxScroll));
-
+        // Map progress to frame range (AUTOPLAY_END to TOTAL_FRAMES)
         var scrubFrames = TOTAL_FRAMES - AUTOPLAY_END;
         var frameIndex = AUTOPLAY_END + Math.floor(progress * scrubFrames);
-        var clamped = Math.min(frameIndex, TOTAL_FRAMES);
+        var clamped = Math.max(AUTOPLAY_END, Math.min(frameIndex, TOTAL_FRAMES));
 
         if (clamped !== currentFrame) {
           currentFrame = clamped;
           drawFrame(clamped);
         }
 
-        // Show/hide scroll hint
+        // Show/hide scroll hint near the top
         if (progress > 0.02) {
           overlay.classList.remove('show');
         } else {
           overlay.classList.add('show');
         }
 
-        // Fade to hero at the end
-        if (progress >= 0.95) {
-          var fadeProgress = (progress - 0.95) / 0.05;
-          sequence.style.opacity = 1 - fadeProgress;
-          siteContent.style.opacity = fadeProgress;
-          siteContent.style.pointerEvents = 'auto';
+        // Canvas opacity: fully visible during scrub, fades out in the last FADE_ZONE
+        var fadeStart = 1 - FADE_ZONE;
+        if (progress >= fadeStart) {
+          var fadeProgress = (progress - fadeStart) / FADE_ZONE;
+          canvas.style.opacity = 1 - fadeProgress;
+          overlay.style.opacity = 0;
         } else {
-          sequence.style.opacity = 1;
-          siteContent.style.opacity = 0;
-          siteContent.style.pointerEvents = 'none';
+          canvas.style.opacity = 1;
         }
 
-        if (progress >= 1) {
-          sequenceDone = true;
-          sequence.style.display = 'none';
-          spacer.style.display = 'none';
+        // Once past the spacer, check if we're in the site content zone
+        if (scrollY >= spacerBottom - window.innerHeight) {
+          // In portfolio territory — canvas should be transparent
+          var overshoot = scrollY - (spacerBottom - window.innerHeight);
+          var fadeAmount = Math.min(1, overshoot / (window.innerHeight * 0.3));
+          canvas.style.opacity = 1 - fadeAmount;
           siteContent.style.opacity = 1;
-          siteContent.style.pointerEvents = 'auto';
-          window.scrollTo(0, 0);
+        } else {
+          // In rocket territory — site content transparent
+          if (progress < fadeStart) {
+            siteContent.style.opacity = 0;
+          } else {
+            var fadeProgress2 = (progress - fadeStart) / FADE_ZONE;
+            siteContent.style.opacity = fadeProgress2;
+          }
         }
       }
 
       window.addEventListener('scroll', onScroll);
       window.addEventListener('resize', resizeCanvas);
 
-      // Portfolio scroll animations (after rocket sequence)
-      const revealObserver = new IntersectionObserver(function (entries) {
+      // Portfolio scroll animations
+      var revealObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            const delay = entry.target.dataset.delay || 0;
+            var delay = entry.target.dataset.delay || 0;
             setTimeout(function () {
               entry.target.classList.add('visible');
             }, delay);
@@ -302,9 +289,9 @@
       }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
       document.querySelectorAll('.reveal').forEach(function (el) {
-        const section = el.closest('section');
-        const siblings = section ? Array.from(section.querySelectorAll('.reveal')) : [];
-        const indexInSection = siblings.indexOf(el);
+        var section = el.closest('section');
+        var siblings = section ? Array.from(section.querySelectorAll('.reveal')) : [];
+        var indexInSection = siblings.indexOf(el);
         el.dataset.delay = indexInSection * 80;
         revealObserver.observe(el);
       });
@@ -321,7 +308,11 @@
       // Nav scroll effect
       window.addEventListener('scroll', function () {
         var nav = document.querySelector('nav');
-        if (nav) nav.classList.toggle('scrolled', window.scrollY > 50);
+        if (nav) {
+          var spacerH = spacer.offsetHeight;
+          nav.classList.toggle('scrolled', window.scrollY > spacerH + 50);
+          nav.style.opacity = window.scrollY >= spacerH - window.innerHeight * 0.5 ? 1 : 0;
+        }
       });
     })();
   </script>
