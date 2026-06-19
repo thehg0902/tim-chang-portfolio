@@ -361,10 +361,11 @@
           rhTagline.style.transition = 'none';
         }
 
-        var textFade = Math.max(0, 1 - progress * 4);
-        var nameSlide = progress * -300;
-        var titleSlide = progress * 200;
-        var taglineFade = Math.max(0, 1 - progress * 6);
+        var delayedProgress = Math.max(0, (progress - 0.08) / 0.92);
+        var textFade = Math.max(0, 1 - delayedProgress * 3);
+        var nameSlide = delayedProgress * -300;
+        var titleSlide = delayedProgress * 200;
+        var taglineFade = Math.max(0, 1 - delayedProgress * 4);
 
         rhName.style.transform = 'translateY(' + nameSlide + 'px)';
         rhName.style.opacity = textFade;
