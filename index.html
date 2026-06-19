@@ -244,31 +244,22 @@
           overlay.classList.add('show');
         }
 
-        // Canvas opacity: fully visible during scrub, fades out in the last FADE_ZONE
+        // Single crossfade: rocket fades out, portfolio fades in
         var fadeStart = 1 - FADE_ZONE;
         if (progress >= fadeStart) {
           var fadeProgress = (progress - fadeStart) / FADE_ZONE;
           canvas.style.opacity = 1 - fadeProgress;
+          siteContent.style.opacity = fadeProgress;
           overlay.style.opacity = 0;
         } else {
           canvas.style.opacity = 1;
+          siteContent.style.opacity = 0;
         }
 
-        // Once past the spacer, check if we're in the site content zone
-        if (scrollY >= spacerBottom - window.innerHeight) {
-          // In portfolio territory — canvas should be transparent
-          var overshoot = scrollY - (spacerBottom - window.innerHeight);
-          var fadeAmount = Math.min(1, overshoot / (window.innerHeight * 0.3));
-          canvas.style.opacity = 1 - fadeAmount;
+        // Keep portfolio fully visible once past spacer
+        if (progress >= 1) {
+          canvas.style.opacity = 0;
           siteContent.style.opacity = 1;
-        } else {
-          // In rocket territory — site content transparent
-          if (progress < fadeStart) {
-            siteContent.style.opacity = 0;
-          } else {
-            var fadeProgress2 = (progress - fadeStart) / FADE_ZONE;
-            siteContent.style.opacity = fadeProgress2;
-          }
         }
       }
 
