@@ -129,10 +129,10 @@
 
   <script>
     (function () {
-      const TOTAL_FRAMES = 92;
-      const AUTOPLAY_END = 20;
-      const AUTOPLAY_FPS = 24;
-      const SCRUB_HEIGHT_VH = 400;
+      const TOTAL_FRAMES = 122;
+      const AUTOPLAY_END = 40;
+      const NORMAL_SPEED_END = 30;
+      const BASE_FPS = 24;
 
       const canvas = document.getElementById('rocketCanvas');
       const ctx = canvas.getContext('2d');
@@ -188,18 +188,17 @@
         images[i] = img;
       }
 
-      // Autoplay frames 1-20 on load
+      // Autoplay frames 1-40: normal speed 1-30, easing slowdown 30-40
       function startAutoplay() {
         window.scrollTo(0, 0);
         document.documentElement.style.overflow = 'hidden';
         currentFrame = 1;
         drawFrame(1);
 
-        let frame = 1;
-        const interval = setInterval(function () {
+        var frame = 1;
+        function playNext() {
           frame++;
           if (frame > AUTOPLAY_END) {
-            clearInterval(interval);
             autoplayDone = true;
             currentFrame = AUTOPLAY_END;
             document.documentElement.style.overflow = '';
@@ -208,7 +207,19 @@
           }
           currentFrame = frame;
           drawFrame(frame);
-        }, 1000 / AUTOPLAY_FPS);
+
+          var delay;
+          if (frame < NORMAL_SPEED_END) {
+            delay = 1000 / BASE_FPS;
+          } else {
+            // Ease-out slowdown: each frame gets progressively slower
+            var slowProgress = (frame - NORMAL_SPEED_END) / (AUTOPLAY_END - NORMAL_SPEED_END);
+            var easedProgress = slowProgress * slowProgress;
+            delay = (1000 / BASE_FPS) + easedProgress * 350;
+          }
+          setTimeout(playNext, delay);
+        }
+        setTimeout(playNext, 1000 / BASE_FPS);
       }
 
       // Scroll-scrub: frames 21-92 (two-way)
