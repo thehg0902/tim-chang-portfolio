@@ -211,31 +211,50 @@
         }, 1000 / AUTOPLAY_FPS);
       }
 
-      // Scroll-scrub: frames 21-92
+      // Scroll-scrub: frames 21-92 (two-way)
       function onScroll() {
-        if (!autoplayDone || sequenceDone) return;
+        if (!autoplayDone) return;
 
-        const scrollY = window.scrollY || window.pageYOffset;
-        const maxScroll = spacer.offsetHeight - window.innerHeight;
-        const progress = Math.max(0, Math.min(1, scrollY / maxScroll));
+        var scrollY = window.scrollY || window.pageYOffset;
+        var maxScroll = spacer.offsetHeight - window.innerHeight;
+        if (maxScroll <= 0) return;
 
-        const scrubFrames = TOTAL_FRAMES - AUTOPLAY_END;
-        const frameIndex = AUTOPLAY_END + Math.floor(progress * scrubFrames);
-        const clamped = Math.min(frameIndex, TOTAL_FRAMES);
+        // If we're past the spacer, check if user scrolled back up
+        if (sequenceDone) {
+          var siteScrollY = scrollY;
+          if (siteScrollY <= 0) {
+            sequenceDone = false;
+            sequence.style.display = '';
+            spacer.style.display = '';
+            siteContent.style.opacity = 0;
+            siteContent.style.pointerEvents = 'none';
+            sequence.style.opacity = 1;
+            window.scrollTo(0, maxScroll - 1);
+          }
+          return;
+        }
+
+        var progress = Math.max(0, Math.min(1, scrollY / maxScroll));
+
+        var scrubFrames = TOTAL_FRAMES - AUTOPLAY_END;
+        var frameIndex = AUTOPLAY_END + Math.floor(progress * scrubFrames);
+        var clamped = Math.min(frameIndex, TOTAL_FRAMES);
 
         if (clamped !== currentFrame) {
           currentFrame = clamped;
           drawFrame(clamped);
         }
 
-        // Hide scroll hint once user starts scrolling
+        // Show/hide scroll hint
         if (progress > 0.02) {
           overlay.classList.remove('show');
+        } else {
+          overlay.classList.add('show');
         }
 
         // Fade to hero at the end
         if (progress >= 0.95) {
-          const fadeProgress = (progress - 0.95) / 0.05;
+          var fadeProgress = (progress - 0.95) / 0.05;
           sequence.style.opacity = 1 - fadeProgress;
           siteContent.style.opacity = fadeProgress;
           siteContent.style.pointerEvents = 'auto';
