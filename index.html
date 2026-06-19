@@ -14,6 +14,14 @@
 
   <!-- Fixed canvas — always present, fades via opacity -->
   <canvas id="rocketCanvas"></canvas>
+
+  <!-- Hero text overlay on rocket -->
+  <div class="rocket-hero" id="rocketHero">
+    <h1 class="rh-name" id="rhName">Tim Chang</h1>
+    <p class="rh-title" id="rhTitle">Developer. Digital Marketer. Designer.</p>
+    <p class="rh-tagline" id="rhTagline">Building the future, one launch at a time</p>
+  </div>
+
   <div class="rocket-overlay" id="rocketOverlay">
     <p class="rocket-label">Scroll to launch</p>
     <div class="rocket-scroll-hint">
@@ -230,6 +238,10 @@
       var spacer = document.getElementById('rocketSpacer');
       var overlay = document.getElementById('rocketOverlay');
       var siteContent = document.getElementById('siteContent');
+      var rocketHero = document.getElementById('rocketHero');
+      var rhName = document.getElementById('rhName');
+      var rhTitle = document.getElementById('rhTitle');
+      var rhTagline = document.getElementById('rhTagline');
 
       var images = [];
       var loaded = 0;
@@ -278,6 +290,11 @@
         document.documentElement.style.overflow = 'hidden';
         currentFrame = 1;
         drawFrame(1);
+
+        // Animate text in during autoplay
+        setTimeout(function() { rhName.classList.add('rh-visible'); }, 300);
+        setTimeout(function() { rhTitle.classList.add('rh-visible'); }, 800);
+        setTimeout(function() { rhTagline.classList.add('rh-visible'); }, 1300);
 
         var frame = 1;
         function playNext() {
@@ -333,6 +350,19 @@
         } else {
           overlay.classList.add('show');
         }
+
+        // Animate hero text: split apart and fade as user scrolls
+        var textFade = Math.max(0, 1 - progress * 4);
+        var nameSlide = progress * -300;
+        var titleSlide = progress * 200;
+        var taglineFade = Math.max(0, 1 - progress * 6);
+
+        rhName.style.transform = 'translateY(' + nameSlide + 'px)';
+        rhName.style.opacity = textFade;
+        rhTitle.style.transform = 'translateY(' + titleSlide + 'px)';
+        rhTitle.style.opacity = textFade;
+        rhTagline.style.opacity = taglineFade;
+        rocketHero.style.pointerEvents = progress > 0.2 ? 'none' : 'auto';
 
         // Single crossfade: rocket fades out, portfolio fades in
         var fadeStart = 1 - FADE_ZONE;
