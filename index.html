@@ -255,6 +255,7 @@
       var loaded = 0;
       var currentFrame = 0;
       var autoplayDone = false;
+      var userHasScrolled = false;
 
       function framePath(i) {
         return 'frames/ezgif-frame-' + String(i).padStart(3, '0') + '.jpg';
@@ -300,8 +301,8 @@
         drawFrame(1);
 
         // Animate text in during autoplay
-        setTimeout(function() { rhName.classList.add('rh-visible'); }, 300);
-        setTimeout(function() { rhTitle.classList.add('rh-visible'); }, 800);
+        setTimeout(function() { if (!userHasScrolled) rhName.classList.add('rh-visible'); }, 300);
+        setTimeout(function() { if (!userHasScrolled) rhTitle.classList.add('rh-visible'); }, 800);
 
         // Typewriter effect for title words
         var w1 = document.getElementById('rhWord1');
@@ -317,7 +318,7 @@
         setTimeout(function() { pipes[1].classList.add('typed'); }, 2400);
         setTimeout(function() { w3.classList.add('typed'); }, 2600);
         setTimeout(function() { underline.classList.add('typed'); cursor.classList.add('hide'); }, 3100);
-        setTimeout(function() { rhTagline.classList.add('rh-visible'); }, 3300);
+        setTimeout(function() { if (!userHasScrolled) rhTagline.classList.add('rh-visible'); }, 3300);
 
         var frame = 1;
         function playNext() {
@@ -376,6 +377,7 @@
 
         // Animate hero text: split apart and fade as user scrolls
         if (progress > 0) {
+          userHasScrolled = true;
           rhName.classList.remove('rh-visible');
           rhTitle.classList.remove('rh-visible');
           rhTagline.classList.remove('rh-visible');
@@ -413,6 +415,9 @@
         if (progress >= 1) {
           canvas.style.opacity = 0;
           siteContent.style.opacity = 1;
+          rocketHero.style.visibility = 'hidden';
+        } else {
+          rocketHero.style.visibility = 'visible';
         }
       }
 
