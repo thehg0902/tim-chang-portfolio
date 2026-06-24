@@ -27,6 +27,8 @@
   var scrollCanvas = document.getElementById('scrollCanvas');
   var scrollCtx = scrollCanvas.getContext('2d');
   var scrubSpacer = document.getElementById('scrubSpacer');
+  var serviceCardsRow = document.getElementById('serviceCardsRow');
+  var scrubDim = document.getElementById('scrubDim');
   var serviceCards = [
     document.getElementById('serviceCard0'),
     document.getElementById('serviceCard1'),
@@ -430,16 +432,23 @@
         }
       });
 
-      // Service cards
-      var cardThresholds = [0.65, 0.75, 0.85];
-      serviceCards.forEach(function (card, i) {
-        if (p >= cardThresholds[i]) {
-          card.classList.add('visible');
-          card.style.top = (25 + i * 20) + 'vh';
-        } else {
-          card.classList.remove('visible');
-        }
-      });
+      // Service cards — slide in one by one + dim overlay
+      if (p >= 0.55) {
+        serviceCardsRow.classList.add('visible');
+        scrubDim.classList.add('active');
+        var cardThresholds = [0.55, 0.65, 0.75];
+        serviceCards.forEach(function (card, i) {
+          if (p >= cardThresholds[i]) {
+            card.classList.add('visible');
+          } else {
+            card.classList.remove('visible');
+          }
+        });
+      } else {
+        serviceCardsRow.classList.remove('visible');
+        scrubDim.classList.remove('active');
+        serviceCards.forEach(function (c) { c.classList.remove('visible'); });
+      }
 
       // Nebula wisps
       var wispActive = p > 0.6 && p < 0.95;
@@ -451,7 +460,8 @@
       // Hide fixed overlays when scrub zone is mostly past
       if (scrubRect.bottom <= window.innerHeight * 1.5) {
         scrollCanvas.classList.remove('active');
-        serviceCards.forEach(function (c) { c.classList.remove('visible'); });
+        serviceCardsRow.classList.remove('visible');
+        scrubDim.classList.remove('active');
         nebulaWisps.forEach(function (w) { w.style.opacity = 0; });
         scrollCompanions.forEach(function (c) { c.style.opacity = 0; });
       }

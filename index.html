@@ -145,6 +145,7 @@
 
   <!-- Scroll canvas (Scene 02 scroll-scrub) -->
   <canvas id="scrollCanvas" class="scrub-canvas" aria-hidden="true"></canvas>
+  <div class="scrub-dim" id="scrubDim" aria-hidden="true"></div>
 
   <!-- SCENE 02 — SCROLL-SCRUB -->
   <div id="scrubSpacer" class="scrub-spacer">
@@ -163,27 +164,35 @@
     </div>
   </div>
 
-  <!-- Service cards (fixed overlay) -->
-  <div class="service-card" id="serviceCard0" role="button" tabindex="0" aria-label="Web Development — Fast, responsive sites built to convert">
-    <span class="sc-icon">⬡</span>
-    <span class="sc-title">WEB DEVELOPMENT</span>
-    <div class="sc-divider"></div>
-    <p class="sc-desc">Fast, responsive sites built to convert</p>
-    <span class="sc-arrow">→</span>
-  </div>
-  <div class="service-card" id="serviceCard1" role="button" tabindex="0" aria-label="Digital Marketing — Campaigns that actually perform">
-    <span class="sc-icon">◈</span>
-    <span class="sc-title">DIGITAL MARKETING</span>
-    <div class="sc-divider"></div>
-    <p class="sc-desc">Campaigns that actually perform</p>
-    <span class="sc-arrow">→</span>
-  </div>
-  <div class="service-card" id="serviceCard2" role="button" tabindex="0" aria-label="Design — Brand identity that sticks">
-    <span class="sc-icon">◎</span>
-    <span class="sc-title">DESIGN</span>
-    <div class="sc-divider"></div>
-    <p class="sc-desc">Brand identity that sticks</p>
-    <span class="sc-arrow">→</span>
+  <!-- Service cards (fixed overlay — 3 columns) -->
+  <div class="service-cards-row" id="serviceCardsRow">
+    <div class="service-card" id="serviceCard0" role="button" tabindex="0" aria-label="Web Development — Fast, responsive sites built to convert">
+      <!-- GENERATED: assets/card-webdev.jpg · nano_banana_flash · 1.5cr -->
+      <img class="sc-img" src="assets/card-webdev.jpg" alt="Web development illustration" loading="lazy">
+      <span class="sc-icon">⬡</span>
+      <span class="sc-title">WEB DEVELOPMENT</span>
+      <div class="sc-divider"></div>
+      <p class="sc-desc">Fast, responsive sites built to convert. Clean code, blazing speed, mobile-first — every pixel earns its place.</p>
+      <a href="#contact" class="sc-btn">Explore →</a>
+    </div>
+    <div class="service-card" id="serviceCard1" role="button" tabindex="0" aria-label="Digital Marketing — Campaigns that actually perform">
+      <!-- GENERATED: assets/card-marketing.jpg · nano_banana_flash · 1.5cr -->
+      <img class="sc-img" src="assets/card-marketing.jpg" alt="Digital marketing illustration" loading="lazy">
+      <span class="sc-icon">◈</span>
+      <span class="sc-title">DIGITAL MARKETING</span>
+      <div class="sc-divider"></div>
+      <p class="sc-desc">Campaigns that actually perform. Data-driven strategy, creative execution, measurable results.</p>
+      <a href="#contact" class="sc-btn">Explore →</a>
+    </div>
+    <div class="service-card" id="serviceCard2" role="button" tabindex="0" aria-label="Design — Brand identity that sticks">
+      <!-- GENERATED: assets/card-design.jpg · nano_banana_flash · 1.5cr -->
+      <img class="sc-img" src="assets/card-design.jpg" alt="Brand design illustration" loading="lazy">
+      <span class="sc-icon">◎</span>
+      <span class="sc-title">DESIGN</span>
+      <div class="sc-divider"></div>
+      <p class="sc-desc">Brand identity that sticks. From concept to system — logos, palettes, typography that tells your story.</p>
+      <a href="#contact" class="sc-btn">Explore →</a>
+    </div>
   </div>
 
   <!-- Nebula wisps -->
