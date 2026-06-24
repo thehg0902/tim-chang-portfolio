@@ -103,8 +103,10 @@
     }
   }
 
+  var ROCKET_CENTER_X = 0.60;
+
   function drawFrame(ctx, canvas, images, index) {
-    var nearestFrame = Math.round(index / frameSkip) * frameSkip;
+    var nearestFrame = Math.round((index - 1) / frameSkip) * frameSkip + 1;
     if (nearestFrame < 1) nearestFrame = 1;
     var img = images[nearestFrame];
     if (!img || !img.complete || !img.naturalWidth) return;
@@ -112,7 +114,16 @@
     var scale = Math.max(canvas.width / img.width, canvas.height / img.height);
     var w = img.width * scale;
     var h = img.height * scale;
-    ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
+    var dx = (canvas.width - w) / 2;
+    var dy = (canvas.height - h) / 2;
+
+    if (canvas.width <= 767 && canvas.id === 'launchCanvas') {
+      var rocketScreenX = ROCKET_CENTER_X * w + dx;
+      var screenCenter = canvas.width / 2;
+      dx -= (rocketScreenX - screenCenter);
+    }
+
+    ctx.drawImage(img, dx, dy, w, h);
   }
 
   function resizeAll() {
@@ -248,6 +259,72 @@
       if (launchFrame !== currentLaunchFrame) {
         currentLaunchFrame = launchFrame;
         drawFrame(launchCtx, launchCanvas, launchImages, launchFrame);
+      }
+
+      // Hero UI launch animation — elements fly up starting at frame 106
+      var launchThreshold = 106 / LAUNCH_FRAMES;
+      var whName = document.querySelector('.wh-name');
+      var whTagline = document.querySelector('.wh-tagline');
+      var whLeft = document.querySelector('.wh-left');
+
+      if (heroProgress >= launchThreshold) {
+        var t = (heroProgress - launchThreshold) / (1 - launchThreshold);
+        var nameT = clamp(t / 0.25, 0, 1);
+        var tagT = clamp((t - 0.08) / 0.25, 0, 1);
+        var row0T = clamp((t - 0.16) / 0.25, 0, 1);
+        var row1T = clamp((t - 0.24) / 0.25, 0, 1);
+        var row2T = clamp((t - 0.32) / 0.25, 0, 1);
+        var labelT = clamp((t - 0.12) / 0.25, 0, 1);
+
+        whName.style.transform = 'translateY(' + (-nameT * 120) + 'vh)';
+        whName.style.opacity = 1 - nameT;
+        whTagline.style.transform = 'translateY(' + (-tagT * 120) + 'vh)';
+        whTagline.style.opacity = 1 - tagT;
+        skillRows[0].style.transform = 'translateY(' + (-row0T * 120) + 'vh)';
+        skillRows[0].style.opacity = 1 - row0T;
+        skillRows[1].style.transform = 'translateY(' + (-row1T * 120) + 'vh)';
+        skillRows[1].style.opacity = 1 - row1T;
+        skillRows[2].style.transform = 'translateY(' + (-row2T * 120) + 'vh)';
+        skillRows[2].style.opacity = 1 - row2T;
+
+        var rLabel = document.querySelector('.rocket-label');
+        if (rLabel) {
+          rLabel.style.transform = 'translateY(' + (-labelT * 120) + 'vh)';
+          rLabel.style.opacity = 1 - labelT;
+        }
+
+        // Cross-fade: launch canvas out, scroll canvas in (frame 130+)
+        var fadeThreshold = 130 / LAUNCH_FRAMES;
+        if (heroProgress >= fadeThreshold) {
+          var fadeT = clamp((heroProgress - fadeThreshold) / (1 - fadeThreshold), 0, 1);
+          launchCanvas.style.opacity = 1 - fadeT;
+          scrollCanvas.classList.add('active');
+          scrollCanvas.style.opacity = fadeT;
+          // Draw first scroll frame during crossfade
+          if (currentScrollFrame <= 1) {
+            drawFrame(scrollCtx, scrollCanvas, scrollImages, 1);
+          }
+        } else {
+          launchCanvas.style.opacity = '';
+          scrollCanvas.classList.remove('active');
+          scrollCanvas.style.opacity = '';
+        }
+      } else {
+        launchCanvas.style.opacity = '';
+        scrollCanvas.classList.remove('active');
+        scrollCanvas.style.opacity = '';
+        whName.style.transform = '';
+        whName.style.opacity = '';
+        whTagline.style.transform = '';
+        whTagline.style.opacity = '';
+        skillRows[0].style.transform = skillRows[0].classList.contains('visible') ? 'translateX(0)' : '';
+        skillRows[0].style.opacity = '';
+        skillRows[1].style.transform = skillRows[1].classList.contains('visible') ? 'translateX(0)' : '';
+        skillRows[1].style.opacity = '';
+        skillRows[2].style.transform = skillRows[2].classList.contains('visible') ? 'translateX(0)' : '';
+        skillRows[2].style.opacity = '';
+        var rLabel = document.querySelector('.rocket-label');
+        if (rLabel) { rLabel.style.transform = ''; rLabel.style.opacity = ''; }
       }
     } else if (heroRect.bottom <= 0) {
       scene01b.classList.add('hidden-done');

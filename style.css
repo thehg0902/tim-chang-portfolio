@@ -358,7 +358,7 @@ img { max-width: 100%; display: block; }
 .hero-spacer {
   position: relative;
   height: 300vh;
-  z-index: 100;
+  z-index: 1;
 }
 
 /* ===== LAUNCH CANVAS (inside scene01b) ===== */
@@ -379,7 +379,7 @@ img { max-width: 100%; display: block; }
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 10;
+  z-index: 50;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
@@ -394,7 +394,7 @@ img { max-width: 100%; display: block; }
 .scrub-spacer {
   position: relative;
   height: 400vh;
-  z-index: 100;
+  z-index: 1;
 }
 
 /* Scroll companion content */
@@ -403,7 +403,7 @@ img { max-width: 100%; display: block; }
   left: 8vw;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 12;
+  z-index: 60;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s;
@@ -438,7 +438,7 @@ img { max-width: 100%; display: block; }
   right: 4vw;
   cursor: pointer;
   transition: transform 0.4s var(--ease-bounce), border-color 0.15s, box-shadow 0.15s;
-  z-index: 20;
+  z-index: 60;
   opacity: 0;
   transform: translateX(110vw);
   backdrop-filter: blur(12px);
@@ -492,7 +492,7 @@ img { max-width: 100%; display: block; }
 .nebula-wisp {
   position: fixed;
   pointer-events: none;
-  z-index: 15;
+  z-index: 55;
   opacity: 0;
   transition: opacity 0.5s;
 }
