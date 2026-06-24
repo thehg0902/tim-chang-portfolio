@@ -209,6 +209,7 @@
         document.querySelector('.wh-tagline').classList.add('fade-in');
         var rl = document.querySelector('.rocket-label');
         if (rl) rl.classList.add('fade-in');
+        startAmbientLights();
       }, 600);
 
       skillRows.forEach(function (row, i) {
@@ -226,6 +227,25 @@
 
   window.scrollTo(0, 0);
   document.body.style.overflow = 'hidden';
+
+  // ===== AMBIENT FIREFLY LIGHTS =====
+  function startAmbientLights() {
+    var lights = document.querySelectorAll('.ambient-light');
+    lights.forEach(function (light) {
+      function breathe() {
+        var peakOpacity = 0.4 + Math.random() * 0.6;
+        var holdTime = 800 + Math.random() * 1200;
+        light.style.opacity = peakOpacity;
+        setTimeout(function () {
+          light.style.opacity = 0;
+          var pause = 1500 + Math.random() * 3500;
+          setTimeout(breathe, pause);
+        }, holdTime);
+      }
+      var initialDelay = Math.random() * 3000;
+      setTimeout(breathe, initialDelay);
+    });
+  }
 
   // ===== SCROLL HELPERS =====
   var ticking = false;
