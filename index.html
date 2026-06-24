@@ -92,6 +92,57 @@
   <!-- Spacer for Scene 01B (hero visible while user begins scrolling) -->
   <div id="heroSpacer" class="hero-spacer"></div>
 
+  <!-- ABOUT ME -->
+  <section id="about" class="scene scene-about" aria-label="About">
+    <div class="about-neon-line"></div>
+
+    <!-- Photo carousel -->
+    <div class="carousel-wrapper">
+      <div class="carousel-fade carousel-fade-left"></div>
+      <div class="carousel-fade carousel-fade-right"></div>
+      <div class="carousel-track" id="carouselTrack">
+        <!-- REPLACE: drop lifestyle photos into assets/ and update src -->
+        <div class="carousel-img" style="background: linear-gradient(135deg, #2B2218, #1B1A18);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #1B1A18, #3D2B1F);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #3D2B1F, #2B2218);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #2B2218, #1B1A18);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #1B1A18, #3D2B1F);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #3D2B1F, #2B2218);"></div>
+        <!-- Duplicates for seamless loop -->
+        <div class="carousel-img" style="background: linear-gradient(135deg, #2B2218, #1B1A18);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #1B1A18, #3D2B1F);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #3D2B1F, #2B2218);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #2B2218, #1B1A18);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #1B1A18, #3D2B1F);"></div>
+        <div class="carousel-img" style="background: linear-gradient(135deg, #3D2B1F, #2B2218);"></div>
+      </div>
+    </div>
+
+    <!-- About content -->
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="about-eyebrow">// about me</p>
+        <h2 class="about-headline">Building what matters</h2>
+        <p class="about-body">I'm Tim Chang — a designer, marketer, and developer who believes great work happens at the intersection of strategy and craft. I don't just build websites. I build systems that convert, brands that resonate, and campaigns that perform.</p>
+        <p class="about-body">Every project starts with a question: what does success look like? From there, I work backwards — designing experiences that are fast, intentional, and built to last. No fluff, no filler. Just work that speaks for itself.</p>
+      </div>
+      <div class="about-stats">
+        <div class="about-stat">
+          <span class="about-stat-number">50+</span>
+          <span class="about-stat-label">Projects delivered</span>
+        </div>
+        <div class="about-stat">
+          <span class="about-stat-number">5+</span>
+          <span class="about-stat-label">Years of experience</span>
+        </div>
+        <div class="about-stat">
+          <span class="about-stat-number">3</span>
+          <span class="about-stat-label">Disciplines mastered</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Scroll canvas (Scene 02 scroll-scrub) -->
   <canvas id="scrollCanvas" class="scrub-canvas" aria-hidden="true"></canvas>
 

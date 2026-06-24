@@ -199,10 +199,6 @@
       scene01b.classList.add('visible');
       curtainLeft.classList.add('open');
       curtainRight.classList.add('open');
-    }, 800);
-    setTimeout(function () { scene01a.style.display = 'none'; }, 2000);
-
-    setTimeout(function () {
 
       setTimeout(function () {
         document.querySelector('.wh-name').classList.add('fade-in');
@@ -212,19 +208,20 @@
         startAmbientLights();
         startTaglineGlow();
         startNameFlicker();
+
+        skillRows.forEach(function (row, i) {
+          setTimeout(function () { row.classList.add('visible'); }, 500 + i * 500);
+        });
       }, 600);
+    }, 800);
+    setTimeout(function () { scene01a.style.display = 'none'; }, 2000);
 
-      skillRows.forEach(function (row, i) {
-        setTimeout(function () { row.classList.add('visible'); }, 1500 + i * 500);
-      });
-
-      setTimeout(function () {
-        window.scrollTo(0, 0);
-        sceneState = 'scrolling';
-        document.body.style.overflow = '';
-        requestAnimationFrame(updateScroll);
-      }, 1500);
-    }, 300);
+    setTimeout(function () {
+      window.scrollTo(0, 0);
+      sceneState = 'scrolling';
+      document.body.style.overflow = '';
+      requestAnimationFrame(updateScroll);
+    }, 3500);
   }
 
   window.scrollTo(0, 0);
@@ -417,13 +414,6 @@
         drawFrame(scrollCtx, scrollCanvas, scrollImages, scrollFrame);
       }
 
-      var scrollFrame = Math.max(1, Math.min(SCROLL_FRAMES,
-        Math.round(p * (SCROLL_FRAMES - 1)) + 1));
-      if (scrollFrame !== currentScrollFrame) {
-        currentScrollFrame = scrollFrame;
-        drawFrame(scrollCtx, scrollCanvas, scrollImages, scrollFrame);
-      }
-
       // Scroll companions
       scrollCompanions.forEach(function (comp) {
         var enter = parseFloat(comp.dataset.enter);
@@ -467,6 +457,23 @@
       }
       if (scrubRect.top >= window.innerHeight) {
         scrollCanvas.classList.remove('active');
+      }
+    }
+
+    // About section content reveal
+    var aboutText = document.querySelector('.about-text');
+    var aboutStats = document.querySelector('.about-stats');
+
+    if (aboutText) {
+      var textRect = aboutText.getBoundingClientRect();
+      if (textRect.top < window.innerHeight * 0.8) {
+        aboutText.classList.add('visible');
+      }
+    }
+    if (aboutStats) {
+      var statsRect = aboutStats.getBoundingClientRect();
+      if (statsRect.top < window.innerHeight * 0.8) {
+        aboutStats.classList.add('visible');
       }
     }
 

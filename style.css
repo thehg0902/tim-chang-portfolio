@@ -702,6 +702,183 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 0 20px rgba(177,138,74,0.15);
 }
 
+/* ===== ABOUT ME ===== */
+.scene-about {
+  position: relative;
+  z-index: 200;
+  background: var(--bg);
+  padding: var(--space-3xl) 0 var(--space-2xl);
+  width: 100%;
+  overflow: hidden;
+}
+.about-neon-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(177,138,74,0.3), transparent);
+  box-shadow: 0 0 20px rgba(177,138,74,0.15);
+}
+
+/* Carousel */
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: var(--space-2xl);
+}
+.carousel-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.carousel-fade-left {
+  left: 0;
+  background: linear-gradient(to right, var(--bg), transparent);
+}
+.carousel-fade-right {
+  right: 0;
+  background: linear-gradient(to left, var(--bg), transparent);
+}
+.carousel-track {
+  display: flex;
+  gap: 16px;
+  animation: carouselScroll 30s linear infinite;
+  width: max-content;
+}
+.carousel-track:hover {
+  animation-play-state: paused;
+}
+.carousel-img {
+  width: 320px;
+  height: 220px;
+  border-radius: var(--border-radius-lg, 12px);
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+}
+@keyframes carouselScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* About content grid */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: var(--space-2xl);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 5vw;
+  align-items: start;
+}
+.about-text {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.about-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.about-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(177,138,74,0.5);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-md);
+}
+.about-headline {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(24px, 3.5vw, 40px);
+  color: var(--ivory);
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-lg);
+}
+.about-body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.8;
+  margin-bottom: var(--space-md);
+}
+
+/* Stat cards */
+.about-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
+}
+.about-stats.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.about-stat {
+  background: rgba(27,26,24,0.6);
+  border: 1px solid rgba(177,138,74,0.12);
+  border-left: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: -4px 0 12px rgba(177,138,74,0.1);
+  transition: transform 0.25s ease-out, border-color 0.2s, box-shadow 0.2s;
+}
+.about-stat:hover {
+  transform: scale(1.04);
+  border-color: rgba(177,138,74,0.3);
+  box-shadow: -4px 0 20px rgba(177,138,74,0.25), 0 4px 16px rgba(0,0,0,0.3);
+}
+.about-stat-number {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 3vw, 36px);
+  color: var(--accent-soft);
+  letter-spacing: 0.04em;
+}
+.about-stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* About mobile */
+@media (max-width: 767px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    padding: 0 var(--space-lg);
+  }
+  .carousel-img {
+    width: 260px;
+    height: 180px;
+  }
+  .carousel-fade {
+    width: 60px;
+  }
+  .about-stats {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+  .about-stat {
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
 /* ===== STATIC SERVICES (reduced motion) ===== */
 .static-services {
   display: none;
