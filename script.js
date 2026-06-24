@@ -194,15 +194,15 @@
   // ===== SCENE 01B — CURTAINS OPEN =====
   function startScene01b() {
     sceneState = '01b';
-    scene01b.classList.add('visible');
+    scene01a.classList.add('hidden');
     setTimeout(function () {
-      scene01a.classList.add('hidden');
-      setTimeout(function () { scene01a.style.display = 'none'; }, 1000);
-    }, 300);
-
-    setTimeout(function () {
+      scene01b.classList.add('visible');
       curtainLeft.classList.add('open');
       curtainRight.classList.add('open');
+    }, 800);
+    setTimeout(function () { scene01a.style.display = 'none'; }, 2000);
+
+    setTimeout(function () {
 
       setTimeout(function () {
         document.querySelector('.wh-name').classList.add('fade-in');
@@ -210,6 +210,8 @@
         var rl = document.querySelector('.rocket-label');
         if (rl) rl.classList.add('fade-in');
         startAmbientLights();
+        startTaglineGlow();
+        startNameFlicker();
       }, 600);
 
       skillRows.forEach(function (row, i) {
@@ -227,6 +229,44 @@
 
   window.scrollTo(0, 0);
   document.body.style.overflow = 'hidden';
+
+  // ===== TAGLINE GLOW PULSE =====
+  function startTaglineGlow() {
+    var tagline = document.querySelector('.wh-tagline');
+    function pulse() {
+      tagline.classList.add('glow');
+      var holdTime = 2500 + Math.random() * 2500;
+      setTimeout(function () {
+        tagline.classList.remove('glow');
+        var pause = 3000 + Math.random() * 4000;
+        setTimeout(pulse, pause);
+      }, holdTime);
+    }
+    setTimeout(pulse, 2000);
+  }
+
+  // ===== NAME NEON FLICKER =====
+  function startNameFlicker() {
+    var name = document.querySelector('.wh-name');
+    function flicker() {
+      var origOpacity = name.style.opacity || '1';
+      name.style.transition = 'none';
+      name.style.opacity = '0.6';
+      setTimeout(function () {
+        name.style.opacity = '1';
+        setTimeout(function () {
+          name.style.opacity = '0.7';
+          setTimeout(function () {
+            name.style.opacity = '1';
+            name.style.transition = '';
+            var nextFlicker = 3000 + Math.random() * 7000;
+            setTimeout(flicker, nextFlicker);
+          }, 60);
+        }, 80);
+      }, 50);
+    }
+    setTimeout(flicker, 3000 + Math.random() * 5000);
+  }
 
   // ===== AMBIENT FIREFLY LIGHTS =====
   function startAmbientLights() {
@@ -329,11 +369,11 @@
         whName.style.opacity = '';
         whTagline.style.transform = '';
         whTagline.style.opacity = '';
-        skillRows[0].style.transform = skillRows[0].classList.contains('visible') ? 'translateX(0)' : '';
+        skillRows[0].style.transform = '';
         skillRows[0].style.opacity = '';
-        skillRows[1].style.transform = skillRows[1].classList.contains('visible') ? 'translateX(0)' : '';
+        skillRows[1].style.transform = '';
         skillRows[1].style.opacity = '';
-        skillRows[2].style.transform = skillRows[2].classList.contains('visible') ? 'translateX(0)' : '';
+        skillRows[2].style.transform = '';
         skillRows[2].style.opacity = '';
         if (rLabel) { rLabel.style.transform = ''; rLabel.style.opacity = ''; }
       }
