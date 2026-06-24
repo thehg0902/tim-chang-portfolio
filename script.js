@@ -197,18 +197,26 @@
     scene01b.classList.add('visible');
     setTimeout(function () {
       scene01a.classList.add('hidden');
-      setTimeout(function () { scene01a.style.display = 'none'; }, 600);
-    }, 200);
+      setTimeout(function () { scene01a.style.display = 'none'; }, 1000);
+    }, 300);
 
     setTimeout(function () {
       curtainLeft.classList.add('open');
       curtainRight.classList.add('open');
 
+      setTimeout(function () {
+        document.querySelector('.wh-name').classList.add('fade-in');
+        document.querySelector('.wh-tagline').classList.add('fade-in');
+        var rl = document.querySelector('.rocket-label');
+        if (rl) rl.classList.add('fade-in');
+      }, 600);
+
       skillRows.forEach(function (row, i) {
-        setTimeout(function () { row.classList.add('visible'); }, 600 + i * 150);
+        setTimeout(function () { row.classList.add('visible'); }, 1500 + i * 500);
       });
 
       setTimeout(function () {
+        window.scrollTo(0, 0);
         sceneState = 'scrolling';
         document.body.style.overflow = '';
         requestAnimationFrame(updateScroll);
@@ -216,6 +224,7 @@
     }, 300);
   }
 
+  window.scrollTo(0, 0);
   document.body.style.overflow = 'hidden';
 
   // ===== SCROLL HELPERS =====
@@ -243,17 +252,26 @@
     var globalProgress = docHeight > 0 ? scrollY / docHeight : 0;
     scrollProgress.style.width = (globalProgress * 100) + '%';
 
-    // Scene 01B + Launch canvas visibility
+    // ===== UNIFIED SCENE MANAGEMENT =====
     var heroSpacer = document.getElementById('heroSpacer');
     var heroRect = heroSpacer.getBoundingClientRect();
-    var inHeroZone = heroRect.top < window.innerHeight && heroRect.bottom > 0;
+    var scrubRect = scrubSpacer.getBoundingClientRect();
 
+    var whName = document.querySelector('.wh-name');
+    var whTagline = document.querySelector('.wh-tagline');
+    var rLabel = document.querySelector('.rocket-label');
+
+    var heroProgress = getSpacerProgress(heroSpacer);
+    var inHeroZone = heroRect.top < window.innerHeight && heroRect.bottom > 0;
+    var inScrubZone = scrubRect.top <= 0 && scrubRect.bottom > 0;
+
+    // --- HERO ZONE ---
     if (inHeroZone) {
       scene01b.classList.remove('hidden-done');
       launchCanvas.style.display = '';
+      scrollCanvas.classList.remove('active');
+      scrollCanvas.style.opacity = '';
 
-      // Scrub launch frames based on hero spacer progress
-      var heroProgress = getSpacerProgress(heroSpacer);
       var launchFrame = Math.max(1, Math.min(LAUNCH_FRAMES,
         Math.round(heroProgress * (LAUNCH_FRAMES - 1)) + 1));
       if (launchFrame !== currentLaunchFrame) {
@@ -261,12 +279,8 @@
         drawFrame(launchCtx, launchCanvas, launchImages, launchFrame);
       }
 
-      // Hero UI launch animation — elements fly up starting at frame 106
+      // UI launch animation at frame 106+
       var launchThreshold = 106 / LAUNCH_FRAMES;
-      var whName = document.querySelector('.wh-name');
-      var whTagline = document.querySelector('.wh-tagline');
-      var whLeft = document.querySelector('.wh-left');
-
       if (heroProgress >= launchThreshold) {
         var t = (heroProgress - launchThreshold) / (1 - launchThreshold);
         var nameT = clamp(t / 0.25, 0, 1);
@@ -286,33 +300,11 @@
         skillRows[1].style.opacity = 1 - row1T;
         skillRows[2].style.transform = 'translateY(' + (-row2T * 120) + 'vh)';
         skillRows[2].style.opacity = 1 - row2T;
-
-        var rLabel = document.querySelector('.rocket-label');
         if (rLabel) {
           rLabel.style.transform = 'translateY(' + (-labelT * 120) + 'vh)';
           rLabel.style.opacity = 1 - labelT;
         }
-
-        // Cross-fade: launch canvas out, scroll canvas in (frame 130+)
-        var fadeThreshold = 130 / LAUNCH_FRAMES;
-        if (heroProgress >= fadeThreshold) {
-          var fadeT = clamp((heroProgress - fadeThreshold) / (1 - fadeThreshold), 0, 1);
-          launchCanvas.style.opacity = 1 - fadeT;
-          scrollCanvas.classList.add('active');
-          scrollCanvas.style.opacity = fadeT;
-          // Draw first scroll frame during crossfade
-          if (currentScrollFrame <= 1) {
-            drawFrame(scrollCtx, scrollCanvas, scrollImages, 1);
-          }
-        } else {
-          launchCanvas.style.opacity = '';
-          scrollCanvas.classList.remove('active');
-          scrollCanvas.style.opacity = '';
-        }
       } else {
-        launchCanvas.style.opacity = '';
-        scrollCanvas.classList.remove('active');
-        scrollCanvas.style.opacity = '';
         whName.style.transform = '';
         whName.style.opacity = '';
         whTagline.style.transform = '';
@@ -323,21 +315,47 @@
         skillRows[1].style.opacity = '';
         skillRows[2].style.transform = skillRows[2].classList.contains('visible') ? 'translateX(0)' : '';
         skillRows[2].style.opacity = '';
-        var rLabel = document.querySelector('.rocket-label');
         if (rLabel) { rLabel.style.transform = ''; rLabel.style.opacity = ''; }
       }
-    } else if (heroRect.bottom <= 0) {
+
+      // Fade hero to black at frame 130+
+      var fadeThreshold = 130 / LAUNCH_FRAMES;
+      if (heroProgress >= fadeThreshold) {
+        var fadeT = clamp((heroProgress - fadeThreshold) / (1 - fadeThreshold), 0, 1);
+        launchCanvas.style.opacity = 1 - fadeT;
+        scene01b.style.opacity = 1 - fadeT;
+      } else {
+        launchCanvas.style.opacity = '';
+        scene01b.style.opacity = '';
+      }
+
+    } else {
+      // Past hero — hide hero elements
       scene01b.classList.add('hidden-done');
+      scene01b.style.opacity = '0';
       launchCanvas.style.display = 'none';
     }
 
-    // Scene 02 — Scroll-scrub canvas
-    var scrubRect = scrubSpacer.getBoundingClientRect();
-    var inScrubZone = scrubRect.top < window.innerHeight && scrubRect.bottom > 0;
-
+    // --- SCRUB ZONE ---
     if (inScrubZone) {
       scrollCanvas.classList.add('active');
+
       var p = getSpacerProgress(scrubSpacer);
+
+      // Fade from black during first 10% of scrub progress
+      if (p < 0.1) {
+        scrollCanvas.style.opacity = p / 0.1;
+      } else {
+        scrollCanvas.style.opacity = '';
+      }
+
+      // Always advance frames (even during fade-in)
+      var scrollFrame = Math.max(1, Math.min(SCROLL_FRAMES,
+        Math.round(p * (SCROLL_FRAMES - 1)) + 1));
+      if (scrollFrame !== currentScrollFrame) {
+        currentScrollFrame = scrollFrame;
+        drawFrame(scrollCtx, scrollCanvas, scrollImages, scrollFrame);
+      }
 
       var scrollFrame = Math.max(1, Math.min(SCROLL_FRAMES,
         Math.round(p * (SCROLL_FRAMES - 1)) + 1));
