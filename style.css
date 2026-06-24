@@ -492,36 +492,6 @@ img { max-width: 100%; display: block; }
   z-index: 1;
 }
 
-/* Scroll companion content */
-.scroll-companion {
-  position: fixed;
-  left: 8vw;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 60;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s;
-}
-.scroll-companion.visible {
-  opacity: 1;
-}
-.companion-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: rgba(177,138,74,0.5);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: var(--space-xs);
-}
-.companion-text {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(18px, 3vw, 36px);
-  color: rgba(231,225,213,0.8);
-  text-shadow: 0 0 30px rgba(177,138,74,0.2);
-}
-
 /* ===== SCRUB DIM OVERLAY ===== */
 .scrub-dim {
   position: fixed;
@@ -1086,23 +1056,57 @@ img { max-width: 100%; display: block; }
   .service-cards-row {
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    width: 90vw;
+    gap: 10px;
+    width: 85vw;
+    height: auto;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
   }
   .service-card {
     width: 100%;
-    padding: 20px 18px;
+    height: auto;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 4px 12px;
+    border-radius: 12px;
   }
-
-  .scroll-companion {
-    left: 5vw;
-    right: 5vw;
+  .service-card .sc-img {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 8px;
   }
-  .companion-text {
-    font-size: clamp(16px, 5vw, 24px);
+  .service-card .sc-icon { display: none; }
+  .service-card .sc-title {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    align-self: center;
+    font-size: 11px;
   }
+  .service-card .sc-desc {
+    grid-row: 2 / 3;
+    grid-column: 1 / -1;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 4px;
+  }
+  .service-card .sc-btn {
+    grid-row: 3 / 4;
+    grid-column: 1 / -1;
+    padding: 8px 14px;
+    font-size: 9px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .service-card .sc-divider { display: none; }
+  .service-card::before { display: none; }
+  .service-card::after { display: none; }
 
   .static-services-grid {
     grid-template-columns: 1fr;

@@ -416,27 +416,11 @@
         drawFrame(scrollCtx, scrollCanvas, scrollImages, scrollFrame);
       }
 
-      // Scroll companions
-      scrollCompanions.forEach(function (comp) {
-        var enter = parseFloat(comp.dataset.enter);
-        var exit = parseFloat(comp.dataset.exit);
-        if (p >= enter && p <= exit) {
-          comp.classList.add('visible');
-          var fadeP = 1;
-          if (p - enter < 0.05) fadeP = (p - enter) / 0.05;
-          if (exit - p < 0.05) fadeP = (exit - p) / 0.05;
-          comp.style.opacity = fadeP;
-        } else {
-          comp.classList.remove('visible');
-          comp.style.opacity = 0;
-        }
-      });
-
       // Service cards — slide in one by one + dim overlay
-      if (p >= 0.55) {
+      if (p >= 0.25) {
         serviceCardsRow.classList.add('visible');
         scrubDim.classList.add('active');
-        var cardThresholds = [0.55, 0.65, 0.75];
+        var cardThresholds = [0.25, 0.35, 0.45];
         serviceCards.forEach(function (card, i) {
           if (p >= cardThresholds[i]) {
             card.classList.add('visible');
@@ -463,7 +447,6 @@
         serviceCardsRow.classList.remove('visible');
         scrubDim.classList.remove('active');
         nebulaWisps.forEach(function (w) { w.style.opacity = 0; });
-        scrollCompanions.forEach(function (c) { c.style.opacity = 0; });
       }
       if (scrubRect.top >= window.innerHeight) {
         scrollCanvas.classList.remove('active');
