@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tim Chang — Designer · Marketer · Developer</title>
+  <meta name="description" content="Tim Chang is a designer, marketer, and developer building fast, responsive websites, high-performing campaigns, and brand identities that stick.">
+  <meta name="keywords" content="Tim Chang, web developer, designer, digital marketer, portfolio, brand identity, responsive websites">
+  <link rel="canonical" href="https://timchang.com">
+  <meta property="og:title" content="Tim Chang — Designer · Marketer · Developer">
+  <meta property="og:description" content="Designer, marketer, and developer building fast sites, high-performing campaigns, and brands that stick.">
+  <meta property="og:image" content="https://timchang.com/assets/og-preview.jpg">
+  <meta property="og:url" content="https://timchang.com">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tim Chang — Designer · Marketer · Developer">
+  <meta name="twitter:description" content="Designer, marketer, and developer building fast sites, high-performing campaigns, and brands that stick.">
+  <meta name="twitter:image" content="https://timchang.com/assets/og-preview.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- SCENE 00 — LOADING SCREEN -->
+  <div id="loader" class="loader" aria-live="polite">
+    <div class="loader-bar-track">
+      <div class="loader-bar-fill" id="loaderFill"></div>
+    </div>
+    <p class="loader-text">loading assets...</p>
+  </div>
+
+  <!-- SCENE 01A — NEON NAME REVEAL -->
+  <section id="scene01a" class="scene scene-01a" aria-label="Name reveal">
+    <h1 class="neon-name" id="neonName" aria-label="Tim Chang">
+      <span class="neon-letter" data-index="0">T</span><span class="neon-letter" data-index="1">I</span><span class="neon-letter" data-index="2">M</span><span class="neon-letter neon-space" data-index="3">&nbsp;</span><span class="neon-letter" data-index="4">C</span><span class="neon-letter" data-index="5">H</span><span class="neon-letter" data-index="6">A</span><span class="neon-letter" data-index="7">N</span><span class="neon-letter" data-index="8">G</span>
+    </h1>
+  </section>
+
+  <!-- SCENE 01B — CURTAINS OPEN -->
+  <section id="scene01b" class="scene scene-01b" aria-label="Hero">
+    <canvas id="launchCanvas" class="launch-canvas" aria-hidden="true"></canvas>
+    <div class="curtain-bg">
+      <div class="neon-strips"></div>
+    </div>
+    <div class="curtain curtain-left" id="curtainLeft"></div>
+    <div class="curtain curtain-right" id="curtainRight"></div>
+    <div class="warehouse-grid">
+      <div class="wh-left">
+        <div class="wh-left-content">
+          <p class="wh-name">TIM CHANG</p>
+          <p class="wh-tagline">Designer · Marketer · Developer</p>
+          <div class="skill-rows">
+            <div class="skill-row" data-skill="0">
+              <span class="skill-icon">⬡</span>
+              <div class="skill-info">
+                <span class="skill-title">WEB DEVELOPMENT</span>
+                <span class="skill-sub">Fast · Responsive · Built to convert</span>
+              </div>
+            </div>
+            <div class="skill-row" data-skill="1">
+              <span class="skill-icon">◈</span>
+              <div class="skill-info">
+                <span class="skill-title">DIGITAL MARKETING</span>
+                <span class="skill-sub">Campaigns that actually perform</span>
+              </div>
+            </div>
+            <div class="skill-row" data-skill="2">
+              <span class="skill-icon">◎</span>
+              <div class="skill-info">
+                <span class="skill-title">DESIGN</span>
+                <span class="skill-sub">Brand identity that sticks</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wh-right">
+        <p class="rocket-label">scroll to launch ↓</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spacer for Scene 01B (hero visible while user begins scrolling) -->
+  <div id="heroSpacer" class="hero-spacer"></div>
+
+  <!-- Scroll canvas (Scene 02 scroll-scrub) -->
+  <canvas id="scrollCanvas" class="scrub-canvas" aria-hidden="true"></canvas>
+
+  <!-- SCENE 02 — SCROLL-SCRUB -->
+  <div id="scrubSpacer" class="scrub-spacer">
+    <!-- Scroll companion content -->
+    <div class="scroll-companion" id="scrollCompanion1" data-enter="0.05" data-exit="0.2">
+      <p class="companion-eyebrow">// ignition sequence</p>
+      <p class="companion-text">Launching ideas into orbit</p>
+    </div>
+    <div class="scroll-companion" id="scrollCompanion2" data-enter="0.25" data-exit="0.45">
+      <p class="companion-eyebrow">// full throttle</p>
+      <p class="companion-text">Engineered for impact</p>
+    </div>
+    <div class="scroll-companion" id="scrollCompanion3" data-enter="0.5" data-exit="0.65">
+      <p class="companion-eyebrow">// cruising altitude</p>
+      <p class="companion-text">Where strategy meets craft</p>
+    </div>
+  </div>
+
+  <!-- Service cards (fixed overlay) -->
+  <div class="service-card" id="serviceCard0" role="button" tabindex="0" aria-label="Web Development — Fast, responsive sites built to convert">
+    <span class="sc-icon">⬡</span>
+    <span class="sc-title">WEB DEVELOPMENT</span>
+    <div class="sc-divider"></div>
+    <p class="sc-desc">Fast, responsive sites built to convert</p>
+    <span class="sc-arrow">→</span>
+  </div>
+  <div class="service-card" id="serviceCard1" role="button" tabindex="0" aria-label="Digital Marketing — Campaigns that actually perform">
+    <span class="sc-icon">◈</span>
+    <span class="sc-title">DIGITAL MARKETING</span>
+    <div class="sc-divider"></div>
+    <p class="sc-desc">Campaigns that actually perform</p>
+    <span class="sc-arrow">→</span>
+  </div>
+  <div class="service-card" id="serviceCard2" role="button" tabindex="0" aria-label="Design — Brand identity that sticks">
+    <span class="sc-icon">◎</span>
+    <span class="sc-title">DESIGN</span>
+    <div class="sc-divider"></div>
+    <p class="sc-desc">Brand identity that sticks</p>
+    <span class="sc-arrow">→</span>
+  </div>
+
+  <!-- Nebula wisps -->
+  <div class="nebula-wisp nebula-wisp-1" id="nebulaWisp1" aria-hidden="true"></div>
+  <div class="nebula-wisp nebula-wisp-2" id="nebulaWisp2" aria-hidden="true"></div>
+  <div class="nebula-wisp nebula-wisp-3" id="nebulaWisp3" aria-hidden="true"></div>
+
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- REDUCED MOTION FALLBACK -->
+  <section id="staticServices" class="static-services" aria-label="Services">
+    <h2 class="static-services-heading">Services</h2>
+    <div class="static-services-grid">
+      <div class="static-card">
+        <span class="sc-icon">⬡</span>
+        <span class="sc-title">WEB DEVELOPMENT</span>
+        <div class="sc-divider"></div>
+        <p class="sc-desc">Fast, responsive sites built to convert</p>
+      </div>
+      <div class="static-card">
+        <span class="sc-icon">◈</span>
+        <span class="sc-title">DIGITAL MARKETING</span>
+        <div class="sc-divider"></div>
+        <p class="sc-desc">Campaigns that actually perform</p>
+      </div>
+      <div class="static-card">
+        <span class="sc-icon">◎</span>
+        <span class="sc-title">DESIGN</span>
+        <div class="sc-divider"></div>
+        <p class="sc-desc">Brand identity that sticks</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 03 — CONTACT -->
+  <section id="contact" class="scene scene-contact" aria-label="Contact">
+    <div class="contact-glow"></div>
+    <p class="contact-eyebrow">// let's work together</p>
+    <h2 class="contact-headline">Got a project?<br>Let's build it.</h2>
+    <p class="contact-sub">Tell me what you need — I'll get back within 24 hours.</p>
+    <!-- placeholder href until Tim provides live intake URL -->
+    <a href="#" class="contact-btn" aria-label="Work with me">Work with me →</a>
+    <div class="contact-neon-line"></div>
+  </section>
+
+  <footer class="site-footer">
+    <p>© 2026 Tim Chang. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#terms">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- Custom cursor (desktop only) -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
