@@ -420,18 +420,32 @@
       if (p >= 0.25) {
         serviceCardsRow.classList.add('visible');
         scrubDim.classList.add('active');
-        var cardThresholds = [0.25, 0.35, 0.45];
-        serviceCards.forEach(function (card, i) {
-          if (p >= cardThresholds[i]) {
-            card.classList.add('visible');
-          } else {
-            card.classList.remove('visible');
-          }
-        });
+        if (isMobile) {
+          // Mobile: show all cards at once, scroll horizontally
+          serviceCards.forEach(function (card) { card.classList.add('visible'); });
+          // Map p 0.25–0.85 to horizontal translation (enter from right, exit left)
+          var cardW = window.innerWidth - 48;
+          var gap = 20;
+          var vw = window.innerWidth;
+          var totalTravel = vw + (cardW + gap) * 2;
+          var slideP = Math.max(0, Math.min(1, (p - 0.25) / 0.6));
+          var tx = vw - slideP * totalTravel;
+          serviceCardsRow.style.transform = 'translate(' + tx + 'px, -50%)';
+        } else {
+          var cardThresholds = [0.25, 0.35, 0.45];
+          serviceCards.forEach(function (card, i) {
+            if (p >= cardThresholds[i]) {
+              card.classList.add('visible');
+            } else {
+              card.classList.remove('visible');
+            }
+          });
+        }
       } else {
         serviceCardsRow.classList.remove('visible');
         scrubDim.classList.remove('active');
         serviceCards.forEach(function (c) { c.classList.remove('visible'); });
+        if (isMobile) serviceCardsRow.style.transform = 'translate(' + window.innerWidth + 'px, -50%)';
       }
 
       // Nebula wisps
