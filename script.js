@@ -225,6 +225,18 @@
       window.scrollTo(0, 0);
       sceneState = 'scrolling';
       document.body.style.overflow = '';
+      var aboutEl = document.getElementById('about');
+      if (aboutEl) aboutEl.classList.add('revealed');
+      if (isMobile && aboutEl) {
+        var wrap = document.getElementById('aboutWrap');
+        if (wrap) {
+          var sh = aboutEl.offsetHeight;
+          var vh = window.innerHeight;
+          aboutEl.style.position = 'sticky';
+          aboutEl.style.top = -(sh - vh) + 'px';
+          wrap.style.height = (sh + vh * 1.5) + 'px';
+        }
+      }
       requestAnimationFrame(updateScroll);
     }, 3500);
   }
@@ -489,24 +501,9 @@
       }
     }
 
-    // About section fade to black
-    var aboutWrap = document.getElementById('aboutStickyWrap');
+    // About stats — horizontal scroll + fade to black
+    var aboutWrap = document.getElementById('aboutWrap');
     var aboutOverlay = document.getElementById('aboutFadeOverlay');
-    if (aboutWrap && aboutOverlay) {
-      var wrapRect = aboutWrap.getBoundingClientRect();
-      var wrapH = aboutWrap.offsetHeight;
-      var innerH = window.innerHeight;
-      var scrolled = -wrapRect.top;
-      var fadeStart = wrapH - innerH * 1.5;
-      var fadeEnd = wrapH - innerH;
-      if (scrolled > fadeStart && scrolled < fadeEnd) {
-        aboutOverlay.style.opacity = (scrolled - fadeStart) / (fadeEnd - fadeStart);
-      } else if (scrolled >= fadeEnd) {
-        aboutOverlay.style.opacity = 1;
-      } else {
-        aboutOverlay.style.opacity = 0;
-      }
-    }
 
     // About section content reveal
     var aboutText = document.querySelector('.about-text');
@@ -518,7 +515,45 @@
         aboutText.classList.add('visible');
       }
     }
-    if (aboutStats) {
+    if (aboutStats && aboutWrap) {
+      var aboutGrid = document.querySelector('.about-grid');
+      if (isMobile) {
+        var aboutSection = document.getElementById('about');
+        var wrapRect = aboutWrap.getBoundingClientRect();
+        var wrapH = aboutWrap.offsetHeight;
+        var sectionH = aboutSection.offsetHeight;
+        var extraScroll = wrapH - sectionH;
+        // How far past the section's natural bottom we've scrolled
+        var scrolledInWrap = -wrapRect.top;
+        var sectionDone = sectionH - window.innerHeight;
+        var pastBottom = scrolledInWrap - sectionDone;
+        var p = clamp(pastBottom / extraScroll, 0, 1);
+
+        if (pastBottom > 0 && wrapRect.bottom > 0) {
+          // 0–0.5: slide entire grid left by 100vw (bio out, stats in)
+          var slideP = Math.min(1, p / 0.5);
+          if (aboutGrid) aboutGrid.style.transform = 'translateX(' + (-slideP * 100) + 'vw)';
+
+          // 0.5–0.8: hold position, fade to black
+          if (p > 0.5) {
+            aboutOverlay.style.opacity = Math.min(1, (p - 0.5) / 0.3);
+          } else {
+            aboutOverlay.style.opacity = 0;
+          }
+        } else if (wrapRect.bottom <= 0) {
+          if (aboutGrid) aboutGrid.style.transform = 'translateX(-100vw)';
+          aboutOverlay.style.opacity = 0;
+        } else {
+          if (aboutGrid) aboutGrid.style.transform = '';
+          aboutOverlay.style.opacity = 0;
+        }
+      } else {
+        var statsRect = aboutStats.getBoundingClientRect();
+        if (statsRect.top < window.innerHeight * 0.8) {
+          aboutStats.classList.add('visible');
+        }
+      }
+    } else if (aboutStats) {
       var statsRect = aboutStats.getBoundingClientRect();
       if (statsRect.top < window.innerHeight * 0.8) {
         aboutStats.classList.add('visible');
