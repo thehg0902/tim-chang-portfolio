@@ -93,28 +93,35 @@
   <div id="heroSpacer" class="hero-spacer"></div>
 
   <!-- ABOUT ME -->
+  <div class="about-sticky-wrap" id="aboutStickyWrap">
   <section id="about" class="scene scene-about" aria-label="About">
+    <div class="about-fade-overlay" id="aboutFadeOverlay" aria-hidden="true"></div>
     <div class="about-neon-line"></div>
+    <div class="about-ambient" aria-hidden="true">
+      <div class="about-glow about-glow-1"></div>
+      <div class="about-glow about-glow-2"></div>
+      <div class="about-glow about-glow-3"></div>
+      <div class="about-glow about-glow-4"></div>
+      <div class="about-glow about-glow-5"></div>
+    </div>
+    <canvas class="about-trail" id="aboutTrail" aria-hidden="true"></canvas>
 
     <!-- Photo carousel -->
     <div class="carousel-wrapper">
       <div class="carousel-fade carousel-fade-left"></div>
       <div class="carousel-fade carousel-fade-right"></div>
       <div class="carousel-track" id="carouselTrack">
-        <!-- REPLACE: drop lifestyle photos into assets/ and update src -->
-        <div class="carousel-img" style="background: linear-gradient(135deg, #2B2218, #1B1A18);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #1B1A18, #3D2B1F);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #3D2B1F, #2B2218);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #2B2218, #1B1A18);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #1B1A18, #3D2B1F);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #3D2B1F, #2B2218);"></div>
+        <div class="carousel-img" style="background-image: url('assets/1.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/2.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/3.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/4.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/5.jpg');"></div>
         <!-- Duplicates for seamless loop -->
-        <div class="carousel-img" style="background: linear-gradient(135deg, #2B2218, #1B1A18);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #1B1A18, #3D2B1F);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #3D2B1F, #2B2218);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #2B2218, #1B1A18);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #1B1A18, #3D2B1F);"></div>
-        <div class="carousel-img" style="background: linear-gradient(135deg, #3D2B1F, #2B2218);"></div>
+        <div class="carousel-img" style="background-image: url('assets/1.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/2.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/3.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/4.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/5.jpg');"></div>
       </div>
     </div>
 
@@ -142,6 +149,7 @@
       </div>
     </div>
   </section>
+  </div>
 
   <!-- Scroll canvas (Scene 02 scroll-scrub) -->
   <canvas id="scrollCanvas" class="scrub-canvas" aria-hidden="true"></canvas>
@@ -149,6 +157,11 @@
 
   <!-- SCENE 02 — SCROLL-SCRUB -->
   <div id="scrubSpacer" class="scrub-spacer">
+  </div>
+
+  <!-- Choose your path title -->
+  <div class="scrub-title" id="scrubTitle" aria-hidden="true">
+    <span class="scrub-title-letter">C</span><span class="scrub-title-letter">h</span><span class="scrub-title-letter">o</span><span class="scrub-title-letter">o</span><span class="scrub-title-letter">s</span><span class="scrub-title-letter">e</span><span class="scrub-title-letter"> </span><span class="scrub-title-letter">y</span><span class="scrub-title-letter">o</span><span class="scrub-title-letter">u</span><span class="scrub-title-letter">r</span><span class="scrub-title-letter"> </span><span class="scrub-title-letter">p</span><span class="scrub-title-letter">a</span><span class="scrub-title-letter">t</span><span class="scrub-title-letter">h</span>
   </div>
 
   <!-- Service cards (fixed overlay — 3 columns) -->
@@ -160,7 +173,7 @@
       <span class="sc-title">WEB DEVELOPMENT</span>
       <div class="sc-divider"></div>
       <p class="sc-desc">Fast, responsive sites built to convert. Clean code, blazing speed, mobile-first — every pixel earns its place.</p>
-      <a href="#contact" class="sc-btn">Explore →</a>
+      <a href="webdev.html" class="sc-btn">Explore →</a>
     </div>
     <div class="service-card" id="serviceCard1" role="button" tabindex="0" aria-label="Digital Marketing — Campaigns that actually perform">
       <!-- GENERATED: assets/card-marketing.jpg · nano_banana_flash · 1.5cr -->

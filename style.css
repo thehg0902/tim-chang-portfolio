@@ -492,6 +492,53 @@ img { max-width: 100%; display: block; }
   z-index: 1;
 }
 
+/* ===== SCRUB TITLE ===== */
+.scrub-title {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 55;
+  pointer-events: none;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 5vw, 56px);
+  letter-spacing: 0.08em;
+  opacity: 0;
+}
+.scrub-title.active {
+  opacity: 1;
+}
+.scrub-title.slide-top {
+  top: 8vh;
+  font-size: clamp(20px, 3.5vw, 38px);
+  letter-spacing: 0.2em;
+  word-spacing: 0.3em;
+  transition: top 0.6s ease-out, font-size 0.6s ease-out, letter-spacing 0.6s ease-out, word-spacing 0.6s ease-out;
+}
+.scrub-title-letter {
+  opacity: 0;
+  display: inline-block;
+  color: var(--ivory);
+}
+.scrub-title-letter.lit {
+  opacity: 1;
+  text-shadow:
+    0 0 7px rgba(241,210,138,0.8),
+    0 0 20px rgba(213,176,107,0.5),
+    0 0 40px rgba(177,138,74,0.3);
+  animation: letterFlicker 0.2s ease-out;
+}
+@keyframes letterFlicker {
+  0% { opacity: 0; }
+  20% { opacity: 0.7; }
+  40% { opacity: 0.3; }
+  60% { opacity: 0.9; }
+  80% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
 /* ===== SCRUB DIM OVERLAY ===== */
 .scrub-dim {
   position: fixed;
@@ -767,13 +814,116 @@ img { max-width: 100%; display: block; }
 }
 
 /* ===== ABOUT ME ===== */
-.scene-about {
+.about-sticky-wrap {
   position: relative;
+  height: 200vh;
+  z-index: 200;
+}
+.scene-about {
+  position: sticky;
+  top: 0;
   z-index: 200;
   background: var(--bg);
   padding: var(--space-3xl) 0 var(--space-2xl);
   width: 100%;
   overflow: hidden;
+  min-height: 100vh;
+}
+.about-fade-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0;
+  z-index: 300;
+  pointer-events: none;
+  transition: none;
+}
+.about-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.about-glow {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(80px);
+  transition: opacity 3s ease-in-out, transform 8s ease-in-out;
+}
+.about-glow-1 {
+  width: 600px; height: 500px;
+  top: 0%; left: 5%;
+  background: radial-gradient(ellipse, rgba(210,70,20,0.24), rgba(180,80,30,0.08) 60%, transparent);
+  animation: lava-drift-1 8s ease-in-out infinite;
+}
+.about-glow-2 {
+  width: 550px; height: 450px;
+  bottom: 5%; right: 0%;
+  background: radial-gradient(ellipse, rgba(230,130,20,0.2), rgba(210,100,15,0.07) 60%, transparent);
+  animation: lava-drift-2 10s ease-in-out infinite;
+}
+.about-glow-3 {
+  width: 500px; height: 450px;
+  top: 30%; left: 50%;
+  background: radial-gradient(ellipse, rgba(190,50,15,0.22), rgba(170,60,25,0.07) 60%, transparent);
+  animation: lava-drift-3 9s ease-in-out infinite;
+}
+.about-glow-4 {
+  width: 550px; height: 500px;
+  top: 60%; left: 0%;
+  background: radial-gradient(ellipse, rgba(240,150,40,0.18), rgba(220,110,20,0.06) 60%, transparent);
+  animation: lava-drift-4 11s ease-in-out infinite;
+}
+.about-glow-5 {
+  width: 480px; height: 420px;
+  top: 10%; right: 15%;
+  left: auto;
+  background: radial-gradient(ellipse, rgba(200,60,10,0.2), rgba(180,70,20,0.06) 60%, transparent);
+  animation: lava-drift-5 7s ease-in-out infinite;
+}
+@keyframes lava-drift-1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(35%, 25%) scale(1.3); }
+  50%  { transform: translate(-20%, 40%) scale(0.8); }
+  75%  { transform: translate(40%, -15%) scale(1.2); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes lava-drift-2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(-35%, -25%) scale(1.2); }
+  50%  { transform: translate(25%, -35%) scale(0.85); }
+  75%  { transform: translate(-40%, 20%) scale(1.25); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes lava-drift-3 {
+  0%   { transform: translate(-50%, -50%) scale(1); }
+  25%  { transform: translate(-25%, -30%) scale(1.3); }
+  50%  { transform: translate(-70%, -65%) scale(0.8); }
+  75%  { transform: translate(-35%, -25%) scale(1.2); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes lava-drift-4 {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(30%, -30%) scale(1.25); }
+  50%  { transform: translate(-25%, -20%) scale(0.85); }
+  75%  { transform: translate(20%, 30%) scale(1.15); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes lava-drift-5 {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(-30%, 35%) scale(1.2); }
+  50%  { transform: translate(35%, 20%) scale(0.85); }
+  75%  { transform: translate(-20%, -30%) scale(1.3); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.about-trail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 .about-neon-line {
   position: absolute;

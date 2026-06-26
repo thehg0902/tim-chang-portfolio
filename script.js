@@ -29,6 +29,9 @@
   var scrubSpacer = document.getElementById('scrubSpacer');
   var serviceCardsRow = document.getElementById('serviceCardsRow');
   var scrubDim = document.getElementById('scrubDim');
+  var scrubTitle = document.getElementById('scrubTitle');
+  var scrubTitleLetters = document.querySelectorAll('.scrub-title-letter');
+  var scrubTitleTriggered = false;
   var serviceCards = [
     document.getElementById('serviceCard0'),
     document.getElementById('serviceCard1'),
@@ -416,6 +419,25 @@
         drawFrame(scrollCtx, scrollCanvas, scrollImages, scrollFrame);
       }
 
+      // "Choose your path" title flicker
+      if (p >= 0.05 && !scrubTitleTriggered) {
+        scrubTitleTriggered = true;
+        scrubTitle.classList.add('active');
+        scrubTitleLetters.forEach(function (letter, i) {
+          setTimeout(function () { letter.classList.add('lit'); }, i * 80);
+        });
+      }
+      if (p >= 0.25) {
+        scrubTitle.classList.add('slide-top');
+      } else {
+        scrubTitle.classList.remove('slide-top');
+      }
+      if (p < 0.05) {
+        scrubTitleTriggered = false;
+        scrubTitle.classList.remove('active', 'slide-top');
+        scrubTitleLetters.forEach(function (l) { l.classList.remove('lit'); });
+      }
+
       // Service cards — slide in one by one + dim overlay
       if (p >= 0.25) {
         serviceCardsRow.classList.add('visible');
@@ -464,6 +486,25 @@
       }
       if (scrubRect.top >= window.innerHeight) {
         scrollCanvas.classList.remove('active');
+      }
+    }
+
+    // About section fade to black
+    var aboutWrap = document.getElementById('aboutStickyWrap');
+    var aboutOverlay = document.getElementById('aboutFadeOverlay');
+    if (aboutWrap && aboutOverlay) {
+      var wrapRect = aboutWrap.getBoundingClientRect();
+      var wrapH = aboutWrap.offsetHeight;
+      var innerH = window.innerHeight;
+      var scrolled = -wrapRect.top;
+      var fadeStart = wrapH - innerH * 1.5;
+      var fadeEnd = wrapH - innerH;
+      if (scrolled > fadeStart && scrolled < fadeEnd) {
+        aboutOverlay.style.opacity = (scrolled - fadeStart) / (fadeEnd - fadeStart);
+      } else if (scrolled >= fadeEnd) {
+        aboutOverlay.style.opacity = 1;
+      } else {
+        aboutOverlay.style.opacity = 0;
       }
     }
 
@@ -543,6 +584,72 @@
       requestAnimationFrame(animateCursor);
     }
     requestAnimationFrame(animateCursor);
+  }
+
+  // ===== ABOUT AMBIENT GLOW =====
+  (function () {
+    var glows = document.querySelectorAll('.about-glow');
+    glows.forEach(function (glow) {
+      function breathe() {
+        var peak = 0.7 + Math.random() * 0.3;
+        glow.style.opacity = peak;
+        var hold = 3000 + Math.random() * 4000;
+        setTimeout(function () {
+          glow.style.opacity = 0.15 + Math.random() * 0.2;
+          setTimeout(breathe, 1500 + Math.random() * 2000);
+        }, hold);
+      }
+      setTimeout(breathe, Math.random() * 2000);
+    });
+  })();
+
+  // ===== ABOUT MOUSE TRAIL =====
+  if (!isTouch) {
+    var trailCanvas = document.getElementById('aboutTrail');
+    var trailCtx = trailCanvas.getContext('2d');
+    var trail = [];
+    var aboutSection = document.getElementById('about');
+
+    function resizeTrail() {
+      trailCanvas.width = aboutSection.offsetWidth;
+      trailCanvas.height = aboutSection.offsetHeight;
+    }
+    resizeTrail();
+    window.addEventListener('resize', resizeTrail);
+
+    var trailX = 0, trailY = 0;
+    var targetX = 0, targetY = 0;
+    var trailActive = false;
+
+    document.addEventListener('mousemove', function (e) {
+      var rect = aboutSection.getBoundingClientRect();
+      if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+        targetX = e.clientX - rect.left;
+        targetY = e.clientY - rect.top;
+        trailActive = true;
+      } else {
+        trailActive = false;
+      }
+    });
+
+    function drawTrail() {
+      trailCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+      if (trailActive) {
+        trailX += (targetX - trailX) * 0.04;
+        trailY += (targetY - trailY) * 0.04;
+        var radius = 150;
+        var gradient = trailCtx.createRadialGradient(trailX, trailY, 0, trailX, trailY, radius);
+        gradient.addColorStop(0, 'rgba(177,138,74,0.03)');
+        gradient.addColorStop(0.5, 'rgba(177,138,74,0.012)');
+        gradient.addColorStop(1, 'rgba(177,138,74,0)');
+        trailCtx.beginPath();
+        trailCtx.arc(trailX, trailY, radius, 0, Math.PI * 2);
+        trailCtx.fillStyle = gradient;
+        trailCtx.fill();
+      }
+      requestAnimationFrame(drawTrail);
+    }
+    requestAnimationFrame(drawTrail);
   }
 
   // ===== SERVICE CARD CLICK =====
