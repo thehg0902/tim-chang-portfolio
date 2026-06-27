@@ -417,8 +417,8 @@
       var p = getSpacerProgress(scrubSpacer);
 
       // Fade from black during first 10% of scrub progress
-      if (p < 0.1) {
-        scrollCanvas.style.opacity = p / 0.1;
+      if (p < 0.05) {
+        scrollCanvas.style.opacity = p / 0.05;
       } else {
         scrollCanvas.style.opacity = '';
       }
@@ -541,13 +541,13 @@
         var p = clamp(pastBottom / extraScroll, 0, 1);
 
         if (pastBottom > 0 && wrapRect.bottom > 0) {
-          // 0–0.5: slide entire grid left by 100vw (bio out, stats in)
-          var slideP = Math.min(1, p / 0.5);
+          // 0–0.4: slide entire grid left by 100vw (bio out, stats in)
+          var slideP = Math.min(1, p / 0.4);
           if (aboutGrid) aboutGrid.style.transform = 'translateX(' + (-slideP * 100) + 'vw)';
 
-          // 0.5–0.8: hold position, fade to black
-          if (p > 0.5) {
-            aboutOverlay.style.opacity = Math.min(1, (p - 0.5) / 0.3);
+          // 0.4–0.6: fade to black
+          if (p > 0.4) {
+            aboutOverlay.style.opacity = Math.min(1, (p - 0.4) / 0.2);
           } else {
             aboutOverlay.style.opacity = 0;
           }
