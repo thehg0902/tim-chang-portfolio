@@ -31,7 +31,7 @@
   var scrubDim = document.getElementById('scrubDim');
   var scrubTitle = document.getElementById('scrubTitle');
   var scrubTitleLetters = document.querySelectorAll('.scrub-title-letter');
-  var scrubTitleTriggered = false;
+  var prevLitCount = 0;
   var serviceCards = [
     document.getElementById('serviceCard0'),
     document.getElementById('serviceCard1'),
@@ -431,23 +431,34 @@
         drawFrame(scrollCtx, scrollCanvas, scrollImages, scrollFrame);
       }
 
-      // "Choose your path" title flicker
-      if (p >= 0.05 && !scrubTitleTriggered) {
-        scrubTitleTriggered = true;
+      // "Choose your path" title — progress-driven, fully bidirectional
+      var letterCount = scrubTitleLetters.length;
+      var letterStart = 0.05;
+      var letterEnd = 0.20;
+
+      if (p >= letterStart) {
         scrubTitle.classList.add('active');
+        var letterProgress = clamp((p - letterStart) / (letterEnd - letterStart), 0, 1);
+        var litCount = Math.round(letterProgress * letterCount);
+
         scrubTitleLetters.forEach(function (letter, i) {
-          setTimeout(function () { letter.classList.add('lit'); }, i * 80);
+          if (i < litCount && !letter.classList.contains('lit')) {
+            letter.classList.add('lit');
+          } else if (i >= litCount && letter.classList.contains('lit')) {
+            letter.classList.remove('lit');
+          }
         });
+        prevLitCount = litCount;
+      } else {
+        scrubTitle.classList.remove('active', 'slide-top');
+        scrubTitleLetters.forEach(function (l) { l.classList.remove('lit'); });
+        prevLitCount = 0;
       }
+
       if (p >= 0.25) {
         scrubTitle.classList.add('slide-top');
       } else {
         scrubTitle.classList.remove('slide-top');
-      }
-      if (p < 0.05) {
-        scrubTitleTriggered = false;
-        scrubTitle.classList.remove('active', 'slide-top');
-        scrubTitleLetters.forEach(function (l) { l.classList.remove('lit'); });
       }
 
       // Service cards — slide in one by one + dim overlay
