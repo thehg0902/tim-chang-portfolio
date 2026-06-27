@@ -32,6 +32,7 @@
   var scrubTitle = document.getElementById('scrubTitle');
   var scrubTitleLetters = document.querySelectorAll('.scrub-title-letter');
   var prevLitCount = 0;
+  var teleportLock = false;
   var serviceCards = [
     document.getElementById('serviceCard0'),
     document.getElementById('serviceCard1'),
@@ -413,10 +414,11 @@
     // --- SCRUB ZONE ---
     if (inScrubZone) {
       scrollCanvas.classList.add('active');
+      if (isMobile) teleportLock = false;
 
       var p = getSpacerProgress(scrubSpacer);
 
-      // Fade from black during first 10% of scrub progress
+      // Fade from black during first 5% of scrub progress
       if (p < 0.05) {
         scrollCanvas.style.opacity = p / 0.05;
       } else {
@@ -510,6 +512,22 @@
       if (scrubRect.top >= window.innerHeight) {
         scrollCanvas.classList.remove('active');
       }
+      // Reverse teleport: scrolling up past scrub zone top → back to about fade point
+      if (isMobile && scrubRect.top > 0 && scrubRect.top < window.innerHeight * 0.5 && !teleportLock) {
+        teleportLock = true;
+        var aboutW = document.getElementById('aboutWrap');
+        if (aboutW) {
+          var awTop = aboutW.getBoundingClientRect().top + window.scrollY;
+          var awH = aboutW.offsetHeight;
+          var abSec = document.getElementById('about');
+          var secH = abSec ? abSec.offsetHeight : awH;
+          var extra = awH - secH;
+          var secDone = secH - window.innerHeight;
+          // p = 0.6 is where fade just hit 1, scroll to that point
+          var targetScroll = awTop + secDone + (0.55 * extra);
+          window.scrollTo({ top: targetScroll, behavior: 'instant' });
+        }
+      }
     }
 
     // About stats — horizontal scroll + fade to black
@@ -547,9 +565,17 @@
 
           // 0.4–0.6: fade to black
           if (p > 0.4) {
-            aboutOverlay.style.opacity = Math.min(1, (p - 0.4) / 0.2);
+            var fadeVal = Math.min(1, (p - 0.4) / 0.2);
+            aboutOverlay.style.opacity = fadeVal;
+            // Teleport forward once fully black
+            if (fadeVal >= 1 && !teleportLock) {
+              teleportLock = true;
+              var scrubTop = scrubSpacer.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({ top: scrubTop, behavior: 'instant' });
+            }
           } else {
             aboutOverlay.style.opacity = 0;
+            teleportLock = false;
           }
         } else if (wrapRect.bottom <= 0) {
           if (aboutGrid) aboutGrid.style.transform = 'translateX(-100vw)';
@@ -557,6 +583,7 @@
         } else {
           if (aboutGrid) aboutGrid.style.transform = '';
           aboutOverlay.style.opacity = 0;
+          teleportLock = false;
         }
       } else {
         var statsRect = aboutStats.getBoundingClientRect();
