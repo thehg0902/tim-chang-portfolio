@@ -56,7 +56,7 @@
   var totalLoaded = 0;
 
   function framePath(folder, i) {
-    return 'frames/' + folder + '/frame-' + String(i).padStart(4, '0') + '.jpg';
+    return 'frames/' + folder + '/frame-' + String(i).padStart(4, '0') + '.webp';
   }
 
   function countFramesToLoad() {
