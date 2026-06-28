@@ -25,30 +25,21 @@
     <header class="q-header">
       <p class="q-eyebrow">// let's get started</p>
       <h1 class="q-headline">Tell me about<br>your project.</h1>
-      <p class="q-sub">Fill this out and I'll get back to you within 24 hours with a plan, timeline, and quote.</p>
+      <p class="q-sub">Just a few quick questions so I know how to help. Takes about 2 minutes.</p>
     </header>
 
     <form class="q-form" id="questionnaireForm" novalidate>
-      <!-- Step 1: About You -->
-      <fieldset class="q-fieldset" id="step1">
-        <legend class="q-legend"><span class="q-step-num">01</span> About You</legend>
+      <!-- Step 1: The Basics -->
+      <fieldset class="q-fieldset q-step" id="step1">
+        <legend class="q-legend"><span class="q-step-num">01</span> The Basics</legend>
         <div class="q-field">
-          <label class="q-label" for="fullName">Full Name <span class="q-required">*</span></label>
+          <label class="q-label" for="fullName">Your Name <span class="q-required">*</span></label>
           <input class="q-input" type="text" id="fullName" name="fullName" required autocomplete="name" placeholder="Jane Doe">
         </div>
         <div class="q-field">
-          <label class="q-label" for="email">Email <span class="q-required">*</span></label>
-          <input class="q-input" type="email" id="email" name="email" required autocomplete="email" placeholder="jane@company.com">
-        </div>
-        <div class="q-field">
-          <label class="q-label" for="company">Company / Brand</label>
+          <label class="q-label" for="company">Company / Brand Name</label>
           <input class="q-input" type="text" id="company" name="company" autocomplete="organization" placeholder="Acme Inc.">
         </div>
-      </fieldset>
-
-      <!-- Step 2: Project Details -->
-      <fieldset class="q-fieldset" id="step2">
-        <legend class="q-legend"><span class="q-step-num">02</span> Project Details</legend>
         <div class="q-field">
           <label class="q-label">What do you need? <span class="q-required">*</span></label>
           <div class="q-checkbox-group">
@@ -74,15 +65,41 @@
             </label>
           </div>
         </div>
+        <div class="q-step-action">
+          <button type="button" class="q-next-btn" id="nextStep1">Continue &rarr;</button>
+        </div>
+      </fieldset>
+
+      <!-- Step 2: Reassurance + Project Details -->
+      <fieldset class="q-fieldset q-step q-step-hidden" id="step2">
+        <legend class="q-legend"><span class="q-step-num">02</span> Your Project</legend>
+        <div class="q-reassurance">
+          <div class="q-reassurance-icon">&#9733;</div>
+          <p class="q-reassurance-text">Here's how it works: I'll build you a <strong>free demo</strong> based on what you tell me. If you love it, we move forward. If not, you walk away — no pressure, no strings attached.</p>
+        </div>
         <div class="q-field">
           <label class="q-label" for="description">Describe your project <span class="q-required">*</span></label>
           <textarea class="q-input q-textarea" id="description" name="description" required rows="5" placeholder="What are you building? What problem does it solve? Any inspiration or references?"></textarea>
         </div>
+        <div class="q-step-action">
+          <button type="button" class="q-next-btn" id="nextStep2">Continue &rarr;</button>
+        </div>
       </fieldset>
 
       <!-- Step 3: Scope & Timeline -->
-      <fieldset class="q-fieldset" id="step3">
+      <fieldset class="q-fieldset q-step q-step-hidden" id="step3">
         <legend class="q-legend"><span class="q-step-num">03</span> Scope &amp; Timeline</legend>
+        <div class="q-field">
+          <label class="q-label" for="timeline">Ideal Timeline</label>
+          <select class="q-input q-select" id="timeline" name="timeline">
+            <option value="" disabled selected>Select a timeline</option>
+            <option value="asap">ASAP</option>
+            <option value="1-2-weeks">1 – 2 weeks</option>
+            <option value="1-month">About a month</option>
+            <option value="2-3-months">2 – 3 months</option>
+            <option value="flexible">Flexible / no rush</option>
+          </select>
+        </div>
         <div class="q-field">
           <label class="q-label" for="budget">Budget Range</label>
           <select class="q-input q-select" id="budget" name="budget">
@@ -96,32 +113,36 @@
           </select>
         </div>
         <div class="q-field">
-          <label class="q-label" for="timeline">Ideal Timeline</label>
-          <select class="q-input q-select" id="timeline" name="timeline">
-            <option value="" disabled selected>Select a timeline</option>
-            <option value="asap">ASAP</option>
-            <option value="1-2-weeks">1 – 2 weeks</option>
-            <option value="1-month">About a month</option>
-            <option value="2-3-months">2 – 3 months</option>
-            <option value="flexible">Flexible / no rush</option>
-          </select>
-        </div>
-        <div class="q-field">
           <label class="q-label" for="extras">Anything else I should know?</label>
           <textarea class="q-input q-textarea" id="extras" name="extras" rows="3" placeholder="Deadlines, existing brand guidelines, tech preferences, etc."></textarea>
         </div>
+        <div class="q-step-action">
+          <button type="button" class="q-next-btn" id="nextStep3">Almost done &rarr;</button>
+        </div>
       </fieldset>
 
-      <div class="q-submit-wrap">
-        <button type="submit" class="q-submit-btn" id="submitBtn">Send it &rarr;</button>
-      </div>
+      <!-- Step 4: Contact Info -->
+      <fieldset class="q-fieldset q-step q-step-hidden" id="step4">
+        <legend class="q-legend"><span class="q-step-num">04</span> How to Reach You</legend>
+        <div class="q-field">
+          <label class="q-label" for="email">Email <span class="q-required">*</span></label>
+          <input class="q-input" type="email" id="email" name="email" required autocomplete="email" placeholder="jane@company.com">
+        </div>
+        <div class="q-field">
+          <label class="q-label" for="phone">Phone Number</label>
+          <input class="q-input" type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+1 (555) 123-4567">
+        </div>
+        <div class="q-submit-wrap">
+          <button type="submit" class="q-submit-btn" id="submitBtn">Send it &rarr;</button>
+        </div>
+      </fieldset>
     </form>
 
     <!-- Success state -->
     <div class="q-success" id="successMessage" hidden>
       <div class="q-success-icon">&#10003;</div>
       <h2 class="q-success-headline">Got it.</h2>
-      <p class="q-success-sub">I'll review your project details and get back to you within 24 hours.</p>
+      <p class="q-success-sub">I'll review your project details and get back to you within 24 hours with a free demo plan.</p>
       <a href="index.html" class="q-success-link">&larr; Back to home</a>
     </div>
   </main>

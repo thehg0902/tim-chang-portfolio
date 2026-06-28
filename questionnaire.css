@@ -165,6 +165,13 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   gap: var(--space-lg);
 }
+.q-step-hidden {
+  display: none;
+}
+.q-step-reveal {
+  display: flex;
+  animation: stepReveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 .q-legend {
   font-family: var(--font-display);
   font-weight: 700;
@@ -305,6 +312,79 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-body);
   font-size: 14px;
   color: var(--text-1);
+}
+.q-checkbox-group.q-error {
+  outline: 1px solid #c0392b;
+  outline-offset: 4px;
+  border-radius: var(--radius);
+}
+
+/* ===== REASSURANCE ===== */
+.q-reassurance {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  background: rgba(177,138,74,0.06);
+  border: 1px solid rgba(177,138,74,0.15);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-sm);
+}
+.q-reassurance-icon {
+  font-size: 24px;
+  color: var(--accent-soft);
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+.q-reassurance-text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+.q-reassurance-text strong {
+  color: var(--accent-soft);
+  font-weight: 600;
+}
+
+/* ===== STEP ACTION ===== */
+.q-step-action {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--space-sm);
+}
+.q-next-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--accent-soft);
+  font-family: var(--font-display);
+  font-size: clamp(11px, 1.4vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(177,138,74,0.3);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+  min-height: 44px;
+}
+.q-next-btn:hover, .q-next-btn:focus-visible {
+  background: rgba(177,138,74,0.1);
+  border-color: rgba(177,138,74,0.5);
+  color: var(--accent-highlight);
+  outline: none;
+}
+.q-next-btn:active {
+  transform: scale(0.97);
+}
+
+@keyframes stepReveal {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== SUBMIT ===== */
