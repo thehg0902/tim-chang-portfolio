@@ -3,467 +3,253 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tim Chang — Developer & Creator</title>
+  <title>Tim Chang — Designer · Marketer · Developer</title>
+  <meta name="description" content="Tim Chang is a designer, marketer, and developer building fast, responsive websites, high-performing campaigns, and brand identities that stick.">
+  <meta name="keywords" content="Tim Chang, web developer, designer, digital marketer, portfolio, brand identity, responsive websites">
+  <link rel="canonical" href="https://timchang.com">
+  <meta property="og:title" content="Tim Chang — Designer · Marketer · Developer">
+  <meta property="og:description" content="Designer, marketer, and developer building fast sites, high-performing campaigns, and brands that stick.">
+  <meta property="og:image" content="https://timchang.com/assets/og-preview.jpg">
+  <meta property="og:url" content="https://timchang.com">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tim Chang — Designer · Marketer · Developer">
+  <meta name="twitter:description" content="Designer, marketer, and developer building fast sites, high-performing campaigns, and brands that stick.">
+  <meta name="twitter:image" content="https://timchang.com/assets/og-preview.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="grain"></div>
-
-  <!-- Fixed canvas — always present, fades via opacity -->
-  <canvas id="rocketCanvas"></canvas>
-
-  <!-- Hero text overlay on rocket -->
-  <div class="rocket-hero" id="rocketHero">
-    <h1 class="rh-name" id="rhName">Tim Chang</h1>
-    <div class="rh-title" id="rhTitle">
-      <span class="rh-word" id="rhWord1">Developer</span>
-      <span class="rh-pipe">|</span>
-      <span class="rh-word" id="rhWord2">Digital Marketer</span>
-      <span class="rh-pipe">|</span>
-      <span class="rh-word" id="rhWord3">Designer</span>
-      <span class="rh-cursor" id="rhCursor">|</span>
-      <div class="rh-underline" id="rhUnderline"></div>
+  <!-- SCENE 00 — LOADING SCREEN -->
+  <div id="loader" class="loader" aria-live="polite">
+    <div class="loader-bar-track">
+      <div class="loader-bar-fill" id="loaderFill"></div>
     </div>
-    <p class="rh-tagline" id="rhTagline">Building the future, one launch at a time</p>
+    <p class="loader-text">loading assets...</p>
   </div>
 
-  <div class="rocket-overlay" id="rocketOverlay">
-    <p class="rocket-label">Scroll to launch</p>
-    <div class="rocket-scroll-hint">
-      <div class="rocket-scroll-line"></div>
+  <!-- SCENE 01A — NEON NAME REVEAL -->
+  <section id="scene01a" class="scene scene-01a" aria-label="Name reveal">
+    <h1 class="neon-name" id="neonName" aria-label="Tim Chang">
+      <span class="neon-letter" data-index="0">T</span><span class="neon-letter" data-index="1">I</span><span class="neon-letter" data-index="2">M</span><span class="neon-letter neon-space" data-index="3">&nbsp;</span><span class="neon-letter" data-index="4">C</span><span class="neon-letter" data-index="5">H</span><span class="neon-letter" data-index="6">A</span><span class="neon-letter" data-index="7">N</span><span class="neon-letter" data-index="8">G</span>
+    </h1>
+  </section>
+
+  <!-- SCENE 01B — CURTAINS OPEN -->
+  <section id="scene01b" class="scene scene-01b" aria-label="Hero">
+    <canvas id="launchCanvas" class="launch-canvas" aria-hidden="true"></canvas>
+    <div class="curtain-bg">
+      <div class="neon-strips"></div>
     </div>
-  </div>
-
-  <!-- Spacer for scroll-scrub (normal document flow) -->
-  <div class="rocket-spacer" id="rocketSpacer"></div>
-
-  <!-- Portfolio content (normal document flow, right after spacer) -->
-  <div class="site-content" id="siteContent">
-    <div class="site-bg"></div>
-
-    <nav>
-      <a href="#home" class="nav-logo">TCSM</a>
-      <div class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#services">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <a href="#contact" class="nav-cta">Let's Talk
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </nav>
-
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <div class="hero-left">
-          <div class="hero-badge reveal">
-            <span class="badge-dot"></span>
-            Developer &amp; Creator Building The Future
-          </div>
-          <h1 class="reveal">Premium Code.<br>Powerful Design.<br><span class="gradient-text glow-text">Real Results.</span></h1>
-          <p class="hero-desc reveal">I design and develop high-performance websites and digital experiences that push boundaries, convert visitors, and stand out.</p>
-          <div class="hero-cta reveal">
-            <a href="#projects" class="btn btn-primary glow-btn">View My Work
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="#contact" class="btn btn-ghost">Get In Touch
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </div>
-        </div>
-        <div class="hero-right reveal">
-          <div class="code-window glow-card">
-            <div class="code-dots">
-              <span class="dot-red"></span>
-              <span class="dot-yellow"></span>
-              <span class="dot-green"></span>
-              <span class="code-filename">portfolio.tsx</span>
+    <div class="rocket-vignette" aria-hidden="true"></div>
+    <div class="ambient-lights" aria-hidden="true">
+      <div class="ambient-light ambient-light-1"></div>
+      <div class="ambient-light ambient-light-2"></div>
+      <div class="ambient-light ambient-light-3"></div>
+      <div class="ambient-light ambient-light-4"></div>
+    </div>
+    <div class="curtain curtain-left" id="curtainLeft"></div>
+    <div class="curtain curtain-right" id="curtainRight"></div>
+    <div class="warehouse-grid">
+      <div class="wh-left">
+        <div class="wh-left-content">
+          <p class="wh-name">TIM CHANG</p>
+          <p class="wh-tagline">Designer · Marketer · Developer</p>
+          <div class="skill-rows">
+            <div class="skill-row" data-skill="0">
+              <span class="skill-icon">⬡</span>
+              <div class="skill-info">
+                <span class="skill-title">WEB DEVELOPMENT</span>
+                <span class="skill-sub">Fast · Responsive · Built to convert</span>
+              </div>
             </div>
-            <pre class="code-block"><span class="ck">const</span> <span class="cv">developer</span> = {
-  name: <span class="cs">'Tim Chang'</span>,
-  skills: [<span class="cs">'Python'</span>, <span class="cs">'JS'</span>, <span class="cs">'C#'</span>],
-  passion: <span class="cn">Infinity</span>,
-  status: <span class="cs">'building'</span>,
-};
-
-<span class="ck">export default</span> <span class="cv">developer</span>;</pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="stats">
-      <div class="stats-grid">
-        <div class="stat-card glow-card reveal" style="--glow-color: rgba(85,153,255,0.12)">
-          <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#5599ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 3 0 3 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-3 0-3"/></svg>
-          <div class="stat-number">5+</div>
-          <div class="stat-label">Projects shipped</div>
-        </div>
-        <div class="stat-card glow-card reveal" style="--glow-color: rgba(153,119,238,0.12)">
-          <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#9977ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7 7-7z"/></svg>
-          <div class="stat-number">100%</div>
-          <div class="stat-label">Passion driven</div>
-        </div>
-        <div class="stat-card glow-card reveal" style="--glow-color: rgba(52,211,153,0.12)">
-          <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          <div class="stat-number">4+</div>
-          <div class="stat-label">Languages</div>
-        </div>
-        <div class="stat-card glow-card reveal" style="--glow-color: rgba(245,158,11,0.12)">
-          <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-          <div class="stat-number">Global</div>
-          <div class="stat-label">Reach</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="services" class="services">
-      <p class="section-label reveal">Services</p>
-      <h2 class="reveal">What I <span class="gradient-text">build</span></h2>
-      <div class="services-grid">
-        <div class="service-card glow-card reveal" style="--glow-color: rgba(85,153,255,0.1)">
-          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="#5599ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-          <h3>Web development</h3>
-          <p>Modern, responsive websites built for speed, impact, and seamless user experience.</p>
-          <span class="service-link" style="color: #5599ff;">Learn more
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </div>
-        <div class="service-card glow-card reveal" style="--glow-color: rgba(153,119,238,0.1)">
-          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="#9977ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12.01"/><line x1="10" y1="12" x2="10" y2="12.01"/><path d="M15 10l2 2-2 2"/></svg>
-          <h3>Game development</h3>
-          <p>Immersive games with custom mechanics, procedural generation, and polished gameplay.</p>
-          <span class="service-link" style="color: #9977ee;">Learn more
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </div>
-        <div class="service-card glow-card reveal" style="--glow-color: rgba(52,211,153,0.1)">
-          <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M17 2H7a5 5 0 00-5 5v10a5 5 0 005 5h10a5 5 0 005-5V7a5 5 0 00-5-5z"/><path d="M2 17l5-5 5 5"/><path d="M22 21l-5-5-3 3"/></svg>
-          <h3>UI/UX design</h3>
-          <p>Clean interfaces that balance aesthetics with usability and thoughtful interactions.</p>
-          <span class="service-link" style="color: #34d399;">Learn more
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="projects">
-      <p class="section-label reveal">Projects</p>
-      <h2 class="reveal">Selected <span class="gradient-text">work</span></h2>
-      <div class="project-grid">
-        <a href="https://github.com/thehg0902/File-Vault" target="_blank" rel="noopener" class="project-card glow-card reveal" style="--glow-color: rgba(85,153,255,0.1)">
-          <div class="project-thumb blue-thumb">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#5599ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          </div>
-          <div class="project-info">
-            <div class="project-header">
-              <h3>File Vault</h3>
-              <span class="badge-live">Live</span>
+            <div class="skill-row" data-skill="1">
+              <span class="skill-icon">◈</span>
+              <div class="skill-info">
+                <span class="skill-title">DIGITAL MARKETING</span>
+                <span class="skill-sub">Campaigns that actually perform</span>
+              </div>
             </div>
-            <p class="project-cat">Security / Storage</p>
-          </div>
-        </a>
-        <a href="https://github.com/thehg0902/TurnBaseRoguelike" target="_blank" rel="noopener" class="project-card glow-card reveal" style="--glow-color: rgba(153,119,238,0.1)">
-          <div class="project-thumb purple-thumb">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9977ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/><path d="M19 21l2-2"/></svg>
-          </div>
-          <div class="project-info">
-            <div class="project-header">
-              <h3>Roguelike</h3>
-              <span class="badge-live">Live</span>
+            <div class="skill-row" data-skill="2">
+              <span class="skill-icon">◎</span>
+              <div class="skill-info">
+                <span class="skill-title">DESIGN</span>
+                <span class="skill-sub">Brand identity that sticks</span>
+              </div>
             </div>
-            <p class="project-cat">Game Dev / C#</p>
-          </div>
-        </a>
-        <div class="project-card glow-card reveal coming-soon-card">
-          <div class="project-thumb dim-thumb">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3a4a62" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </div>
-          <div class="project-info">
-            <div class="project-header">
-              <h3>Coming Soon</h3>
-              <span class="badge-tbd">TBD</span>
-            </div>
-            <p class="project-cat">In progress</p>
           </div>
         </div>
       </div>
-    </section>
+      <div class="wh-right">
+        <p class="rocket-label">scroll to launch ↓</p>
+      </div>
+    </div>
+  </section>
 
-    <div class="features-strip reveal">
-      <div class="feature-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5599ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Clean code
-      </div>
-      <div class="feature-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5599ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        Performance first
-      </div>
-      <div class="feature-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5599ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
-        Responsive
-      </div>
-      <div class="feature-item">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5599ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg>
-        Version controlled
+  <!-- Spacer for Scene 01B (hero visible while user begins scrolling) -->
+  <div id="heroSpacer" class="hero-spacer"></div>
+
+  <!-- ABOUT ME -->
+  <div class="about-wrap" id="aboutWrap">
+  <section id="about" class="scene scene-about" aria-label="About">
+    <div class="about-fade-overlay" id="aboutFadeOverlay" aria-hidden="true"></div>
+    <div class="about-neon-line"></div>
+    <div class="about-ambient" aria-hidden="true">
+      <div class="about-glow about-glow-1"></div>
+      <div class="about-glow about-glow-2"></div>
+      <div class="about-glow about-glow-3"></div>
+      <div class="about-glow about-glow-4"></div>
+      <div class="about-glow about-glow-5"></div>
+    </div>
+    <canvas class="about-trail" id="aboutTrail" aria-hidden="true"></canvas>
+
+    <!-- Photo carousel -->
+    <div class="carousel-wrapper">
+      <div class="carousel-fade carousel-fade-left"></div>
+      <div class="carousel-fade carousel-fade-right"></div>
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-img" style="background-image: url('assets/1.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/2.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/3.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/4.jpg'); background-position: top;"></div>
+        <div class="carousel-img" style="background-image: url('assets/5.jpg');"></div>
+        <!-- Duplicates for seamless loop -->
+        <div class="carousel-img" style="background-image: url('assets/1.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/2.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/3.jpg');"></div>
+        <div class="carousel-img" style="background-image: url('assets/4.jpg'); background-position: top;"></div>
+        <div class="carousel-img" style="background-image: url('assets/5.jpg');"></div>
       </div>
     </div>
 
-    <section id="contact" class="contact">
-      <div class="contact-inner glow-card reveal">
-        <h2>Let's build something <span class="gradient-text">amazing</span></h2>
-        <p class="contact-desc">Have a project in mind? Let's make it happen.</p>
-        <a href="https://github.com/thehg0902" target="_blank" rel="noopener" class="btn btn-primary glow-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          GitHub
-        </a>
+    <!-- About content -->
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="about-eyebrow">// about me</p>
+        <h2 class="about-headline">Building what matters</h2>
+        <p class="about-body">I'm Tim Chang — a designer, marketer, and developer who believes great work happens at the intersection of strategy and craft. I don't just build websites. I build systems that convert, brands that resonate, and campaigns that perform.</p>
+        <p class="about-body">Every project starts with a question: what does success look like? From there, I work backwards — designing experiences that are fast, intentional, and built to last. No fluff, no filler. Just work that speaks for itself.</p>
       </div>
-    </section>
-
-    <footer>
-      <div class="footer-inner">
-        <span>&copy; 2026 Tim Chang</span>
-        <span class="footer-built">Built with care</span>
+      <div class="about-stats">
+        <div class="about-stat">
+          <span class="about-stat-number">50+</span>
+          <span class="about-stat-label">Projects delivered</span>
+        </div>
+        <div class="about-stat">
+          <span class="about-stat-number">5+</span>
+          <span class="about-stat-label">Years of experience</span>
+        </div>
+        <div class="about-stat">
+          <span class="about-stat-number">3</span>
+          <span class="about-stat-label">Disciplines mastered</span>
+        </div>
       </div>
-    </footer>
+    </div>
+  </section>
   </div>
 
-  <script>
-    (function () {
-      var TOTAL_FRAMES = 122;
-      var AUTOPLAY_END = 40;
-      var NORMAL_SPEED_END = 30;
-      var BASE_FPS = 24;
-      var FADE_ZONE = 0.35;
+  <!-- Scroll canvas (Scene 02 scroll-scrub) -->
+  <canvas id="scrollCanvas" class="scrub-canvas" aria-hidden="true"></canvas>
+  <div class="scrub-dim" id="scrubDim" aria-hidden="true"></div>
 
-      var canvas = document.getElementById('rocketCanvas');
-      var ctx = canvas.getContext('2d');
-      var spacer = document.getElementById('rocketSpacer');
-      var overlay = document.getElementById('rocketOverlay');
-      var siteContent = document.getElementById('siteContent');
-      var rocketHero = document.getElementById('rocketHero');
-      var rhName = document.getElementById('rhName');
-      var rhTitle = document.getElementById('rhTitle');
-      var rhTagline = document.getElementById('rhTagline');
+  <!-- SCENE 02 — SCROLL-SCRUB -->
+  <div id="scrubSpacer" class="scrub-spacer">
+  </div>
 
-      var images = [];
-      var loaded = 0;
-      var currentFrame = 0;
-      var autoplayDone = false;
-      var userHasScrolled = false;
+  <!-- Choose your path title -->
+  <div class="scrub-title" id="scrubTitle" aria-hidden="true">
+    <span class="scrub-title-letter">C</span><span class="scrub-title-letter">h</span><span class="scrub-title-letter">o</span><span class="scrub-title-letter">o</span><span class="scrub-title-letter">s</span><span class="scrub-title-letter">e</span><span class="scrub-title-letter"> </span><span class="scrub-title-letter">y</span><span class="scrub-title-letter">o</span><span class="scrub-title-letter">u</span><span class="scrub-title-letter">r</span><span class="scrub-title-letter"> </span><span class="scrub-title-letter">p</span><span class="scrub-title-letter">a</span><span class="scrub-title-letter">t</span><span class="scrub-title-letter">h</span>
+  </div>
 
-      function framePath(i) {
-        return 'frames/ezgif-frame-' + String(i).padStart(3, '0') + '.jpg';
-      }
+  <!-- Service cards (fixed overlay — 3 columns) -->
+  <div class="service-cards-row" id="serviceCardsRow">
+    <div class="service-card" id="serviceCard0" role="button" tabindex="0" aria-label="Web Development — Fast, responsive sites built to convert">
+      <!-- GENERATED: assets/card-webdev.jpg · nano_banana_flash · 1.5cr -->
+      <img class="sc-img" src="assets/card-webdev.jpg" alt="Web development illustration" loading="lazy">
+      <span class="sc-icon">⬡</span>
+      <span class="sc-title">WEB DEVELOPMENT</span>
+      <div class="sc-divider"></div>
+      <p class="sc-desc">Fast, responsive sites built to convert. Clean code, blazing speed, mobile-first — every pixel earns its place.</p>
+      <a href="webdev.html" class="sc-btn">Explore →</a>
+    </div>
+    <div class="service-card" id="serviceCard1" role="button" tabindex="0" aria-label="Digital Marketing — Campaigns that actually perform">
+      <!-- GENERATED: assets/card-marketing.jpg · nano_banana_flash · 1.5cr -->
+      <img class="sc-img" src="assets/card-marketing.jpg" alt="Digital marketing illustration" loading="lazy">
+      <span class="sc-icon">◈</span>
+      <span class="sc-title">DIGITAL MARKETING</span>
+      <div class="sc-divider"></div>
+      <p class="sc-desc">Campaigns that actually perform. Data-driven strategy, creative execution, measurable results.</p>
+      <a href="marketing.html" class="sc-btn">Explore →</a>
+    </div>
+    <div class="service-card" id="serviceCard2" role="button" tabindex="0" aria-label="Design — Brand identity that sticks">
+      <!-- GENERATED: assets/card-design.jpg · nano_banana_flash · 1.5cr -->
+      <img class="sc-img" src="assets/card-design.jpg" alt="Brand design illustration" loading="lazy">
+      <span class="sc-icon">◎</span>
+      <span class="sc-title">DESIGN</span>
+      <div class="sc-divider"></div>
+      <p class="sc-desc">Brand identity that sticks. From concept to system — logos, palettes, typography that tells your story.</p>
+      <a href="#contact" class="sc-btn">Explore →</a>
+    </div>
+  </div>
 
-      function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        drawFrame(currentFrame);
-      }
+  <!-- Nebula wisps -->
+  <div class="nebula-wisp nebula-wisp-1" id="nebulaWisp1" aria-hidden="true"></div>
+  <div class="nebula-wisp nebula-wisp-2" id="nebulaWisp2" aria-hidden="true"></div>
+  <div class="nebula-wisp nebula-wisp-3" id="nebulaWisp3" aria-hidden="true"></div>
 
-      function drawFrame(index) {
-        if (!images[index] || !images[index].complete) return;
-        var img = images[index];
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        var scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-        var w = img.width * scale;
-        var h = img.height * scale;
-        var x = (canvas.width - w) / 2;
-        var y = (canvas.height - h) / 2;
-        ctx.drawImage(img, x, y, w, h);
-      }
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-      // Preload all frames
-      for (var i = 1; i <= TOTAL_FRAMES; i++) {
-        (function (idx) {
-          var img = new Image();
-          img.src = framePath(idx);
-          img.onload = function () {
-            loaded++;
-            if (loaded === TOTAL_FRAMES) startAutoplay();
-            if (loaded === 1) resizeCanvas();
-          };
-          images[idx] = img;
-        })(i);
-      }
+  <!-- REDUCED MOTION FALLBACK -->
+  <section id="staticServices" class="static-services" aria-label="Services">
+    <h2 class="static-services-heading">Services</h2>
+    <div class="static-services-grid">
+      <div class="static-card">
+        <span class="sc-icon">⬡</span>
+        <span class="sc-title">WEB DEVELOPMENT</span>
+        <div class="sc-divider"></div>
+        <p class="sc-desc">Fast, responsive sites built to convert</p>
+      </div>
+      <div class="static-card">
+        <span class="sc-icon">◈</span>
+        <span class="sc-title">DIGITAL MARKETING</span>
+        <div class="sc-divider"></div>
+        <p class="sc-desc">Campaigns that actually perform</p>
+      </div>
+      <div class="static-card">
+        <span class="sc-icon">◎</span>
+        <span class="sc-title">DESIGN</span>
+        <div class="sc-divider"></div>
+        <p class="sc-desc">Brand identity that sticks</p>
+      </div>
+    </div>
+  </section>
 
-      // Autoplay frames 1-40: normal 1-30, easing slowdown 30-40
-      function startAutoplay() {
-        window.scrollTo(0, 0);
-        document.documentElement.style.overflow = 'hidden';
-        currentFrame = 1;
-        drawFrame(1);
+  <!-- SCENE 03 — CONTACT -->
+  <section id="contact" class="scene scene-contact" aria-label="Contact">
+    <div class="contact-glow"></div>
+    <p class="contact-eyebrow">// let's work together</p>
+    <h2 class="contact-headline">Got a project?<br>Let's build it.</h2>
+    <p class="contact-sub">Tell me what you need — I'll get back within 24 hours.</p>
+    <a href="questionnaire.html" class="contact-btn" aria-label="Work with me">Work with me →</a>
+    <div class="contact-neon-line"></div>
+  </section>
 
-        // Animate text in during autoplay
-        setTimeout(function() { if (!userHasScrolled) rhName.classList.add('rh-visible'); }, 300);
-        setTimeout(function() { if (!userHasScrolled) rhTitle.classList.add('rh-visible'); }, 800);
+  <footer class="site-footer">
+    <p>© 2026 Tim Chang. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#terms">Terms of Service</a>
+    </div>
+  </footer>
 
-        // Typewriter effect for title words
-        var w1 = document.getElementById('rhWord1');
-        var w2 = document.getElementById('rhWord2');
-        var w3 = document.getElementById('rhWord3');
-        var pipes = rhTitle.querySelectorAll('.rh-pipe');
-        var cursor = document.getElementById('rhCursor');
-        var underline = document.getElementById('rhUnderline');
+  <!-- Custom cursor (desktop only) -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
-        setTimeout(function() { w1.classList.add('typed'); }, 1200);
-        setTimeout(function() { pipes[0].classList.add('typed'); }, 1700);
-        setTimeout(function() { w2.classList.add('typed'); }, 1900);
-        setTimeout(function() { pipes[1].classList.add('typed'); }, 2400);
-        setTimeout(function() { w3.classList.add('typed'); }, 2600);
-        setTimeout(function() { underline.classList.add('typed'); cursor.classList.add('hide'); }, 3100);
-        setTimeout(function() { if (!userHasScrolled) rhTagline.classList.add('rh-visible'); }, 3300);
-
-        var frame = 1;
-        function playNext() {
-          frame++;
-          if (frame > AUTOPLAY_END) {
-            autoplayDone = true;
-            currentFrame = AUTOPLAY_END;
-            document.documentElement.style.overflow = '';
-            overlay.classList.add('show');
-            onScroll();
-            return;
-          }
-          currentFrame = frame;
-          drawFrame(frame);
-
-          var delay;
-          if (frame < NORMAL_SPEED_END) {
-            delay = 1000 / BASE_FPS;
-          } else {
-            var slowProgress = (frame - NORMAL_SPEED_END) / (AUTOPLAY_END - NORMAL_SPEED_END);
-            var easedProgress = slowProgress * slowProgress;
-            delay = (1000 / BASE_FPS) + easedProgress * 350;
-          }
-          setTimeout(playNext, delay);
-        }
-        setTimeout(playNext, 1000 / BASE_FPS);
-      }
-
-      // Seamless two-way scroll-scrub
-      function onScroll() {
-        if (!autoplayDone) return;
-
-        var scrollY = window.scrollY || window.pageYOffset;
-        var spacerHeight = spacer.offsetHeight;
-        var spacerBottom = spacer.offsetTop + spacerHeight;
-
-        // How far through the spacer are we? 0 = top, 1 = bottom
-        var progress = Math.max(0, Math.min(1, scrollY / (spacerHeight - window.innerHeight)));
-
-        // Map progress to frame range (AUTOPLAY_END to TOTAL_FRAMES)
-        var scrubFrames = TOTAL_FRAMES - AUTOPLAY_END;
-        var frameIndex = AUTOPLAY_END + Math.floor(progress * scrubFrames);
-        var clamped = Math.max(AUTOPLAY_END, Math.min(frameIndex, TOTAL_FRAMES));
-
-        if (clamped !== currentFrame) {
-          currentFrame = clamped;
-          drawFrame(clamped);
-        }
-
-        // Show/hide scroll hint near the top
-        if (progress > 0.02) {
-          overlay.classList.remove('show');
-        } else {
-          overlay.classList.add('show');
-        }
-
-        // Animate hero text: split apart and fade as user scrolls
-        if (progress > 0) {
-          userHasScrolled = true;
-          rhName.classList.remove('rh-visible');
-          rhTitle.classList.remove('rh-visible');
-          rhTagline.classList.remove('rh-visible');
-          rhName.style.transition = 'none';
-          rhTitle.style.transition = 'none';
-          rhTagline.style.transition = 'none';
-        }
-
-        var delayedProgress = Math.max(0, (progress - 0.08) / 0.92);
-        var textFade = Math.max(0, 1 - delayedProgress * 3);
-        var nameSlide = delayedProgress * -300;
-        var titleSlide = delayedProgress * 200;
-        var taglineFade = Math.max(0, 1 - delayedProgress * 4);
-
-        rhName.style.transform = 'translateY(' + nameSlide + 'px)';
-        rhName.style.opacity = textFade;
-        rhTitle.style.transform = 'translateY(' + titleSlide + 'px)';
-        rhTitle.style.opacity = textFade;
-        rhTagline.style.opacity = taglineFade;
-        rocketHero.style.pointerEvents = progress > 0.2 ? 'none' : 'auto';
-
-        // Single crossfade: rocket fades out, portfolio fades in
-        var fadeStart = 1 - FADE_ZONE;
-        if (progress >= fadeStart) {
-          var fadeProgress = (progress - fadeStart) / FADE_ZONE;
-          canvas.style.opacity = 1 - fadeProgress;
-          siteContent.style.opacity = fadeProgress;
-          overlay.style.opacity = 0;
-        } else {
-          canvas.style.opacity = 1;
-          siteContent.style.opacity = 0;
-        }
-
-        // Keep portfolio fully visible once past spacer
-        if (progress >= 1) {
-          canvas.style.opacity = 0;
-          siteContent.style.opacity = 1;
-          rocketHero.style.visibility = 'hidden';
-        } else {
-          rocketHero.style.visibility = 'visible';
-        }
-      }
-
-      window.addEventListener('scroll', onScroll);
-      window.addEventListener('resize', resizeCanvas);
-
-      // Portfolio scroll animations
-      var revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            var delay = entry.target.dataset.delay || 0;
-            setTimeout(function () {
-              entry.target.classList.add('visible');
-            }, delay);
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-
-      document.querySelectorAll('.reveal').forEach(function (el) {
-        var section = el.closest('section');
-        var siblings = section ? Array.from(section.querySelectorAll('.reveal')) : [];
-        var indexInSection = siblings.indexOf(el);
-        el.dataset.delay = indexInSection * 80;
-        revealObserver.observe(el);
-      });
-
-      // Smooth scroll for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          var target = document.querySelector(this.getAttribute('href'));
-          if (target) target.scrollIntoView({ behavior: 'smooth' });
-        });
-      });
-
-      // Nav scroll effect
-      window.addEventListener('scroll', function () {
-        var nav = document.querySelector('nav');
-        if (nav) {
-          var spacerH = spacer.offsetHeight;
-          nav.classList.toggle('scrolled', window.scrollY > spacerH + 50);
-          nav.style.opacity = window.scrollY >= spacerH - window.innerHeight * 0.5 ? 1 : 0;
-        }
-      });
-    })();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Development — Tim Chang</title>
+  <meta name="description" content="Premium websites for local businesses. Fast, responsive, built to convert.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="webdev.css">
+</head>
+<body>
+  <!-- HERO -->
+  <section class="wd-hero">
+    <div class="wd-hero-bg"></div>
+    <div class="wd-hero-overlay"></div>
+    <div class="wd-hero-content">
+      <p class="wd-hero-eyebrow">// web development</p>
+      <h1 class="wd-hero-headline">Built to convert.</h1>
+      <p class="wd-hero-sub">Premium websites for local businesses — fast, responsive, and engineered to turn visitors into customers.</p>
+      <div class="wd-hero-btns">
+        <a href="#wd-cta" class="wd-btn-primary">Start your project →</a>
+        <a href="#wd-scrub" class="wd-btn-ghost">See examples</a>
+      </div>
+    </div>
+    <div class="wd-scroll-hint">
+      <span>Scroll</span>
+      <div class="wd-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- SCROLL SCRUB -->
+  <div id="wd-scrub" class="wd-scrub-wrapper">
+    <div class="wd-scrub-sticky">
+      <div class="wd-progress-bar"><div class="wd-progress-fill" id="wdProgressFill"></div></div>
+      <div class="wd-nav-dots" id="wdNavDots">
+        <div class="wd-dot active"></div>
+        <div class="wd-dot"></div>
+        <div class="wd-dot"></div>
+        <div class="wd-dot"></div>
+        <div class="wd-dot"></div>
+      </div>
+      <div class="wd-niche-counter" id="wdCounter">01 / 05</div>
+      <div class="wd-letterbox wd-letterbox-top"></div>
+      <div class="wd-letterbox wd-letterbox-bottom"></div>
+      <div class="wd-frame" id="wdFrame0" data-niche="0">
+        <div class="wd-frame-bg" style="background:#3D2B1F;"></div>
+        <div class="wd-frame-content">
+          <p class="wd-frame-label">Coffee Shop</p>
+          <h2 class="wd-frame-title">Warm. Inviting. Local.</h2>
+          <p class="wd-frame-feature">Menu · Online ordering · Loyalty</p>
+        </div>
+      </div>
+      <div class="wd-frame" id="wdFrame1" data-niche="1">
+        <div class="wd-frame-bg" style="background:#1B2A3D;"></div>
+        <div class="wd-frame-content">
+          <p class="wd-frame-label">HVAC</p>
+          <h2 class="wd-frame-title">Trust. Speed. Bookings.</h2>
+          <p class="wd-frame-feature">Scheduling · Reviews · Emergency</p>
+        </div>
+      </div>
+      <div class="wd-frame" id="wdFrame2" data-niche="2">
+        <div class="wd-frame-bg" style="background:#2D1B3D;"></div>
+        <div class="wd-frame-content">
+          <p class="wd-frame-label">Fitness Studio</p>
+          <h2 class="wd-frame-title">Energy. Community. Growth.</h2>
+          <p class="wd-frame-feature">Classes · Memberships · Trainers</p>
+        </div>
+      </div>
+      <div class="wd-frame" id="wdFrame3" data-niche="3">
+        <div class="wd-frame-bg" style="background:#3D1B1B;"></div>
+        <div class="wd-frame-content">
+          <p class="wd-frame-label">Restaurant</p>
+          <h2 class="wd-frame-title">Taste. Atmosphere. Reserve.</h2>
+          <p class="wd-frame-feature">Reservations · Menu · Gallery</p>
+        </div>
+      </div>
+      <div class="wd-frame" id="wdFrame4" data-niche="4">
+        <div class="wd-frame-bg" style="background:#1B3D3D;"></div>
+        <div class="wd-frame-content">
+          <p class="wd-frame-label">Dental</p>
+          <h2 class="wd-frame-title">Clean. Professional. Caring.</h2>
+          <p class="wd-frame-feature">Appointments · Services · Insurance</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section id="wd-cta" class="wd-cta">
+    <div class="wd-cta-content">
+      <p class="wd-cta-eyebrow">// ready?</p>
+      <h2 class="wd-cta-headline">Let's build something real.</h2>
+      <p class="wd-cta-sub">Get a free website audit — no strings attached.</p>
+      <form class="wd-cta-form" onsubmit="return false;">
+        <input type="email" class="wd-cta-input" placeholder="your@email.com" required>
+        <button type="submit" class="wd-cta-submit">Get free audit →</button>
+      </form>
+      <p class="wd-cta-fine">No spam. Just a detailed report on how your current site performs.</p>
+    </div>
+  </section>
+
+  <footer class="wd-footer">
+    <a href="index.html" class="wd-back">← Back to portfolio</a>
+    <p>© 2026 Tim Chang</p>
+  </footer>
+
+  <script src="webdev.js"></script>
+</body>
+</html>
