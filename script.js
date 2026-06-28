@@ -5,7 +5,7 @@
   if (isReducedMotion) return;
 
   var isTouch = window.matchMedia('(pointer: coarse)').matches;
-  var isMobile = isTouch || window.innerWidth < 768;
+  var isMobile = window.innerWidth < 768;
   var frameSkip = isMobile ? 2 : 1;
 
   // ===== FRAME CONFIG =====
