@@ -32,22 +32,20 @@ window.scrollTo(0, 0);
     });
   }, 1000);
 
-  // Pause video when scrub covers hero, show still image
-  var heroStill = document.querySelector('.wd-hero-still');
+  // Pause/resume video based on hero visibility
   var heroCovered = false;
   function checkHeroCover() {
-    var scrub = document.querySelector('.wd-scrub-wrapper');
-    if (!scrub) return;
-    var scrubTop = scrub.getBoundingClientRect().top;
-    if (scrubTop <= 0 && !heroCovered) {
+    var spacer = document.querySelector('.wd-hero-spacer');
+    if (!spacer) return;
+    var spacerBottom = spacer.getBoundingClientRect().bottom;
+    // Hero is covered when spacer has scrolled mostly off screen
+    if (spacerBottom < window.innerHeight * 0.2 && !heroCovered) {
       heroCovered = true;
       if (heroLoop) heroLoop.pause();
       if (heroIntro) heroIntro.pause();
-      if (heroStill) heroStill.style.opacity = '1';
-    } else if (scrubTop > 0 && heroCovered) {
+    } else if (spacerBottom >= window.innerHeight * 0.2 && heroCovered) {
       heroCovered = false;
-      if (heroLoop && !heroLoop.ended) heroLoop.play();
-      if (heroStill) heroStill.style.opacity = '0';
+      if (heroLoop && heroLoop.readyState >= 2) heroLoop.play();
     }
   }
   window.addEventListener('scroll', checkHeroCover, { passive: true });
@@ -113,31 +111,53 @@ window.scrollTo(0, 0);
     var max = wrapper.offsetHeight - window.innerHeight;
     var p = Math.max(0, Math.min(1, scrolled / max));
 
-    // Glass mesh fade: frost in over hero, then clear to reveal scrub
+    // Glass mesh fade: frost over hero, then reveal scrub content
+    var scrubSticky = wrapper.querySelector('.wd-scrub-sticky');
     if (scrubFrost) {
-      var wrapperTop = rect.top;
-      // Frost builds as scrub approaches (from 100px above viewport to fully covering)
-      var fadeInP = Math.max(0, Math.min(1, (window.innerHeight - wrapperTop) / window.innerHeight));
+      var spacer = document.querySelector('.wd-hero-spacer');
+      var spacerBottom = spacer.getBoundingClientRect().bottom;
+      // fadeInP: 0 when spacer bottom is at viewport bottom, 1 when spacer bottom reaches top
+      var fadeInP = Math.max(0, Math.min(1, 1 - (spacerBottom / window.innerHeight)));
+
       if (fadeInP > 0 && fadeInP < 1) {
-        // Phase 1: frost in (0 to 0.5)
+        // Frost builds over hero
         var frost = Math.min(1, fadeInP / 0.5);
         scrubFrost.style.backdropFilter = 'blur(' + (frost * 20) + 'px)';
         scrubFrost.style.webkitBackdropFilter = 'blur(' + (frost * 20) + 'px)';
-        scrubFrost.style.background = 'rgba(8,8,8,' + (frost * 0.5) + ')';
+        scrubFrost.style.background = 'rgba(8,8,8,' + (frost * 0.6) + ')';
         scrubFrost.style.display = 'block';
-      } else if (fadeInP >= 1 && p < 0.02) {
-        // Phase 2: clear frost to reveal first niche
-        var clearP = Math.min(1, p / 0.02);
+        scrubSticky.classList.remove('visible');
+        wrapper.classList.remove('interactive');
+      } else if (fadeInP >= 1 && p < 0.015) {
+        // Frost fully opaque, scrub fades in behind it
+        scrubFrost.style.backdropFilter = 'blur(20px)';
+        scrubFrost.style.webkitBackdropFilter = 'blur(20px)';
+        scrubFrost.style.background = 'rgba(8,8,8,0.8)';
+        scrubFrost.style.display = 'block';
+        scrubSticky.classList.add('visible');
+        wrapper.classList.add('interactive');
+      } else if (p >= 0.015 && p < 0.04) {
+        // Frost clears to reveal scrub
+        var clearP = (p - 0.015) / 0.025;
         var blur = 20 * (1 - clearP);
-        var alpha = 0.5 * (1 - clearP);
+        var alpha = 0.8 * (1 - clearP);
         scrubFrost.style.backdropFilter = 'blur(' + blur + 'px)';
         scrubFrost.style.webkitBackdropFilter = 'blur(' + blur + 'px)';
         scrubFrost.style.background = 'rgba(8,8,8,' + alpha + ')';
         scrubFrost.style.display = 'block';
-      } else if (p >= 0.02) {
+        scrubSticky.classList.add('visible');
+        wrapper.classList.add('interactive');
+      } else if (p >= 0.04) {
         scrubFrost.style.display = 'none';
-      } else {
+        scrubSticky.classList.add('visible');
+        wrapper.classList.add('interactive');
+      } else if (fadeInP <= 0) {
         scrubFrost.style.display = 'none';
+        scrubFrost.style.backdropFilter = 'blur(0px)';
+        scrubFrost.style.webkitBackdropFilter = 'blur(0px)';
+        scrubFrost.style.background = 'rgba(8,8,8,0)';
+        scrubSticky.classList.remove('visible');
+        wrapper.classList.remove('interactive');
       }
     }
 

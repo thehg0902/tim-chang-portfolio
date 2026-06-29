@@ -194,6 +194,11 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   height: 2500vh;
   z-index: 1;
+  margin-top: -100vh;
+  pointer-events: none;
+}
+.wd-scrub-wrapper.interactive {
+  pointer-events: auto;
 }
 .wd-scrub-frost {
   position: sticky;
@@ -212,6 +217,11 @@ a { color: inherit; text-decoration: none; }
   top: 0;
   height: 100vh;
   overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.wd-scrub-sticky.visible {
+  opacity: 1;
 }
 .wd-progress-bar {
   position: absolute;
