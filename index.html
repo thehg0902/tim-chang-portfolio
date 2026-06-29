@@ -92,65 +92,6 @@
   <!-- Spacer for Scene 01B (hero visible while user begins scrolling) -->
   <div id="heroSpacer" class="hero-spacer"></div>
 
-  <!-- ABOUT ME -->
-  <div class="about-wrap" id="aboutWrap">
-  <section id="about" class="scene scene-about" aria-label="About">
-    <div class="about-fade-overlay" id="aboutFadeOverlay" aria-hidden="true"></div>
-    <div class="about-neon-line"></div>
-    <div class="about-ambient" aria-hidden="true">
-      <div class="about-glow about-glow-1"></div>
-      <div class="about-glow about-glow-2"></div>
-      <div class="about-glow about-glow-3"></div>
-      <div class="about-glow about-glow-4"></div>
-      <div class="about-glow about-glow-5"></div>
-    </div>
-    <canvas class="about-trail" id="aboutTrail" aria-hidden="true"></canvas>
-
-    <!-- Photo carousel -->
-    <div class="carousel-wrapper">
-      <div class="carousel-fade carousel-fade-left"></div>
-      <div class="carousel-fade carousel-fade-right"></div>
-      <div class="carousel-track" id="carouselTrack">
-        <div class="carousel-img" style="background-image: url('assets/home/1.webp');"></div>
-        <div class="carousel-img" style="background-image: url('assets/home/2.webp');"></div>
-        <div class="carousel-img" style="background-image: url('assets/home/3.webp');"></div>
-        <div class="carousel-img" style="background-image: url('assets/home/4.webp'); background-position: top;"></div>
-        <div class="carousel-img" style="background-image: url('assets/home/5.webp');"></div>
-        <!-- Duplicates for seamless loop -->
-        <div class="carousel-img" style="background-image: url('assets/home/1.webp');"></div>
-        <div class="carousel-img" style="background-image: url('assets/home/2.webp');"></div>
-        <div class="carousel-img" style="background-image: url('assets/home/3.webp');"></div>
-        <div class="carousel-img" style="background-image: url('assets/home/4.webp'); background-position: top;"></div>
-        <div class="carousel-img" style="background-image: url('assets/home/5.webp');"></div>
-      </div>
-    </div>
-
-    <!-- About content -->
-    <div class="about-grid">
-      <div class="about-text">
-        <p class="about-eyebrow">// about me</p>
-        <h2 class="about-headline">Building what matters</h2>
-        <p class="about-body">I'm Tim Chang — a designer, marketer, and developer who believes great work happens at the intersection of strategy and craft. I don't just build websites. I build systems that convert, brands that resonate, and campaigns that perform.</p>
-        <p class="about-body">Every project starts with a question: what does success look like? From there, I work backwards — designing experiences that are fast, intentional, and built to last. No fluff, no filler. Just work that speaks for itself.</p>
-      </div>
-      <div class="about-stats">
-        <div class="about-stat">
-          <span class="about-stat-number">50+</span>
-          <span class="about-stat-label">Projects delivered</span>
-        </div>
-        <div class="about-stat">
-          <span class="about-stat-number">5+</span>
-          <span class="about-stat-label">Years of experience</span>
-        </div>
-        <div class="about-stat">
-          <span class="about-stat-number">3</span>
-          <span class="about-stat-label">Disciplines mastered</span>
-        </div>
-      </div>
-    </div>
-  </section>
-  </div>
-
   <!-- Scroll canvas (Scene 02 scroll-scrub) -->
   <canvas id="scrollCanvas" class="scrub-canvas" aria-hidden="true"></canvas>
   <div class="scrub-dim" id="scrubDim" aria-hidden="true"></div>
@@ -227,6 +168,65 @@
       </div>
     </div>
   </section>
+
+  <!-- ABOUT ME -->
+  <div class="about-wrap" id="aboutWrap">
+  <section id="about" class="scene scene-about" aria-label="About">
+    <div class="about-fade-overlay" id="aboutFadeOverlay" aria-hidden="true"></div>
+    <div class="about-neon-line"></div>
+    <div class="about-ambient" aria-hidden="true">
+      <div class="about-glow about-glow-1"></div>
+      <div class="about-glow about-glow-2"></div>
+      <div class="about-glow about-glow-3"></div>
+      <div class="about-glow about-glow-4"></div>
+      <div class="about-glow about-glow-5"></div>
+    </div>
+    <canvas class="about-trail" id="aboutTrail" aria-hidden="true"></canvas>
+
+    <!-- Photo carousel -->
+    <div class="carousel-wrapper">
+      <div class="carousel-fade carousel-fade-left"></div>
+      <div class="carousel-fade carousel-fade-right"></div>
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-img" style="background-image: url('assets/home/1.webp');"></div>
+        <div class="carousel-img" style="background-image: url('assets/home/2.webp');"></div>
+        <div class="carousel-img" style="background-image: url('assets/home/3.webp');"></div>
+        <div class="carousel-img" style="background-image: url('assets/home/4.webp'); background-position: top;"></div>
+        <div class="carousel-img" style="background-image: url('assets/home/5.webp');"></div>
+        <!-- Duplicates for seamless loop -->
+        <div class="carousel-img" style="background-image: url('assets/home/1.webp');"></div>
+        <div class="carousel-img" style="background-image: url('assets/home/2.webp');"></div>
+        <div class="carousel-img" style="background-image: url('assets/home/3.webp');"></div>
+        <div class="carousel-img" style="background-image: url('assets/home/4.webp'); background-position: top;"></div>
+        <div class="carousel-img" style="background-image: url('assets/home/5.webp');"></div>
+      </div>
+    </div>
+
+    <!-- About content -->
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="about-eyebrow">// about me</p>
+        <h2 class="about-headline">Building what matters</h2>
+        <p class="about-body">I'm Tim Chang — a designer, marketer, and developer who believes great work happens at the intersection of strategy and craft. I don't just build websites. I build systems that convert, brands that resonate, and campaigns that perform.</p>
+        <p class="about-body">Every project starts with a question: what does success look like? From there, I work backwards — designing experiences that are fast, intentional, and built to last. No fluff, no filler. Just work that speaks for itself.</p>
+      </div>
+      <div class="about-stats">
+        <div class="about-stat">
+          <span class="about-stat-number">50+</span>
+          <span class="about-stat-label">Projects delivered</span>
+        </div>
+        <div class="about-stat">
+          <span class="about-stat-number">5+</span>
+          <span class="about-stat-label">Years of experience</span>
+        </div>
+        <div class="about-stat">
+          <span class="about-stat-number">3</span>
+          <span class="about-stat-label">Disciplines mastered</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
 
   <!-- SCENE 03 — CONTACT -->
   <section id="contact" class="scene scene-contact" aria-label="Contact">
