@@ -29,6 +29,26 @@
     });
   }, 1000);
 
+  // Pause video when scrub covers hero, show still image
+  var heroStill = document.querySelector('.wd-hero-still');
+  var heroCovered = false;
+  function checkHeroCover() {
+    var scrub = document.querySelector('.wd-scrub-wrapper');
+    if (!scrub) return;
+    var scrubTop = scrub.getBoundingClientRect().top;
+    if (scrubTop <= 0 && !heroCovered) {
+      heroCovered = true;
+      if (heroLoop) heroLoop.pause();
+      if (heroIntro) heroIntro.pause();
+      if (heroStill) heroStill.style.opacity = '1';
+    } else if (scrubTop > 0 && heroCovered) {
+      heroCovered = false;
+      if (heroLoop && !heroLoop.ended) heroLoop.play();
+      if (heroStill) heroStill.style.opacity = '0';
+    }
+  }
+  window.addEventListener('scroll', checkHeroCover, { passive: true });
+
   var wrapper = document.querySelector('.wd-scrub-wrapper');
   var frames = document.querySelectorAll('.wd-frame');
   var dots = document.querySelectorAll('.wd-dot');

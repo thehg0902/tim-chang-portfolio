@@ -13,11 +13,10 @@
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html, body {
+html {
   width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
 }
+
 body {
   background: var(--bg);
   color: var(--ivory);
@@ -30,14 +29,22 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== HERO ===== */
 .wd-hero {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  z-index: 0;
 }
-.wd-hero-video {
+.wd-hero-spacer {
+  height: 100vh;
+  position: relative;
+}
+.wd-hero-video, .wd-hero-still {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -178,6 +185,7 @@ a { color: inherit; text-decoration: none; }
 .wd-scrub-wrapper {
   position: relative;
   height: 500vh;
+  z-index: 1;
 }
 .wd-scrub-sticky {
   position: sticky;
@@ -239,11 +247,16 @@ a { color: inherit; text-decoration: none; }
   left: 0;
   right: 0;
   height: 12%;
-  background: var(--bg);
   z-index: 5;
 }
-.wd-letterbox-top { top: 0; }
-.wd-letterbox-bottom { bottom: 0; }
+.wd-letterbox-top {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.7), transparent);
+}
+.wd-letterbox-bottom {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(8,8,8,0.7), transparent);
+}
 
 .wd-frame {
   position: absolute;
@@ -293,6 +306,7 @@ a { color: inherit; text-decoration: none; }
 /* ===== CTA ===== */
 .wd-cta {
   position: relative;
+  z-index: 1;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -357,6 +371,8 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== FOOTER ===== */
 .wd-footer {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
