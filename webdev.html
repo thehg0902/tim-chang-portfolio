@@ -13,13 +13,18 @@
 <body>
   <!-- HERO -->
   <section class="wd-hero">
-    <div class="wd-hero-bg"></div>
+    <video class="wd-hero-video" id="heroIntro" autoplay muted playsinline>
+      <source src="assets/webdev/hero01.mp4" type="video/mp4">
+    </video>
+    <video class="wd-hero-video" id="heroLoop" muted loop playsinline preload="auto" style="opacity:0;">
+      <source src="assets/webdev/hero02.mp4" type="video/mp4">
+    </video>
     <div class="wd-hero-overlay"></div>
     <div class="wd-hero-content">
-      <p class="wd-hero-eyebrow">// web development</p>
-      <h1 class="wd-hero-headline">Built to convert.</h1>
-      <p class="wd-hero-sub">Premium websites for local businesses — fast, responsive, and engineered to turn visitors into customers.</p>
-      <div class="wd-hero-btns">
+      <p class="wd-hero-eyebrow wd-reveal">// web development</p>
+      <h1 class="wd-hero-headline wd-reveal">Built to convert.</h1>
+      <p class="wd-hero-sub wd-reveal">Premium websites for local businesses — fast, responsive, and engineered to turn visitors into customers.</p>
+      <div class="wd-hero-btns wd-reveal">
         <a href="#wd-cta" class="wd-btn-primary">Start your project →</a>
         <a href="#wd-scrub" class="wd-btn-ghost">See examples</a>
       </div>
@@ -93,11 +98,8 @@
       <p class="wd-cta-eyebrow">// ready?</p>
       <h2 class="wd-cta-headline">Let's build something real.</h2>
       <p class="wd-cta-sub">Get a free website audit — no strings attached.</p>
-      <form class="wd-cta-form" onsubmit="return false;">
-        <input type="email" class="wd-cta-input" placeholder="your@email.com" required>
-        <button type="submit" class="wd-cta-submit">Get free audit →</button>
-      </form>
-      <p class="wd-cta-fine">No spam. Just a detailed report on how your current site performs.</p>
+      <a href="questionnaire.html" class="wd-cta-submit">Get free audit →</a>
+      <p class="wd-cta-fine">Answer a few quick questions so we can tailor your audit.</p>
     </div>
   </section>
 

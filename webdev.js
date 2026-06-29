@@ -1,6 +1,34 @@
 (function () {
   'use strict';
 
+  // Hero video: intro at 0.5x then crossfade to loop
+  var heroIntro = document.getElementById('heroIntro');
+  var heroLoop = document.getElementById('heroLoop');
+  if (heroIntro) heroIntro.playbackRate = 2.0;
+  if (heroIntro && heroLoop) {
+    // Start hero02 immediately but keep it hidden, so it's fully buffered and ready
+    heroLoop.play().then(function () {
+      heroLoop.pause();
+      heroLoop.currentTime = 0;
+    });
+    heroIntro.addEventListener('timeupdate', function () {
+      if (heroIntro.duration - heroIntro.currentTime < 0.5 && heroLoop.paused) {
+        heroLoop.play();
+        heroLoop.style.opacity = '1';
+        heroIntro.style.opacity = '0';
+      }
+    });
+  }
+
+  // Hero reveal sequence
+  setTimeout(function () {
+    document.querySelector('.wd-hero-overlay').classList.add('dimmed');
+    var reveals = document.querySelectorAll('.wd-reveal');
+    reveals.forEach(function (el, i) {
+      setTimeout(function () { el.classList.add('visible'); }, i * 250);
+    });
+  }, 1000);
+
   var wrapper = document.querySelector('.wd-scrub-wrapper');
   var frames = document.querySelectorAll('.wd-frame');
   var dots = document.querySelectorAll('.wd-dot');
