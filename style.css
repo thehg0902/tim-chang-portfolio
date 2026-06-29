@@ -729,6 +729,61 @@ img { max-width: 100%; display: block; }
 }
 
 /* ===== SCENE 03 — CONTACT ===== */
+/* ===== SCENE 04 — ROCKET LANDING CTA ===== */
+.land-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s;
+}
+.land-canvas.active {
+  opacity: 1;
+  visibility: visible;
+}
+.land-spacer {
+  position: relative;
+  height: 300vh;
+  z-index: 1;
+  background: var(--bg);
+}
+.land-dim {
+  position: fixed;
+  inset: 0;
+  z-index: 51;
+  pointer-events: none;
+  background: rgba(8,8,8,0.5);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.land-dim.active {
+  opacity: 1;
+}
+.land-cta {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-xl);
+  opacity: 0;
+  pointer-events: none;
+}
+.land-cta.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .scene-contact {
   position: relative;
   min-height: 100vh;
@@ -788,26 +843,42 @@ img { max-width: 100%; display: block; }
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  color: var(--bg);
+  background: rgba(27,26,24,0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--accent-soft);
   font-family: var(--font-display);
   font-size: clamp(10px, 1.4vw, 13px);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 14px 32px;
-  border-radius: 8px;
-  border: 1px solid rgba(213,176,107,0.3);
-  box-shadow: 0 0 40px rgba(177,138,74,0.25), 0 4px 20px rgba(0,0,0,0.4);
+  padding: 16px 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(177,138,74,0.2);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.3),
+    0 0 40px rgba(177,138,74,0.1),
+    inset 0 1px 0 rgba(213,176,107,0.1);
   cursor: pointer;
-  transition: filter 0.15s, box-shadow 0.15s, transform 0.15s;
+  transition: transform 0.2s ease-out, border-color 0.3s, box-shadow 0.3s;
   min-height: 44px;
   min-width: 44px;
+  position: relative;
+  overflow: hidden;
+}
+.contact-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(213,176,107,0.4), transparent);
 }
 .contact-btn:hover, .contact-btn:focus-visible {
-  filter: brightness(1.15);
-  box-shadow: 0 0 60px rgba(177,138,74,0.4), 0 4px 20px rgba(0,0,0,0.4);
-  transform: scale(1.03);
+  border-color: rgba(213,176,107,0.4);
+  box-shadow:
+    0 8px 32px rgba(177,138,74,0.2),
+    0 0 60px rgba(177,138,74,0.15),
+    inset 0 1px 0 rgba(213,176,107,0.15);
+  transform: translateY(-2px) scale(1.02);
   outline: none;
 }
 .contact-btn:active {
@@ -1187,7 +1258,7 @@ img { max-width: 100%; display: block; }
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-3);
-  background: var(--bg);
+  background: transparent;
   width: 100%;
   position: relative;
   z-index: 200;
@@ -1219,6 +1290,9 @@ img { max-width: 100%; display: block; }
   .scene-01b,
   .cursor-dot,
   .cursor-ring,
+  .land-canvas,
+  .land-spacer,
+  .land-cta,
   .scroll-progress { display: none !important; }
 
   #staticServices { display: block !important; }
@@ -1229,9 +1303,12 @@ img { max-width: 100%; display: block; }
     transition-duration: 0.01ms !important;
   }
 
-  .scene-contact {
+  .scene-contact, .land-cta {
     opacity: 1;
     transform: none;
+    pointer-events: auto;
+    position: relative;
+    display: flex;
   }
 }
 

@@ -14,6 +14,7 @@ window.scrollTo(0, 0);
   // ===== FRAME CONFIG =====
   var LAUNCH_FRAMES = 169;
   var SCROLL_FRAMES = 241;
+  var LAND_FRAMES = 75;
 
   // ===== ELEMENTS =====
   var loader = document.getElementById('loader');
@@ -41,6 +42,11 @@ window.scrollTo(0, 0);
     document.getElementById('serviceCard1'),
     document.getElementById('serviceCard2')
   ];
+  var landCanvas = document.getElementById('landCanvas');
+  var landCtx = landCanvas ? landCanvas.getContext('2d') : null;
+  var landSpacer = document.getElementById('landSpacer');
+  var landDim = document.getElementById('landDim');
+  var landCta = document.getElementById('landCta');
   var nebulaWisps = [
     document.getElementById('nebulaWisp1'),
     document.getElementById('nebulaWisp2'),
@@ -48,13 +54,13 @@ window.scrollTo(0, 0);
   ];
   var scrollCompanions = document.querySelectorAll('.scroll-companion');
   var scrollProgress = document.getElementById('scrollProgress');
-  var contactSection = document.getElementById('contact');
   var cursorDot = document.getElementById('cursorDot');
   var cursorRing = document.getElementById('cursorRing');
 
   // ===== FRAME PRELOADING =====
   var launchImages = [];
   var scrollImages = [];
+  var landImages = [];
   var totalToLoad = 0;
   var totalLoaded = 0;
 
@@ -62,10 +68,15 @@ window.scrollTo(0, 0);
     return 'frames/' + folder + '/frame-' + String(i).padStart(4, '0') + '.webp';
   }
 
+  function landFramePath(i) {
+    return 'assets/home/frames/rocketland/frame-' + String(i).padStart(4, '0') + '.webp';
+  }
+
   function countFramesToLoad() {
     var count = 0;
     for (var i = 1; i <= LAUNCH_FRAMES; i += frameSkip) count++;
     for (var i = 1; i <= SCROLL_FRAMES; i += frameSkip) count++;
+    for (var i = 1; i <= LAND_FRAMES; i += frameSkip) count++;
     return count;
   }
 
@@ -95,6 +106,13 @@ window.scrollTo(0, 0);
       img.onerror = onFrameLoad;
       img.src = framePath('scroll', i);
       scrollImages[i] = img;
+    }
+    for (var i = 1; i <= LAND_FRAMES; i += frameSkip) {
+      var img = new Image();
+      img.onload = onFrameLoad;
+      img.onerror = onFrameLoad;
+      img.src = landFramePath(i);
+      landImages[i] = img;
     }
   }
 
@@ -135,14 +153,18 @@ window.scrollTo(0, 0);
     ctx.drawImage(img, dx, dy, w, h);
   }
 
+  var currentLandFrame = 1;
+
   function resizeAll() {
     resizeCanvas(launchCanvas);
     resizeCanvas(scrollCanvas);
+    if (landCanvas) resizeCanvas(landCanvas);
   }
 
   window.addEventListener('resize', function () {
     resizeAll();
     drawFrame(launchCtx, launchCanvas, launchImages, currentLaunchFrame);
+    if (landCtx) drawFrame(landCtx, landCanvas, landImages, currentLandFrame);
     drawFrame(scrollCtx, scrollCanvas, scrollImages, currentScrollFrame);
   });
 
@@ -155,6 +177,7 @@ window.scrollTo(0, 0);
     resizeAll();
     drawFrame(launchCtx, launchCanvas, launchImages, 1);
     drawFrame(scrollCtx, scrollCanvas, scrollImages, 1);
+    if (landCtx) drawFrame(landCtx, landCanvas, landImages, 1);
     currentLaunchFrame = 1;
 
     var shouldSkip = sessionStorage.getItem('tc_intro_seen') === '1';
@@ -229,7 +252,7 @@ window.scrollTo(0, 0);
     document.body.style.overflow = '';
     var aboutEl = document.getElementById('about');
     if (aboutEl) aboutEl.classList.add('revealed');
-    if (isMobile && aboutEl) {
+    if (aboutEl) {
       var wrap = document.getElementById('aboutWrap');
       if (wrap) {
         var sh = aboutEl.offsetHeight;
@@ -274,7 +297,7 @@ window.scrollTo(0, 0);
       document.body.style.overflow = '';
       var aboutEl = document.getElementById('about');
       if (aboutEl) aboutEl.classList.add('revealed');
-      if (isMobile && aboutEl) {
+      if (aboutEl) {
         var wrap = document.getElementById('aboutWrap');
         if (wrap) {
           var sh = aboutEl.offsetHeight;
@@ -548,32 +571,15 @@ window.scrollTo(0, 0);
       });
 
     } else {
-      // Hide fixed overlays when scrub zone is mostly past
-      if (scrubRect.bottom <= window.innerHeight * 1.5) {
-        scrollCanvas.classList.remove('active');
-        serviceCardsRow.classList.remove('visible');
-        scrubDim.classList.remove('active');
-        nebulaWisps.forEach(function (w) { w.style.opacity = 0; });
-      }
-      if (scrubRect.top >= window.innerHeight) {
-        scrollCanvas.classList.remove('active');
-      }
-      // Reverse teleport: scrolling up past scrub zone top → back to about fade point
-      if (isMobile && scrubRect.top > 0 && scrubRect.top < window.innerHeight * 0.5 && !teleportLock) {
-        teleportLock = true;
-        var aboutW = document.getElementById('aboutWrap');
-        if (aboutW) {
-          var awTop = aboutW.getBoundingClientRect().top + window.scrollY;
-          var awH = aboutW.offsetHeight;
-          var abSec = document.getElementById('about');
-          var secH = abSec ? abSec.offsetHeight : awH;
-          var extra = awH - secH;
-          var secDone = secH - window.innerHeight;
-          // p = 0.6 is where fade just hit 1, scroll to that point
-          var targetScroll = awTop + secDone + (0.55 * extra);
-          window.scrollTo({ top: targetScroll, behavior: 'instant' });
-        }
-      }
+      // Hide fixed overlays when scrub zone is past
+      scrollCanvas.classList.remove('active');
+      serviceCardsRow.classList.remove('visible');
+      scrubDim.classList.remove('active');
+      serviceCards.forEach(function (c) { c.classList.remove('visible'); });
+      serviceCardsRow.style.transform = isMobile ? 'translate(' + window.innerWidth + 'px, -50%)' : '';
+      nebulaWisps.forEach(function (w) { w.style.opacity = 0; });
+      scrubTitle.classList.remove('active', 'slide-top');
+      scrubTitleLetters.forEach(function (l) { l.classList.remove('lit'); });
     }
 
     // About stats — horizontal scroll + fade to black
@@ -616,8 +622,8 @@ window.scrollTo(0, 0);
             // Teleport forward once fully black
             if (fadeVal >= 1 && !teleportLock) {
               teleportLock = true;
-              var scrubTop = scrubSpacer.getBoundingClientRect().top + window.scrollY;
-              window.scrollTo({ top: scrubTop, behavior: 'instant' });
+              var eSpacerTop = landSpacer.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({ top: eSpacerTop, behavior: 'instant' });
             }
           } else {
             aboutOverlay.style.opacity = 0;
@@ -632,9 +638,35 @@ window.scrollTo(0, 0);
           teleportLock = false;
         }
       } else {
+        // Desktop: same sticky lock + fade to black (no horizontal stats scroll)
+        var aboutSection = document.getElementById('about');
+        var wrapRect = aboutWrap.getBoundingClientRect();
+        var wrapH = aboutWrap.offsetHeight;
+        var sectionH = aboutSection.offsetHeight;
+        var extraScroll = wrapH - sectionH;
+        var scrolledInWrap = -wrapRect.top;
+        var sectionDone = sectionH - window.innerHeight;
+        var pastBottom = scrolledInWrap - sectionDone;
+        var p = clamp(pastBottom / extraScroll, 0, 1);
+
+        // Show stats normally
         var statsRect = aboutStats.getBoundingClientRect();
         if (statsRect.top < window.innerHeight * 0.8) {
           aboutStats.classList.add('visible');
+        }
+
+        // Fade to black after section locks
+        if (pastBottom > 0 && wrapRect.bottom > 0) {
+          if (p > 0.3) {
+            var fadeVal = Math.min(1, (p - 0.3) / 0.4);
+            aboutOverlay.style.opacity = fadeVal;
+          } else {
+            aboutOverlay.style.opacity = 0;
+          }
+        } else if (wrapRect.bottom <= 0) {
+          aboutOverlay.style.opacity = 0;
+        } else {
+          aboutOverlay.style.opacity = 0;
         }
       }
     } else if (aboutStats) {
@@ -644,10 +676,52 @@ window.scrollTo(0, 0);
       }
     }
 
-    // Contact section reveal
-    var contactRect = contactSection.getBoundingClientRect();
-    if (contactRect.top < window.innerHeight * 0.8) {
-      contactSection.classList.add('visible');
+    // ===== ROCKET LANDING CTA =====
+    if (landSpacer && landCanvas) {
+      var landRect = landSpacer.getBoundingClientRect();
+      var inLandZone = landRect.top <= 0 && landRect.bottom > 0;
+
+      if (inLandZone) {
+        landCanvas.classList.add('active');
+        var lp = getSpacerProgress(landSpacer);
+
+        var landFrame = Math.max(1, Math.min(LAND_FRAMES,
+          Math.round(lp * (LAND_FRAMES - 1)) + 1));
+        if (landFrame !== currentLandFrame) {
+          currentLandFrame = landFrame;
+          drawFrame(landCtx, landCanvas, landImages, landFrame);
+        }
+
+        // Dim starts at 45%, CTA text appears at 65%
+        if (lp >= 0.45) {
+          landDim.classList.add('active');
+          var dimP = clamp((lp - 0.45) / 0.2, 0, 1);
+          landDim.style.opacity = dimP * 0.7;
+        } else {
+          landDim.classList.remove('active');
+          landDim.style.opacity = 0;
+        }
+        if (lp >= 0.65) {
+          var ctaP = clamp((lp - 0.65) / 0.2, 0, 1);
+          landCta.style.opacity = ctaP;
+          if (ctaP > 0) landCta.classList.add('visible');
+        } else {
+          landCta.style.opacity = 0;
+          landCta.classList.remove('visible');
+        }
+      } else {
+        if (landRect.bottom <= 0) {
+          landCanvas.classList.add('active');
+          landDim.classList.add('active');
+          landCta.style.opacity = 1;
+          landCta.classList.add('visible');
+        } else {
+          landCanvas.classList.remove('active');
+          landDim.classList.remove('active');
+          landCta.style.opacity = 0;
+          landCta.classList.remove('visible');
+        }
+      }
     }
 
     ticking = false;
@@ -774,12 +848,12 @@ window.scrollTo(0, 0);
   // ===== SERVICE CARD CLICK =====
   serviceCards.forEach(function (card) {
     card.addEventListener('click', function () {
-      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('landSpacer').scrollIntoView({ behavior: 'smooth' });
     });
     card.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('landSpacer').scrollIntoView({ behavior: 'smooth' });
       }
     });
   });
