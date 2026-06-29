@@ -358,6 +358,19 @@ a { color: inherit; text-decoration: none; }
   opacity: 1;
   transform: translateY(0);
 }
+.wd-frame-feature--cool {
+  color: #7ac4e6;
+  font-size: 15px;
+  font-weight: 500;
+  text-shadow: 0 0 20px rgba(122,196,230,0.4);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.wd-frame-feature--cool.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* ===== CTA ===== */
 .wd-cta {
