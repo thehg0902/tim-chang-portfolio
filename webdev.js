@@ -52,6 +52,19 @@ window.scrollTo(0, 0);
   }
   window.addEventListener('scroll', checkHeroCover, { passive: true });
 
+  // Show Me button: scroll to scrub section at frame 25 offset
+  var showMeBtn = document.getElementById('showMeBtn');
+  if (showMeBtn) {
+    showMeBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var wrapperEl = document.querySelector('.wd-scrub-wrapper');
+      var wrapperTop = wrapperEl.getBoundingClientRect().top + window.scrollY;
+      var nicheHeight = (wrapperEl.offsetHeight - window.innerHeight) / 5;
+      var targetScroll = wrapperTop + (nicheHeight * 25 / 76);
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    });
+  }
+
   var wrapper = document.querySelector('.wd-scrub-wrapper');
   var frames = document.querySelectorAll('.wd-frame');
   var dots = document.querySelectorAll('.wd-dot');
@@ -89,6 +102,7 @@ window.scrollTo(0, 0);
   });
 
   var lastFrameIdx = {};
+  var scrubFrost = document.getElementById('wdScrubFrost');
 
   frames[0].classList.add('active');
   currentNiche = 0;
@@ -98,6 +112,34 @@ window.scrollTo(0, 0);
     var scrolled = -rect.top;
     var max = wrapper.offsetHeight - window.innerHeight;
     var p = Math.max(0, Math.min(1, scrolled / max));
+
+    // Glass mesh fade: frost in over hero, then clear to reveal scrub
+    if (scrubFrost) {
+      var wrapperTop = rect.top;
+      // Frost builds as scrub approaches (from 100px above viewport to fully covering)
+      var fadeInP = Math.max(0, Math.min(1, (window.innerHeight - wrapperTop) / window.innerHeight));
+      if (fadeInP > 0 && fadeInP < 1) {
+        // Phase 1: frost in (0 to 0.5)
+        var frost = Math.min(1, fadeInP / 0.5);
+        scrubFrost.style.backdropFilter = 'blur(' + (frost * 20) + 'px)';
+        scrubFrost.style.webkitBackdropFilter = 'blur(' + (frost * 20) + 'px)';
+        scrubFrost.style.background = 'rgba(8,8,8,' + (frost * 0.5) + ')';
+        scrubFrost.style.display = 'block';
+      } else if (fadeInP >= 1 && p < 0.02) {
+        // Phase 2: clear frost to reveal first niche
+        var clearP = Math.min(1, p / 0.02);
+        var blur = 20 * (1 - clearP);
+        var alpha = 0.5 * (1 - clearP);
+        scrubFrost.style.backdropFilter = 'blur(' + blur + 'px)';
+        scrubFrost.style.webkitBackdropFilter = 'blur(' + blur + 'px)';
+        scrubFrost.style.background = 'rgba(8,8,8,' + alpha + ')';
+        scrubFrost.style.display = 'block';
+      } else if (p >= 0.02) {
+        scrubFrost.style.display = 'none';
+      } else {
+        scrubFrost.style.display = 'none';
+      }
+    }
 
     progressFill.style.width = (p * 100) + '%';
 
