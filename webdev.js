@@ -104,10 +104,19 @@ window.scrollTo(0, 0);
     var niche = Math.min(totalNiches - 1, Math.floor(p * totalNiches));
 
     if (niche !== currentNiche) {
-      frames.forEach(function (f) { f.classList.remove('active'); f.classList.remove('prev'); });
-      dots.forEach(function (d) { d.classList.remove('active'); });
-      if (currentNiche >= 0) frames[currentNiche].classList.add('prev');
+      // Set new frame to full opacity immediately before removing old
+      frames[niche].style.transition = 'none';
       frames[niche].classList.add('active');
+      frames[niche].offsetHeight;
+      frames[niche].style.transition = '';
+
+      frames.forEach(function (f, i) {
+        if (i === niche) return;
+        f.classList.remove('active');
+        f.classList.remove('prev');
+      });
+
+      dots.forEach(function (d) { d.classList.remove('active'); });
       dots[niche].classList.add('active');
       counter.textContent = String(niche + 1).padStart(2, '0') + ' / 0' + totalNiches;
       currentNiche = niche;
