@@ -193,6 +193,15 @@ img { max-width: 100%; display: block; }
   display: none !important;
 }
 
+.skip-transition,
+.skip-transition .curtain,
+.skip-transition .wh-name,
+.skip-transition .wh-tagline,
+.skip-transition .skill-row,
+.skip-transition .rocket-label {
+  transition: none !important;
+}
+
 .curtain-bg {
   position: absolute;
   inset: 0;

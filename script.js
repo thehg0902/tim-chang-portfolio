@@ -154,11 +154,17 @@
     drawFrame(scrollCtx, scrollCanvas, scrollImages, 1);
     currentLaunchFrame = 1;
 
+    var shouldSkip = sessionStorage.getItem('tc_intro_seen') === '1';
+
     setTimeout(function () {
       loader.classList.add('hidden');
       setTimeout(function () {
         loader.style.display = 'none';
-        startScene01a();
+        if (shouldSkip) {
+          skipToScrolling();
+        } else {
+          startScene01a();
+        }
       }, 600);
     }, 300);
   }
@@ -197,6 +203,42 @@
     setTimeout(revealNext, 200);
   }
 
+  // ===== SKIP INTRO (returning visitors) =====
+  function skipToScrolling() {
+    scene01a.style.display = 'none';
+    scene01b.classList.add('skip-transition');
+    scene01b.classList.add('visible');
+    curtainLeft.classList.add('open');
+    curtainRight.classList.add('open');
+    document.querySelector('.wh-name').classList.add('fade-in');
+    document.querySelector('.wh-tagline').classList.add('fade-in');
+    var rl = document.querySelector('.rocket-label');
+    if (rl) rl.classList.add('fade-in');
+    skillRows.forEach(function (row) { row.classList.add('visible'); });
+    requestAnimationFrame(function () {
+      scene01b.classList.remove('skip-transition');
+    });
+    startAmbientLights();
+    startTaglineGlow();
+    startNameFlicker();
+    window.scrollTo(0, 0);
+    sceneState = 'scrolling';
+    document.body.style.overflow = '';
+    var aboutEl = document.getElementById('about');
+    if (aboutEl) aboutEl.classList.add('revealed');
+    if (isMobile && aboutEl) {
+      var wrap = document.getElementById('aboutWrap');
+      if (wrap) {
+        var sh = aboutEl.offsetHeight;
+        var vh = window.innerHeight;
+        aboutEl.style.position = 'sticky';
+        aboutEl.style.top = -(sh - vh) + 'px';
+        wrap.style.height = (sh + vh * 1.5) + 'px';
+      }
+    }
+    requestAnimationFrame(updateScroll);
+  }
+
   // ===== SCENE 01B — CURTAINS OPEN =====
   function startScene01b() {
     sceneState = '01b';
@@ -225,6 +267,7 @@
     setTimeout(function () {
       window.scrollTo(0, 0);
       sceneState = 'scrolling';
+      sessionStorage.setItem('tc_intro_seen', '1');
       document.body.style.overflow = '';
       var aboutEl = document.getElementById('about');
       if (aboutEl) aboutEl.classList.add('revealed');
