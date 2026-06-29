@@ -184,7 +184,7 @@ a { color: inherit; text-decoration: none; }
 /* ===== SCROLL SCRUB ===== */
 .wd-scrub-wrapper {
   position: relative;
-  height: 500vh;
+  height: 2500vh;
   z-index: 1;
 }
 .wd-scrub-sticky {
@@ -265,10 +265,24 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.5s ease-out;
+  transition: opacity 0.8s ease-in-out;
+  z-index: 1;
 }
 .wd-frame.active {
   opacity: 1;
+  z-index: 2;
+}
+.wd-frame.prev {
+  opacity: 1;
+  z-index: 1;
+}
+.wd-frame-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 .wd-frame-bg {
   position: absolute;
@@ -296,11 +310,53 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.06em;
   margin-bottom: 16px;
 }
+.wd-frame-content--stacked {
+  text-align: left;
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  padding: 0;
+}
+.wd-stacked-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+.wd-stacked-word {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 5vw, 52px);
+  color: var(--ivory);
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.wd-stacked-word.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 .wd-frame-feature {
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--text-2);
   letter-spacing: 0.15em;
+}
+.wd-frame-feature--bright {
+  color: var(--accent-highlight);
+  font-size: 15px;
+  font-weight: 500;
+  text-shadow: 0 0 20px rgba(241,210,138,0.4);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.wd-frame-feature--bright.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ===== CTA ===== */
@@ -406,6 +462,9 @@ a { color: inherit; text-decoration: none; }
   .wd-frame-title { font-size: clamp(20px, 7vw, 32px); margin-bottom: 12px; }
   .wd-frame-feature { font-size: 11px; letter-spacing: 0.1em; }
   .wd-frame-content { padding: 0 20px; }
+  .wd-frame-content--stacked { text-align: center; right: auto; left: 50%; transform: translate(-50%, -50%); }
+  .wd-frame-canvas { object-position: 30% center; }
+  .wd-stacked-word { font-size: clamp(24px, 8vw, 36px); }
 
   .wd-footer { flex-direction: column; gap: 8px; text-align: center; padding: 24px; }
 }
