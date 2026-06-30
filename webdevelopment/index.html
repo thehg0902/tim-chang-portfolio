@@ -8,21 +8,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="webdev.css">
-  <link rel="preload" href="assets/webdev/hero01.mp4" as="video" type="video/mp4" media="(min-width: 768px)">
-  <link rel="preload" href="assets/webdev/hero01_mobile.mp4" as="video" type="video/mp4" media="(max-width: 767px)">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="../assets/webdev/hero01.mp4" as="video" type="video/mp4" media="(min-width: 768px)">
+  <link rel="preload" href="../assets/webdev/hero01_mobile.mp4" as="video" type="video/mp4" media="(max-width: 767px)">
 </head>
 <body>
   <!-- HERO -->
   <section class="wd-hero">
     <video class="wd-hero-video" id="heroIntro" autoplay muted playsinline>
-      <source src="assets/webdev/hero01_mobile.mp4" type="video/mp4" media="(max-width: 767px)">
-      <source src="assets/webdev/hero01.mp4" type="video/mp4">
+      <source src="../assets/webdev/hero01_mobile.mp4" type="video/mp4" media="(max-width: 767px)">
+      <source src="../assets/webdev/hero01.mp4" type="video/mp4">
     </video>
     <video class="wd-hero-video" id="heroLoop" muted loop playsinline preload="auto" style="opacity:0;">
-      <source src="assets/webdev/hero02.mp4" type="video/mp4">
+      <source src="../assets/webdev/hero02.mp4" type="video/mp4">
     </video>
-    <img class="wd-hero-still" src="assets/webdev/hero_still.png" alt="" style="opacity:0;">
+    <img class="wd-hero-still" src="../assets/webdev/hero_still.png" alt="" style="opacity:0;">
     <div class="wd-hero-overlay"></div>
     <div class="wd-hero-content">
       <p class="wd-hero-eyebrow wd-reveal">// web development</p>
@@ -54,7 +54,7 @@
       <div class="wd-niche-counter" id="wdCounter">01 / 05</div>
       <div class="wd-letterbox wd-letterbox-top"></div>
       <div class="wd-letterbox wd-letterbox-bottom"></div>
-      <div class="wd-frame" id="wdFrame0" data-niche="0" data-frames="76" data-frame-path="assets/webdev/frames/scroll_coffee/frame-" data-frame-ext=".webp">
+      <div class="wd-frame" id="wdFrame0" data-niche="0" data-frames="76" data-frame-path="../assets/webdev/frames/scroll_coffee/frame-" data-frame-ext=".webp">
         <canvas class="wd-frame-canvas" id="wdCanvas0"></canvas>
         <div class="wd-frame-bg" style="background:#3D2B1F;"></div>
         <div class="wd-frame-content wd-frame-content--stacked">
@@ -66,7 +66,7 @@
           <p class="wd-frame-feature wd-frame-feature--bright" data-reveal="0.72">Menu · Online ordering · Loyalty</p>
         </div>
       </div>
-      <div class="wd-frame" id="wdFrame1" data-niche="1" data-frames="76" data-frame-path="assets/webdev/frames/hvac-frames/frame-" data-frame-ext=".webp">
+      <div class="wd-frame" id="wdFrame1" data-niche="1" data-frames="76" data-frame-path="../assets/webdev/frames/hvac-frames/frame-" data-frame-ext=".webp">
         <canvas class="wd-frame-canvas" id="wdCanvas1"></canvas>
         <div class="wd-frame-bg" style="background:#1B2A3D;"></div>
         <div class="wd-frame-content wd-frame-content--stacked">
@@ -78,7 +78,7 @@
           <p class="wd-frame-feature wd-frame-feature--cool" data-reveal="0.72">Scheduling · Reviews · Emergency</p>
         </div>
       </div>
-      <div class="wd-frame" id="wdFrame2" data-niche="2" data-frames="76" data-frame-path="assets/webdev/frames/gym-frames/frame-" data-frame-ext=".webp">
+      <div class="wd-frame" id="wdFrame2" data-niche="2" data-frames="76" data-frame-path="../assets/webdev/frames/gym-frames/frame-" data-frame-ext=".webp">
         <canvas class="wd-frame-canvas" id="wdCanvas2"></canvas>
         <div class="wd-frame-bg" style="background:#2D1B3D;"></div>
         <div class="wd-frame-content wd-frame-content--stacked">
@@ -90,7 +90,7 @@
           <p class="wd-frame-feature wd-frame-feature--energy" data-reveal="0.72">Classes · Memberships · Trainers</p>
         </div>
       </div>
-      <div class="wd-frame" id="wdFrame3" data-niche="3" data-frames="76" data-frame-path="assets/webdev/frames/construction-frames/frame-" data-frame-ext=".webp">
+      <div class="wd-frame" id="wdFrame3" data-niche="3" data-frames="76" data-frame-path="../assets/webdev/frames/construction-frames/frame-" data-frame-ext=".webp">
         <canvas class="wd-frame-canvas" id="wdCanvas3"></canvas>
         <div class="wd-frame-bg" style="background:#2A1E14;"></div>
         <div class="wd-frame-content wd-frame-content--stacked">
@@ -118,16 +118,16 @@
       <p class="wd-cta-eyebrow">// ready?</p>
       <h2 class="wd-cta-headline">Let's build something real.</h2>
       <p class="wd-cta-sub">Get a free website audit — no strings attached.</p>
-      <a href="questionnaire.html" class="wd-cta-submit">Get free audit →</a>
+      <a href="../questionnaire/" class="wd-cta-submit">Get free audit →</a>
       <p class="wd-cta-fine">Answer a few quick questions so we can tailor your audit.</p>
     </div>
   </section>
 
   <footer class="wd-footer">
-    <a href="index.html" class="wd-back">← Back to portfolio</a>
+    <a href="../index.html" class="wd-back">← Back to portfolio</a>
     <p>© 2026 Tim Chang</p>
   </footer>
 
-  <script src="webdev.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

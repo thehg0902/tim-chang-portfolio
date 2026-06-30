@@ -3,11 +3,12 @@ $listener.Prefixes.Add("http://localhost:8080/")
 $listener.Start()
 Write-Host "Serving on http://localhost:8080"
 $root = $PSScriptRoot
-$mimeTypes = @{ ".html"="text/html"; ".css"="text/css"; ".js"="application/javascript"; ".png"="image/png"; ".jpg"="image/jpeg"; ".svg"="image/svg+xml"; ".ico"="image/x-icon" }
+$mimeTypes = @{ ".html"="text/html"; ".css"="text/css"; ".js"="application/javascript"; ".png"="image/png"; ".jpg"="image/jpeg"; ".webp"="image/webp"; ".svg"="image/svg+xml"; ".ico"="image/x-icon"; ".mp4"="video/mp4" }
 while ($listener.IsListening) {
     $ctx = $listener.GetContext()
     $path = $ctx.Request.Url.LocalPath
-    if ($path -eq "/") { $path = "/index.html" }
+    if ($path -eq "/" -or $path -eq "") { $path = "/index.html" }
+    elseif ($path.EndsWith("/")) { $path = $path + "index.html" }
     $filePath = Join-Path $root $path.TrimStart("/")
     if (Test-Path $filePath) {
         $bytes = [System.IO.File]::ReadAllBytes($filePath)
