@@ -8,11 +8,11 @@ window.scrollTo(0, 0);
   if (isReducedMotion) return;
 
   var isTouch = window.matchMedia('(pointer: coarse)').matches;
-  var isMobile = window.innerWidth < 768;
+  var isMobile = window.matchMedia('(max-width: 767px)').matches;
   var frameSkip = isMobile ? 2 : 1;
 
   // ===== FRAME CONFIG =====
-  var LAUNCH_FRAMES = 169;
+  var HERO2_FRAMES = 75;
   var SCROLL_FRAMES = 241;
   var LAND_FRAMES = 75;
 
@@ -26,8 +26,10 @@ window.scrollTo(0, 0);
   var curtainLeft = document.getElementById('curtainLeft');
   var curtainRight = document.getElementById('curtainRight');
   var skillRows = document.querySelectorAll('.skill-row');
-  var launchCanvas = document.getElementById('launchCanvas');
-  var launchCtx = launchCanvas.getContext('2d');
+  var heroVideo = document.getElementById('heroVideo');
+  var hero2Canvas = document.getElementById('hero2Canvas');
+  var hero2Ctx = hero2Canvas ? hero2Canvas.getContext('2d') : null;
+  var currentHero2Frame = 1;
   var scrollCanvas = document.getElementById('scrollCanvas');
   var scrollCtx = scrollCanvas.getContext('2d');
   var scrubSpacer = document.getElementById('scrubSpacer');
@@ -58,7 +60,7 @@ window.scrollTo(0, 0);
   var cursorRing = document.getElementById('cursorRing');
 
   // ===== FRAME PRELOADING =====
-  var launchImages = [];
+  var hero2Images = [];
   var scrollImages = [];
   var landImages = [];
   var totalToLoad = 0;
@@ -68,13 +70,17 @@ window.scrollTo(0, 0);
     return 'frames/' + folder + '/frame-' + String(i).padStart(4, '0') + '.webp';
   }
 
+  function hero2FramePath(i) {
+    return 'assets/home/frames/hero2/frame-' + String(i).padStart(4, '0') + '.webp';
+  }
+
   function landFramePath(i) {
     return 'assets/home/frames/rocketland/frame-' + String(i).padStart(4, '0') + '.webp';
   }
 
   function countFramesToLoad() {
     var count = 0;
-    for (var i = 1; i <= LAUNCH_FRAMES; i += frameSkip) count++;
+    for (var i = 1; i <= HERO2_FRAMES; i += frameSkip) count++;
     for (var i = 1; i <= SCROLL_FRAMES; i += frameSkip) count++;
     for (var i = 1; i <= LAND_FRAMES; i += frameSkip) count++;
     return count;
@@ -93,12 +99,12 @@ window.scrollTo(0, 0);
   }
 
   function preloadFrames() {
-    for (var i = 1; i <= LAUNCH_FRAMES; i += frameSkip) {
+    for (var i = 1; i <= HERO2_FRAMES; i += frameSkip) {
       var img = new Image();
       img.onload = onFrameLoad;
       img.onerror = onFrameLoad;
-      img.src = framePath('launch', i);
-      launchImages[i] = img;
+      img.src = hero2FramePath(i);
+      hero2Images[i] = img;
     }
     for (var i = 1; i <= SCROLL_FRAMES; i += frameSkip) {
       var img = new Image();
@@ -130,8 +136,6 @@ window.scrollTo(0, 0);
     }
   }
 
-  var ROCKET_CENTER_X = 0.60;
-
   function drawFrame(ctx, canvas, images, index) {
     var nearestFrame = Math.round((index - 1) / frameSkip) * frameSkip + 1;
     if (nearestFrame < 1) nearestFrame = 1;
@@ -144,41 +148,33 @@ window.scrollTo(0, 0);
     var dx = (canvas.width - w) / 2;
     var dy = (canvas.height - h) / 2;
 
-    if (canvas.width <= 767 && canvas.id === 'launchCanvas') {
-      var rocketScreenX = ROCKET_CENTER_X * w + dx;
-      var screenCenter = canvas.width / 2;
-      dx -= (rocketScreenX - screenCenter);
-    }
-
     ctx.drawImage(img, dx, dy, w, h);
   }
 
   var currentLandFrame = 1;
 
   function resizeAll() {
-    resizeCanvas(launchCanvas);
+    if (hero2Canvas) resizeCanvas(hero2Canvas);
     resizeCanvas(scrollCanvas);
     if (landCanvas) resizeCanvas(landCanvas);
   }
 
   window.addEventListener('resize', function () {
     resizeAll();
-    drawFrame(launchCtx, launchCanvas, launchImages, currentLaunchFrame);
+    if (hero2Ctx) drawFrame(hero2Ctx, hero2Canvas, hero2Images, currentHero2Frame);
     if (landCtx) drawFrame(landCtx, landCanvas, landImages, currentLandFrame);
     drawFrame(scrollCtx, scrollCanvas, scrollImages, currentScrollFrame);
   });
 
   // ===== SCENE FLOW =====
   var sceneState = 'loading';
-  var currentLaunchFrame = 1;
   var currentScrollFrame = 1;
 
   function onAllLoaded() {
     resizeAll();
-    drawFrame(launchCtx, launchCanvas, launchImages, 1);
+    if (hero2Ctx) drawFrame(hero2Ctx, hero2Canvas, hero2Images, 1);
     drawFrame(scrollCtx, scrollCanvas, scrollImages, 1);
     if (landCtx) drawFrame(landCtx, landCanvas, landImages, 1);
-    currentLaunchFrame = 1;
 
     var shouldSkip = sessionStorage.getItem('tc_intro_seen') === '1';
 
@@ -229,26 +225,15 @@ window.scrollTo(0, 0);
     setTimeout(revealNext, 200);
   }
 
-  // ===== SKIP INTRO (returning visitors) =====
-  function skipToScrolling() {
-    scene01a.style.display = 'none';
-    scene01b.classList.add('skip-transition');
-    scene01b.classList.add('visible');
-    curtainLeft.classList.add('open');
-    curtainRight.classList.add('open');
-    document.querySelector('.wh-name').classList.add('fade-in');
-    document.querySelector('.wh-tagline').classList.add('fade-in');
-    var rl = document.querySelector('.rocket-label');
-    if (rl) rl.classList.add('fade-in');
-    skillRows.forEach(function (row) { row.classList.add('visible'); });
-    requestAnimationFrame(function () {
-      scene01b.classList.remove('skip-transition');
-    });
-    startAmbientLights();
-    startTaglineGlow();
-    startNameFlicker();
+  // ===== HERO VIDEO ENDED — unlock scroll, start hero2 scrub =====
+  function onHeroVideoEnded() {
+    if (sceneState === 'scrolling') return;
+    if (heroVideo) heroVideo.classList.remove('playing');
+    if (hero2Canvas) hero2Canvas.classList.add('active');
+    if (hero2Ctx) drawFrame(hero2Ctx, hero2Canvas, hero2Images, 1);
     window.scrollTo(0, 0);
     sceneState = 'scrolling';
+    sessionStorage.setItem('tc_intro_seen', '1');
     document.body.style.overflow = '';
     var aboutEl = document.getElementById('about');
     if (aboutEl) aboutEl.classList.add('revealed');
@@ -265,6 +250,33 @@ window.scrollTo(0, 0);
     requestAnimationFrame(updateScroll);
   }
 
+  // ===== SKIP INTRO (returning visitors) =====
+  function skipToScrolling() {
+    scene01a.style.display = 'none';
+    scene01b.classList.add('skip-transition');
+    scene01b.classList.add('visible');
+    curtainLeft.classList.add('open');
+    curtainRight.classList.add('open');
+    document.querySelector('.wh-name').classList.add('fade-in');
+    document.querySelector('.wh-tagline').classList.add('fade-in');
+    var rl = document.querySelector('.rocket-label');
+    if (rl) rl.classList.add('fade-in');
+    skillRows.forEach(function (row) { row.classList.add('visible'); });
+    requestAnimationFrame(function () {
+      scene01b.classList.remove('skip-transition');
+    });
+    if (heroVideo) {
+      heroVideo.playbackRate = 1.25;
+      heroVideo.play();
+      heroVideo.classList.add('playing');
+      heroVideo.addEventListener('ended', onHeroVideoEnded, { once: true });
+      heroVideo.addEventListener('error', onHeroVideoEnded, { once: true });
+    }
+    startAmbientLights();
+    startTaglineGlow();
+    startNameFlicker();
+  }
+
   // ===== SCENE 01B — CURTAINS OPEN =====
   function startScene01b() {
     sceneState = '01b';
@@ -279,6 +291,13 @@ window.scrollTo(0, 0);
         document.querySelector('.wh-tagline').classList.add('fade-in');
         var rl = document.querySelector('.rocket-label');
         if (rl) rl.classList.add('fade-in');
+        if (heroVideo) {
+          heroVideo.playbackRate = 1.25;
+          heroVideo.play();
+          heroVideo.classList.add('playing');
+          heroVideo.addEventListener('ended', onHeroVideoEnded, { once: true });
+          heroVideo.addEventListener('error', onHeroVideoEnded, { once: true });
+        }
         startAmbientLights();
         startTaglineGlow();
         startNameFlicker();
@@ -289,26 +308,6 @@ window.scrollTo(0, 0);
       }, 600);
     }, 800);
     setTimeout(function () { scene01a.style.display = 'none'; }, 2000);
-
-    setTimeout(function () {
-      window.scrollTo(0, 0);
-      sceneState = 'scrolling';
-      sessionStorage.setItem('tc_intro_seen', '1');
-      document.body.style.overflow = '';
-      var aboutEl = document.getElementById('about');
-      if (aboutEl) aboutEl.classList.add('revealed');
-      if (aboutEl) {
-        var wrap = document.getElementById('aboutWrap');
-        if (wrap) {
-          var sh = aboutEl.offsetHeight;
-          var vh = window.innerHeight;
-          aboutEl.style.position = 'sticky';
-          aboutEl.style.top = -(sh - vh) + 'px';
-          wrap.style.height = (sh + vh * 1.5) + 'px';
-        }
-      }
-      requestAnimationFrame(updateScroll);
-    }, 3500);
   }
 
   window.scrollTo(0, 0);
@@ -412,21 +411,25 @@ window.scrollTo(0, 0);
     // --- HERO ZONE ---
     if (inHeroZone) {
       scene01b.classList.remove('hidden-done');
-      launchCanvas.style.display = '';
       scrollCanvas.classList.remove('active');
       scrollCanvas.style.opacity = '';
-
-      var launchFrame = Math.max(1, Math.min(LAUNCH_FRAMES,
-        Math.round(heroProgress * (LAUNCH_FRAMES - 1)) + 1));
-      if (launchFrame !== currentLaunchFrame) {
-        currentLaunchFrame = launchFrame;
-        drawFrame(launchCtx, launchCanvas, launchImages, launchFrame);
+      if (hero2Canvas && hero2Canvas.classList.contains('active')) {
+        hero2Canvas.style.display = '';
       }
 
-      // UI launch animation at frame 106+
-      var launchThreshold = 106 / LAUNCH_FRAMES;
-      if (heroProgress >= launchThreshold) {
-        var t = (heroProgress - launchThreshold) / (1 - launchThreshold);
+      // Drive hero2 scroll-scrub frames
+      if (hero2Canvas && hero2Canvas.classList.contains('active')) {
+        var hero2Frame = Math.max(1, Math.min(HERO2_FRAMES,
+          Math.round(heroProgress * (HERO2_FRAMES - 1)) + 1));
+        if (hero2Frame !== currentHero2Frame) {
+          currentHero2Frame = hero2Frame;
+          drawFrame(hero2Ctx, hero2Canvas, hero2Images, hero2Frame);
+        }
+      }
+
+      // UI fades out in last 40% of hero scroll
+      if (heroProgress >= 0.6) {
+        var t = clamp((heroProgress - 0.6) / 0.4, 0, 1);
         var nameT = clamp(t / 0.25, 0, 1);
         var tagT = clamp((t - 0.08) / 0.25, 0, 1);
         var row0T = clamp((t - 0.16) / 0.25, 0, 1);
@@ -462,14 +465,13 @@ window.scrollTo(0, 0);
         if (rLabel) { rLabel.style.transform = ''; rLabel.style.opacity = ''; }
       }
 
-      // Fade hero to black at frame 130+
-      var fadeThreshold = 130 / LAUNCH_FRAMES;
-      if (heroProgress >= fadeThreshold) {
-        var fadeT = clamp((heroProgress - fadeThreshold) / (1 - fadeThreshold), 0, 1);
-        launchCanvas.style.opacity = 1 - fadeT;
+      // Fade to black in last 25%
+      if (heroProgress >= 0.75) {
+        var fadeT = clamp((heroProgress - 0.75) / 0.25, 0, 1);
+        if (hero2Canvas) hero2Canvas.style.opacity = 1 - fadeT;
         scene01b.style.opacity = 1 - fadeT;
       } else {
-        launchCanvas.style.opacity = '';
+        if (hero2Canvas) hero2Canvas.style.opacity = '';
         scene01b.style.opacity = '';
       }
 
@@ -477,7 +479,7 @@ window.scrollTo(0, 0);
       // Past hero — hide hero elements
       scene01b.classList.add('hidden-done');
       scene01b.style.opacity = '0';
-      launchCanvas.style.display = 'none';
+      if (hero2Canvas) hero2Canvas.style.display = 'none';
     }
 
     // --- SCRUB ZONE ---

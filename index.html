@@ -40,7 +40,9 @@
 
   <!-- SCENE 01B — CURTAINS OPEN -->
   <section id="scene01b" class="scene scene-01b" aria-label="Hero">
-    <canvas id="launchCanvas" class="launch-canvas" aria-hidden="true"></canvas>
+    <video id="heroVideo" class="hero-video" muted playsinline aria-hidden="true">
+      <source src="assets/home/hero1.mp4" type="video/mp4">
+    </video>
     <div class="curtain-bg">
       <div class="neon-strips"></div>
     </div>
@@ -88,6 +90,9 @@
       </div>
     </div>
   </section>
+
+  <!-- Hero2 scroll-scrub canvas (plays after hero1.mp4 ends) -->
+  <canvas id="hero2Canvas" class="hero2-canvas" aria-hidden="true"></canvas>
 
   <!-- Spacer for Scene 01B (hero visible while user begins scrolling) -->
   <div id="heroSpacer" class="hero-spacer"></div>
