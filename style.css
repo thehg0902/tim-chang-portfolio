@@ -475,14 +475,14 @@ img { max-width: 100%; display: block; }
 }
 
 /* Phone portrait only (~< 480px): offset hero backgrounds ~10% left */
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .hero-video {
-    left: -10vw;
-    width: calc(100% + 10vw);
+    left: -40vw;
+    width: calc(100% + 40vw);
   }
   .hero2-canvas {
-    left: -10vw;
-    width: calc(100% + 10vw);
+    left: -40vw;
+    width: calc(100% + 40vw);
   }
 }
 
