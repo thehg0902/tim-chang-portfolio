@@ -192,13 +192,9 @@ a { color: inherit; text-decoration: none; }
 /* ===== SCROLL SCRUB ===== */
 .wd-scrub-wrapper {
   position: relative;
-  height: 2500vh;
+  height: 300vh;
   z-index: 1;
   margin-top: -100vh;
-  pointer-events: none;
-}
-.wd-scrub-wrapper.interactive {
-  pointer-events: auto;
 }
 .wd-scrub-frost {
   position: sticky;
@@ -305,6 +301,18 @@ a { color: inherit; text-decoration: none; }
 .wd-frame.prev {
   opacity: 1;
   z-index: 1;
+}
+/* Text from the previous niche floats over the current canvas at idle */
+.wd-frame.text-overlay {
+  opacity: 1 !important;
+  z-index: 3 !important;
+  pointer-events: none;
+  transition: none !important;
+}
+.wd-frame.text-overlay .wd-frame-canvas,
+.wd-frame.text-overlay .wd-frame-bg {
+  opacity: 0 !important;
+  transition: none !important;
 }
 .wd-frame-canvas {
   position: absolute;
