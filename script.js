@@ -130,6 +130,10 @@ window.scrollTo(0, 0);
       canvas.height = window.innerHeight;
       canvas.style.width = '100%';
       canvas.style.height = '100%';
+    } else if (canvas.id === 'hero2Canvas' && window.innerWidth <= 500) {
+      // Phone port: canvas CSS is 140vw wide (left: -40vw), match pixel resolution
+      canvas.width = Math.round(window.innerWidth * 1.4);
+      canvas.height = window.innerHeight;
     } else {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
