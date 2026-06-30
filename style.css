@@ -474,18 +474,6 @@ img { max-width: 100%; display: block; }
   display: block;
 }
 
-/* Phone portrait only (~< 480px): offset hero backgrounds ~10% left */
-@media (max-width: 500px) {
-  .hero-video {
-    left: -40vw;
-    width: calc(100% + 40vw);
-  }
-  .hero2-canvas {
-    left: -40vw;
-    width: calc(100% + 40vw);
-  }
-}
-
 /* ===== HERO SPACER ===== */
 .hero-spacer {
   position: relative;
@@ -508,6 +496,18 @@ img { max-width: 100%; display: block; }
 }
 .hero-video.playing {
   opacity: 1;
+}
+
+/* Phone portrait (≤ 500px): offset hero backgrounds left */
+@media (max-width: 500px) {
+  .hero-video {
+    left: -40vw;
+    width: calc(100% + 40vw);
+  }
+  .hero2-canvas {
+    left: -40vw;
+    width: calc(100% + 40vw);
+  }
 }
 
 /* ===== SCROLL CANVAS (scene 02) ===== */
