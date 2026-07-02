@@ -5,6 +5,7 @@ window.scrollTo(0, 0);
   const form = document.getElementById('questionnaireForm');
   const submitBtn = document.getElementById('submitBtn');
   const successMsg = document.getElementById('successMessage');
+  const formError = document.getElementById('formError');
   const progressBar = document.getElementById('scrollProgress');
 
   window.addEventListener('scroll', () => {
@@ -78,6 +79,7 @@ window.scrollTo(0, 0);
     e.preventDefault();
     var step4 = document.getElementById('step4');
     clearErrors(step4);
+    formError.hidden = true;
     var email = form.email.value.trim();
     var valid = true;
 
@@ -91,12 +93,22 @@ window.scrollTo(0, 0);
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
 
-    setTimeout(function () {
+    fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (response) {
+      if (!response.ok) throw new Error('Submission failed');
       form.style.display = 'none';
       document.querySelector('.q-header').style.display = 'none';
       successMsg.hidden = false;
       successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 800);
+    }).catch(function () {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send it →';
+      formError.hidden = false;
+      formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   });
 
   // Clear error on input

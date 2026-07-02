@@ -28,7 +28,7 @@
       <p class="q-sub">Just a few quick questions so I know how to help. Takes about 2 minutes.</p>
     </header>
 
-    <form class="q-form" id="questionnaireForm" novalidate>
+    <form class="q-form" id="questionnaireForm" action="https://formspree.io/f/mnjkodoz" method="POST" novalidate>
       <!-- Step 1: The Basics -->
       <fieldset class="q-fieldset q-step" id="step1">
         <legend class="q-legend"><span class="q-step-num">01</span> The Basics</legend>
@@ -132,6 +132,8 @@
           <label class="q-label" for="phone">Phone Number</label>
           <input class="q-input" type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+1 (555) 123-4567">
         </div>
+        <input type="text" name="_gotcha" class="q-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="q-form-error" id="formError" hidden>Something went wrong sending your message. Please try again, or email me directly.</p>
         <div class="q-submit-wrap">
           <button type="submit" class="q-submit-btn" id="submitBtn">Send it &rarr;</button>
         </div>
