@@ -270,7 +270,7 @@ window.scrollTo(0, 0);
       scene01b.classList.remove('skip-transition');
     });
     if (heroVideo) {
-      heroVideo.playbackRate = 1.25;
+      heroVideo.playbackRate = 2.5;
       heroVideo.play();
       heroVideo.classList.add('playing');
       heroVideo.addEventListener('ended', onHeroVideoEnded, { once: true });
@@ -296,7 +296,7 @@ window.scrollTo(0, 0);
         var rl = document.querySelector('.rocket-label');
         if (rl) rl.classList.add('fade-in');
         if (heroVideo) {
-          heroVideo.playbackRate = 1.25;
+          heroVideo.playbackRate = 2.5;
           heroVideo.play();
           heroVideo.classList.add('playing');
           heroVideo.addEventListener('ended', onHeroVideoEnded, { once: true });
